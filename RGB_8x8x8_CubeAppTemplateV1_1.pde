@@ -4,11 +4,11 @@
    
    This is for the Chipkit UNO32, and assumes you are using a SuperTech-IT 8x8x8 RGB Board.  It's similar to Nick Schulze's Chipkit software,
    but is somewhat simpler, and easier to work with, when generating your own appliction.  The pinouts for this implementation are the same as 
-   Nick's publiched pinouts, where the red data line is pin 7 and the blue data line is pin 9. (This is different than Nick's actual software, 
+   Nick's published pinouts, where the red data line is pin 7 and the blue data line is pin 9. (This is different than Nick's actual software,
    where the red and blue are actually reversed from his pinout diagram.)
 
    This tab sets up pin connections, defines global variables, and contains the setup subroutine.  
-*/ 
+*/
 // The definitions and variables below are part of the template.  DO NOT MODIFY
 // the following definitions are for the direct port toggling used in the cube refresh interrupt routine. 
 #define OE 0x0001
@@ -21,7 +21,7 @@ const uint8_t LAYER[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 
 // I usually just refer to a color by its number, but these definitions let you call them by name and intensity. 
 // Black is black (all off) so just one intensity - 0.
-#define Black0	0
+#define Black0	 0
 #define Red1	11
 #define Orange1	12
 #define Yellow1	13
@@ -63,50 +63,51 @@ const uint8_t LAYER[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 const int Clock = 6;
 const int Enable = 3;
 const int Latch = 5;
-const int myLayer[8] ={
-  26,27,28,29,30,31,32,33};
+const int myLayer[8] = {26, 27, 28, 29, 30, 31, 32, 33};
 //  The cube matrix below stores the status of each LED in the cube
 //  [layer 0-7]  [panel 0-7]  [column 0-7] 
 //  Data at each location is a color in the Color Table.
-//  For example: a 24 says we want green (color 4) at intensiy 2 
+//  For example: a 24 says we want green (color 4) at intensity 2
 //  at this location. The Color Table will then translate 24 into BAM intensities
 //  for each red, green, and blue component of the selected color.
 byte cube[8][8][8];
 
-// The variales below are part of the sample application running in the Main loop.   They may be deleted when you create your own application.
+// The variables below are part of the sample application running in the Main loop.   They may be deleted when you create your own application.
 
-int xx, yy, zz;      // x, y, and z coordinants for current position 
-int xx1, yy1, zz1;   // temporary place to store coordinants as thery're changing
+int xx, yy, zz;      // x, y, and z coordinates for current position
+int xx1, yy1, zz1;   // temporary place to store coordinates as they're changing
 int currentColor;    // Current color being stored.
 int dir;             // Current direction of motion - forward or back
-int xyz;             // Current dimension of motion, as accross layers, across panels, or across columns
+int xyz;             // Current dimension of motion, as across layers, across panels, or across columns
 int history[24][4];  // Where the trail is stored - 3 position markers, and the color.
 int historyCount;    // Position counter for the trail
 int tempCount, colorCount, mycount2;   // misc. temporary variables
 
 
-void setup() { 
-  // This portion of setup sets up the IO.  DO NOT MODIFY.
-  for (int x=3; x<10; x++){   
-    pinMode(x, OUTPUT); 
-  }  
+void setup() {
+    // This portion of setup sets up the IO.  DO NOT MODIFY.
+    for (int x = 3; x < 10; x++) {
+        pinMode(x, OUTPUT);
+    }
 
-  for (int x=26; x<34; x++){   
-    pinMode(x, OUTPUT); 
-    digitalWrite(x, HIGH); 
-  }
-  digitalWrite(Latch, LOW );
-  digitalWrite(Clock, LOW );
-  digitalWrite(Enable, LOW );
-  
-  attachCoreTimerService(refreshCube);
-  
-   // This portion of setup is for the sample application running in the Main loop. It may be deleted when you create 
-   // your own application, and replaced with your own setup instructions.   
-  dir = 1;
-  currentColor = Green4;
-  xx=7;  yy= 7;  zz=7;
-  xyz=1; 
+    for (int x = 26; x < 34; x++) {
+        pinMode(x, OUTPUT);
+        digitalWrite(x, HIGH);
+    }
+    digitalWrite(Latch, LOW);
+    digitalWrite(Clock, LOW);
+    digitalWrite(Enable, LOW);
+
+    attachCoreTimerService(refreshCube);
+
+    // This portion of setup is for the sample application running in the Main loop. It may be deleted when you create
+    // your own application, and replaced with your own setup instructions.
+    dir = 1;
+    currentColor = Green4;
+    xx = 7;
+    yy = 7;
+    zz = 7;
+    xyz = 1;
 }
 
 
