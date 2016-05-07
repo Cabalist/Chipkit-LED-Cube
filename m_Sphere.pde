@@ -2,6 +2,7 @@
 
 void sphere(int mycount){
   for (int counter=0; counter<mycount; counter++){
+    if (runMode > 0) {break;} // drop out if mode changes
     for (count=0; count<5; count++){  //expand
       show_sphere();
     }
@@ -15,6 +16,7 @@ void sphere(int mycount){
 void show_sphere(){ // draw the sphere and change its color
 
   for (byte layer=0; layer<8; layer++){  // scan thru each layer
+  if (runMode > 0) {break;} // drop out if mode changes
     for (byte column=0; column<8; column++){  // scan thru every column
       for (byte panel=0; panel<8; panel++){  // scan thru every panel
         x= float(layer); // convert coordinates to floating point to compute distance from center of cube

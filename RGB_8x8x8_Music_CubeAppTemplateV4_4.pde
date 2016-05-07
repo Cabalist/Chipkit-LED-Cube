@@ -52,7 +52,15 @@ const uint8_t LAYER[8] = {
 
 #define cubeStructure 0  // if your cube is built on SuperTech-IT's board, or if you followed Nick's instructions exactly, 
 // leave this as 0.   But if you accidentally built your cube as a mirror image of these, which several of us have done, you 
-// will need to change this to 1 (or anything non-zero) to get your text scrolling correctly.
+// will need to change this to 1 to get your text scrolling correctly.
+
+//These next 4 items support SuperTech-IT's music module
+#define MSGEQ7 0x01   // define if music module exists (1) or not (0)
+int VU[7]; // music input level global array for 7 frequencies
+int runMode = 0; // runMode 0 = animations. 1=cycle through music modes. 2 or higher indicates which nusic mode to run and stay in.
+int modes = 12; // The number of total music modes there are. Don't forget to add 1 for the sequence mode - so if there are 3 modes of music, this has to be 4
+int beat = 0; // global beat detect = 1 during beat, otherwise 0.
+int threshold = 900; // this is the threshold from 0 to 1023 of how high the bass must be to consider it a "beat"
 
 // the following are for referencing the pins by chip-kit pin number. 
 const int Clock = 6;
@@ -101,6 +109,18 @@ void setup() {
   digitalWrite(Latch, LOW );
   digitalWrite(Clock, LOW );
   digitalWrite(Enable, LOW );
+  
+   if (MSGEQ7 == 1) { // leave this stuff alone if the module is not present
+   // This stuff sets up pins for SuperTech-ITs music module. 
+   pinMode (A1,INPUT); // where we read the analog MSGEQ7's output
+   pinMode (A2, OUTPUT); // MSGEQ7 strobe line
+   pinMode (A6, OUTPUT); // MSGEQ7 RESET line
+   pinMode (A8, INPUT); // music mode button
+   pinMode (38, INPUT); // animation mode button
+   digitalWrite (A6, HIGH); // on startup put the MSGEQ7 in reset mode
+   digitalWrite (A2, HIGH); // Ready the active low strobe for first reading on strobe toggle after reset low
+   }
+   //  end MSGEQ7 prep
 
   attachCoreTimerService(refreshCube);
 

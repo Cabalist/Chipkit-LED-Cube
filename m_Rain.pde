@@ -1,23 +1,20 @@
-void rain(int times){
+void rain(int times, int rdelay){
   for (int count=0; count<times; count++){
+    if (runMode > 0) {break;} // drop out if mode changes
+    zdown(1); // shift whole cube down 1 layer
+      //clean top layer
+    for (byte i=0;i<64;i++){ // 64 LEDs in top layer.
+      y=i/8; // calculate the Y axis of the current LED we are clearing
+      x=i-y*8; // calculate the X axis of the LED we are clearing
+      LED (x,y,7,0,0,0); // clear that LED in the top (7th) layer
+    }
     lightOne();   // load 5 colored LEDs into the top layer
     lightOne();
     lightOne();
     lightOne();
     lightOne();
-    delay(100);  // wait 1/10 second
-    for (int x=0;x<8;x++){
-      for (int y=0;y<8;y++){
-        for (int z=1;z<8;z++){
-          for (int c=0;c<3;c++){
-            cube [x][y][z-1][c] = cube [x][y][z][c];  // shift everything in the cube down one
-          }
-        }
-        for (int c=0;c<3;c++){
-          cube [x][y][7][c] = 0;  // and clear the top layer
-        } 
-      }
-    }
+    delay(rdelay);  // wait 1/10 second
+    
   }
   clearCube();
 }

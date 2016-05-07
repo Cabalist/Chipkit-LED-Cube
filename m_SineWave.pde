@@ -22,6 +22,3 @@ void sinewave(int repeat) {
   }
   clearCube();
 }
-
-
-

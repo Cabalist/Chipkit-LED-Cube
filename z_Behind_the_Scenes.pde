@@ -75,8 +75,39 @@ uint32_t refreshCube(uint32_t currentTime) {
       }
     }
   }
-  return (currentTime + CORE_TICK_RATE*8);
+  // This next section is SuperTech-IT's music module
+  if (MSGEQ7 == 1) {
+    // Best not to play around with the timings here - they have been scoped out to be 
+    // fairly optimal for the chip without introducing too much delay for the cube itself.
+
+    // Routine to constantly keep the Spectrum Analysis Array updated
+    digitalWrite (A6, LOW); // chip has been reset - set MSGEQ7 chip reset to low
+
+    for (int mdelay=0;mdelay < 1200; mdelay++) {_nop();} // 72uS delay from reset to clock
+
+    for (byte mfreq = 0; mfreq < 7; mfreq++) { // read 7 frequencies
+      digitalWrite (A2, LOW); // toggle clock low to allow next freq. read
+
+      for (int mdelay=0;mdelay < 675; mdelay++) {_nop();} // 36uS delay for clock settle
+
+      VU[mfreq] = analogRead(A1); // reset and clock must be low, so read value into array at current point
+      digitalWrite (A2, HIGH); // toggle clock HIGH to prepare for read
+
+      for (int mdelay=0;mdelay < 350; mdelay++) {_nop();} // 18uS pulse width
+    }
+    digitalWrite (A6, HIGH); // set MSGEQ7 chip reset to high - reset it because we have read all frequencies, and hold it in reset until we need to read it again
+    if (VU[1] < threshold){beat = 0;} // beat detect routine
+    if (VU[1] > threshold){beat = 1;} // beat detect routine
+    if (digitalRead (38) == 0) {runMode = 0;} // animation button pressed - set animation mode
+    if (digitalRead (A8) ==0) {runMode ++;} // increase run mode by 1 if music mode button pressed
+    while ((digitalRead (38) == 0) || (digitalRead (A8) == 0)) {_nop();} // wait here until button is released
+    if (runMode > modes) {runMode = 1;} // if we have gone through all the music modes, cycle back to sequenced mode
+  
+  
 }
+  return (currentTime + CORE_TICK_RATE*8); 
+}
+
 
 //  This subroutine scrolls the characters being displayed from one cube face to the next.  
 //  It is pretty much the guts of text display, and probably should be left alone.   
@@ -87,23 +118,23 @@ void scrollOneChar(int xRed, int xGreen, int xBlue, int Mode){
         text_buffer[col][row]=text_buffer[col+1][row];
       }
     }
-      for (int col=0; col<8; col++){  // Here the text buffer is actually displayed across the 4 walls of the cube 
-        for (int row=0; row<8; row++){
-          if ((text_buffer[col+29][row]>0) && (Mode==4)){  // Note Mode must be 4 for this wall to display
-            LED(7-col, 7, row, xRed, xGreen, xBlue); 
-          }
-          if (text_buffer[col+22][row]>0){
-            LED(7, col, row, xRed, xGreen, xBlue); 
-          }
-          if (text_buffer[col+15][row]>0){
-            LED(col, 0, row, xRed, xGreen, xBlue); 
-          }
-          if ((text_buffer[col+8][row]>0) && (Mode==4)){  // Note Mode must be 4 for this wall to display
-            LED(0, 7-col, row, xRed, xGreen, xBlue); 
-          }
+    for (int col=0; col<8; col++){  // Here the text buffer is actually displayed across the 4 walls of the cube 
+      for (int row=0; row<8; row++){
+        if ((text_buffer[col+29][row]>0) && (Mode==4)){  // Note Mode must be 4 for this wall to display
+          LED(7-col, 7, row, xRed, xGreen, xBlue); 
+        }
+        if (text_buffer[col+22][row]>0){
+          LED(7, col, row, xRed, xGreen, xBlue); 
+        }
+        if (text_buffer[col+15][row]>0){
+          LED(col, 0, row, xRed, xGreen, xBlue); 
+        }
+        if ((text_buffer[col+8][row]>0) && (Mode==4)){  // Note Mode must be 4 for this wall to display
+          LED(0, 7-col, row, xRed, xGreen, xBlue); 
         }
       }
- 
+    }
+
     delay(scrollRate/8); // Wait 100 msec.  before indexing display over one LED to the left
     for (int col=0; col<8; col++){  // Clear all 4 walls before re-writing text buffer to LEDs
       for (int row=0; row<8; row++){
@@ -115,6 +146,8 @@ void scrollOneChar(int xRed, int xGreen, int xBlue, int Mode){
     }
   }
 }
+
+
 
 
 

@@ -2,6 +2,7 @@
 
 void cycloneX(){
     for (int mycolors=0; mycolors<190; mycolors= mycolors+15){ //get a color from color wheel
+    if (runMode > 0) {break;} // drop out if mode changes
       int color2= mycolors+95;  // get a color from the opposite side of color wheel
       if (color2>189){
         color2=color2-189;
@@ -50,6 +51,7 @@ void cyclone1(){  // actually display in LEDs
   LED (5,1,7,cyclone[19][0],cyclone[19][1],cyclone[19][2]);
 
   for (int x=0;x<8;x++){ // copy content of each layer to the layer below it.
+  if (runMode > 0) {break;} // drop out if mode changes
     for (int y=0;y<8;y++){
       for (int z=1;z<8;z++){
         for (int c=0;c<3;c++){

@@ -1,22 +1,31 @@
-/* There are currently 9 subroutines here:
+/* There are currently 16 subroutines here:
  1) The LED sub provides the ability to light any particular LED at a specified location with specified 3 RGB color components. 
  2) The getColor sub the selects colors of the rainbow by number and intensity
  3) The clearCube sub that clears the cube and turn all LEDs off. 
  4) The scrollText sub lets you specify a string of text to be scrolled, specify its 3 RGB color conponents, and whether to display on 2 or 4 faces of the cube. 
  5) The scrollThruX sub lets you specify a string of text to be scrolled, specify its 3 RGB color conponents, 
- and pass it through the middle of the cube from back to front in the X direction.  The scrollUpX subroutine is used by scrollThruX.
+    and pass it through the middle of the cube from back to front in the X direction.  The scrollUpX subroutine is used by scrollThruX.
  6) The scrollThruY sub lets you specify a string of text to be scrolled, specify its 3 RGB color conponents,
- and pass it through the middle of the cube from back to front in the X direction.  The scrollUpY subroutine is used by scrollThruX.
+    and pass it through the middle of the cube from back to front in the X direction.  The scrollUpY subroutine is used by scrollThruX.
  7) The scrollTextStd2 sub lets you specify a string and standard color for display on 2 faces of the cube
  8) The scrollTextStd4 sub lets you specify a string and standard color for display on 4 faces of the cube
  9) The rotate sub lets you specify a string of text to be used, specify its 3 RGB color conponents, 
- and then it rotates the characters, one at a time, in the center of the cube.
- 
- First, thanks to SuperTech-IT for suggesting this first subroutine. 
- Very straight forward.  You specify a particular LED with x,y,and z.  Then specify the color by specifying the 3 RGB color components.
- This routine then loads it into the cube matrix.  
- */
+    and then it rotates the characters, one at a time, in the center of the cube.
+    
+These next 7 are additions by SuperTech-IT    
+10) zdown - shift entire cube down (times) layer(s)
+11) wall - make a "wall" at position X, Y high
+12) fourSquare - draw a pillar at x,y with height z, color R,G,B
+13) fillCube - This subroutine fills the cube with a color
+14) xback - shift entire cube back (times) layer(s)
+15) fourSquare2  - draw a square at x,y at height z, color R,G,B   
+16) twoSquare - draws a 2X2 pillar at x,y with height z, color R,G,B
 
+**********/
+
+ 
+//  This subroutine is very straight forward.  You specify a particular LED with x,y,and z.  Then specify the color by specifying
+//  the 3 RGB color components.  This routine then loads it into the cube matrix.  Thanks to SuperTech-IT for suggesting this subroutine
 void LED(int x,int y,int z,int R,int G,int B) {
   if (R>63){
     R=63;
@@ -132,6 +141,7 @@ void clearCube(){
  */
 void scrollText(char mystring[120], int xRed, int xGreen, int xBlue, int Mode){
   for (int xxx=0; xxx<120; xxx++){ // This "for" loop processes the incoming string one character at a time
+  if (runMode > 0) {break;} // drop out if mode changes
     incomingByte= mystring[xxx];
     if (incomingByte == '\0'){ // if end of string is found,.
       for (int count=0; count<4; count++){ // scroll the last character off the cube
@@ -143,7 +153,7 @@ void scrollText(char mystring[120], int xRed, int xGreen, int xBlue, int Mode){
     offset= (incomingByte-32)*8;  // convert one character in the string into font code
     for (int col=0; col<8; col++){
       for (int row=0; row<8; row++){
-        if (myfont[offset+col][row]>0) {
+        if (pgm_read_byte_near(&myfont[offset+col][row])>0) {
           text_buffer[col+37][row]=1;  // and put it into the text buffer in the last position.
         }
       }
@@ -177,6 +187,7 @@ void scrollTextStd4(char mystring[120], int xColor){
  */
 void scrollThruX(char mystring[120], int xRed, int xGreen, int xBlue){
   for (int xxx=0; xxx<120; xxx++){ // This "for" loop processes the incoming string one character at a time
+  if (runMode > 0) {break;} // drop out if mode changes
     incomingByte= mystring[xxx];
     if (incomingByte == '\0'){ // if end of string is found,.
       for (int count=0; count<4; count++){ // scroll the last character off the cube
@@ -187,13 +198,13 @@ void scrollThruX(char mystring[120], int xRed, int xGreen, int xBlue){
     }
     offset= (incomingByte-32)*8;  // convert one character in the string into font code
 
-    for (int panel=0; panel<8; panel++){
-      for (int row=0; row<8; row++){
-        if (myfont[offset+panel][row]>0) {
-          LED(0, panel, row, xRed, xGreen, xBlue);  // and put it into the text buffer in the last position.
+      for (int panel=0; panel<8; panel++){
+        for (int row=0; row<8; row++){
+          if (pgm_read_byte_near(&myfont[offset+panel][row])>0) {
+            LED(0, panel, row, xRed, xGreen, xBlue);  // and put it into the text buffer in the last position.
+          }
         }
       }
-    }
 
 
     // This moves the characters through the cube,  
@@ -202,6 +213,7 @@ void scrollThruX(char mystring[120], int xRed, int xGreen, int xBlue){
     scrollUpX();
     scrollUpX();
     scrollUpX();
+    if (runMode > 0) {break;} // drop out if mode changes
   }
 }
 
@@ -210,6 +222,7 @@ void scrollThruX(char mystring[120], int xRed, int xGreen, int xBlue){
 // Then specify its color as red, green, blue components.  Speed of scrolling is defined by scrollRate in the first tab.  
 void scrollThruY(char mystring[120], int xRed, int xGreen, int xBlue){
   for (int xxx=0; xxx<120; xxx++){ // This "for" loop processes the incoming string one character at a time
+    if (runMode > 0) {break;} // drop out if mode changes
     incomingByte= mystring[xxx];
     if (incomingByte == '\0'){ // if end of string is found,.
       for (int count=0; count<4; count++){ // scroll the last character off the cube
@@ -220,14 +233,13 @@ void scrollThruY(char mystring[120], int xRed, int xGreen, int xBlue){
     }
     offset= (incomingByte-32)*8;  // convert one character in the string into font code
 
-    for (int col=0; col<8; col++){
-      for (int row=0; row<8; row++){
-        if (myfont[offset+col][row]>0) {
-          LED(col, 7, row, xRed, xGreen, xBlue);  // and put it into the text buffer in the last position.
+      for (int col=0; col<8; col++){
+        for (int row=0; row<8; row++){
+          if (pgm_read_byte_near(&myfont[offset+col][row])>0) {
+            LED(col, 7, row, xRed, xGreen, xBlue);  // and put it into the text buffer in the last position.
+          }
         }
       }
-    }
-
     // This moves the characters through the cube,  
     scrollUpY();
     scrollUpY();   
@@ -259,24 +271,26 @@ void scrollUpX(){
 // this routine pulls the contents of the cube forward one position on the Y axis
 void scrollUpY(){
   delay(scrollRate/8);
-  for (int col=0; col<8; col++){
-    for (int row=0; row<8; row++){
-      for (int myY=1; myY<8; myY++){
-        cube[col][myY-1][row][0]=cube[col][myY][row][0]; // move cube content by one LED in +X direction
-        cube[col][myY-1][row][1]=cube[col][myY][row][1];
-        cube[col][myY-1][row][2]=cube[col][myY][row][2]; 
+
+    for (int col=0; col<8; col++){
+      for (int row=0; row<8; row++){
+        for (int myY=1; myY<8; myY++){
+          cube[col][myY-1][row][0]=cube[col][myY][row][0]; // move cube content by one LED in +X direction
+          cube[col][myY-1][row][1]=cube[col][myY][row][1];
+          cube[col][myY-1][row][2]=cube[col][myY][row][2]; 
+        }
+        cube[col][7][row][0]=0; // and turn off X(0)
+        cube[col][7][row][1]=0;
+        cube[col][7][row][2]=0; 
       }
-      cube[col][7][row][0]=0; // and turn off X(0)
-      cube[col][7][row][1]=0;
-      cube[col][7][row][2]=0; 
     }
-  }
 
 }
-// This routine rotates the characters around in the center of the cube, one at a time.  You can specify a color by its RGB conponent
+// This routine rotates the characters around in the center of the cube, one at a time.  You can specify a color by its RGB conponents,
 // and the number of rotations before moving on to the next character. 
 void rotate(char mystring[120], int xRed, int xGreen, int xBlue, int numRotations){
   for (int xxx=0; xxx<120; xxx++){ // This "for" loop processes the incoming string one character at a time
+    if (runMode > 0) {break;} // drop out if mode changes
     incomingByte= mystring[xxx];
     if (incomingByte == '\0'){ // if end of string is found,.
       delay(1000);  // wait 1 second and exit the loop
@@ -289,14 +303,14 @@ void rotate(char mystring[120], int xRed, int xGreen, int xBlue, int numRotation
     }
     offset= (incomingByte-32)*8;  // convert one character in the string into font code
 
-    for (int col=0; col<8; col++){
-      for (int row=0; row<8; row++){
-        if (myfont[offset+col][row]>0) {
-          text_buffer[col][row]=1;  // and put it into the text buffer.
+      for (int col=0; col<8; col++){
+        for (int row=0; row<8; row++){
+          if (pgm_read_byte_near(&myfont[offset+col][row])>0) {
+            text_buffer[col][row]=1;  // and put it into the text buffer.
+          }
         }
       }
-    }
-
+   
     for (int rotations=0; rotations<numRotations; rotations++) { // display in the 1st position
       for (int panel=0; panel<7; panel++){
         for (int row=0; row<8; row++){
@@ -403,18 +417,162 @@ void rotate(char mystring[120], int xRed, int xGreen, int xBlue, int numRotation
   }
 }  
 
+void zdown (int times) { //shift entire cube down (times) layer(s)
+  for (int i=0;i<times;i++) {
+    for (int x=0;x<8;x++){
+      for (int y=0;y<8;y++){
+        for (int z=1;z<8;z++){
+          for (int c=0;c<3;c++){
+            cube [x][y][z-1][c] = cube [x][y][z][c];
+          }
+        }
+      }
+    }
+  }
+}
+
+// the routines below this point are for support of the various music effects, but could certainly have other uses as well.
+void wall (byte x,byte y, byte R, byte G, byte B) // make a "wall" at position X, Y high
+{
+  byte w;
+  byte z;
+
+  for (z=0;z < y;z++)
+    {
+    for (w=0;w < 8;w++)
+      {
+      LED (w,x,z,R,G,B);
+      }
+    }
+}
+
+void fourSquare (byte x, byte y, byte z, byte R, byte G, byte B){ //draw a pillar at x,y with height z, colour R,G,B
+  if (x>4) {x=4;}
+  if (y>4) {y=4;}
+  if (R>63) {R=63;}
+  if (G>63) {G=63;}
+  if (B>63) {B=63;}
+  
+  if (z>0) {
+  for (byte zz=0; zz<z;zz++){
+    for (byte xx=0;xx<4;xx++) {
+      for (byte yy=0;yy<4;yy++) {
+        LED (x+xx, y+yy, zz,R,G,B);
+        }
+      }
+    }
+  } 
+}
+void fillCube(byte R, byte G, byte B){  // This subroutine fills the cube with a colour
+  for (byte z=0; z<8; z++){  // scan thru each layer
+    for (byte x=0; x<8; x++){  // scan thru every column
+      for (byte y=0; y<8; y++){  // scan thru every panel
+        LED(x,y,z,R,G,B);
+      }
+    }
+  }
+}
 
 
+void xback (int times) {  //shift entire cube back (times) layer(s)
+  for (int i=0;i<times;i++) {
+    for (int x=0;x<7;x++){
+      for (int y=0;y<8;y++){
+        for (int z=0;z<8;z++){
+          for (int c=0;c<3;c++){
+            cube [x][y][z][c] = cube [x+1][y][z][c];
+          }
+        }
+      }
+    }
+  }
+}
+
+void fourSquare2 (byte x, byte y, byte z, byte R, byte G, byte B){ //draw a square at x,y at height z, colour R,G,B
+  if (x>4) {x=4;}
+  if (y>4) {y=4;}
+  if (R>63) {R=63;}
+  if (G>63) {G=63;}
+  if (B>63) {B=63;} 
+  for (byte xx=0;xx<4;xx++) {
+    for (byte yy=0;yy<4;yy++) {
+      LED (x+xx, y+yy, z-1,R,G,B);
+     }
+  }
+}
+
+void twoSquare (byte x, byte y, byte z, byte R, byte G, byte B){ //draw a 2X2 pillar at x,y with height z, colour R,G,B
+  if (x>6) {x=6;}
+  if (y>6) {y=6;}
+  if (R>63) {R=63;}
+  if (G>63) {G=63;}
+  if (B>63) {B=63;}
+  
+  if (z>0) {
+  for (byte zz=0; zz<z;zz++){
+    for (byte xx=0;xx<2;xx++) {
+      for (byte yy=0;yy<2;yy++) {
+        LED (x+xx, y+yy, zz,R,G,B);
+        }
+      }
+    }
+  } 
+}
 
 
+void elasticPlane (byte pwidth, byte pheight, byte R, byte G, byte B) {
+  for (int xx = 4-pwidth; xx < (4+pwidth); xx++)
+  {
+    for (int yy = 4-pwidth; yy < (4+pwidth); yy++)
+    {
+      LED (xx,yy,pheight,R,G,B);
+    }
+  }
+}
+void elasticPlane2 (byte pwidth, byte pheight, byte R, byte G, byte B) {
+  for (int xx = 0; xx < 8; xx++) {
+    for (int yy = 0; yy < 8; yy++){
+      x= float(xx); // convert coordinates to floating point to compute distance from center of cube
+      y=float(yy); 
+      polar = sqrt((x-3.5)*(x-3.5)+(y-3.5)*(y-3.5)); // Calculate the distance
+      if (polar<pwidth){ // if an LED is inside the radius specified by base, turn it on. 
+        LED(xx, yy, pheight, R, G, B);
+      }
+    }
+  }
+}
 
+void beatPause () { // Other methods for pausing until a beat don't seem to work right, so I made this.
+  int inMode = runMode;
+    while ((beat == 0) && (inMode = runMode)) { // if there's no beat and the mode hasn't changed, sit here.
+    delay (1);
+  }
+}
 
-
-
-
-
-
-
-
-
+void show_sphere2(){ // draw the sphere and change its color
+ int inMode2 = runMode;
+  for (byte layer=0; layer<8; layer++){  // scan thru each layer
+  if (runMode != inMode2 ) {break;} // drop out if mode changes
+    for (byte column=0; column<8; column++){  // scan thru every column
+      for (byte panel=0; panel<8; panel++){  // scan thru every panel
+        x= float(layer); // convert coordinates to floating point to compute distance from center of cube
+        y=float(panel); 
+        z= float(column); 
+        polar = sqrt((x-3.5)*(x-3.5)+(y-3.5)*(y-3.5)+(z-3.5)*(z-3.5)); // Calculate the distance
+        if (polar<count){ // if an LED is inside the radius specified by count, turn it on. 
+          LED(column, panel, layer, myred, mygreen, myblue);
+        }
+        else{  // otherwise turn it off
+          LED(column, panel, layer,0,0,0);
+        }
+      }
+    } 
+  }
+  delay(75);  // control speed
+  colorCount = colorCount + 12;  // increment color wheel by twelve
+  if (colorCount > 189){  // keep color wheel colors in bounds
+    colorCount =0;
+  }
+  getColor(colorCount, 3); // get the color wheel color for next pass
+}
 

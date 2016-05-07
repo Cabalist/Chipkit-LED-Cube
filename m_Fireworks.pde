@@ -28,6 +28,7 @@ byte i,f,e;
 		// shoot a particle up in the air
 		for (e=0;e<origin_z;e++)
 		{
+  if (runMode > 0) {break;} // drop out if mode changes 
 			LED (origin_x,origin_y,e,(random(16)),(random(16)),(random(16)));
 			x=(50*e);
                         delay(delayx*2);
@@ -55,6 +56,7 @@ byte i,f,e;
 		// explode
 		for (e=0; e<30; e++)
 		{
+  if (runMode > 0) {break;} // drop out if mode changes 
 			slowrate = 1+tan((e+0.1)/20)*20;
 			
 			gravity = tan((e+0.1)/20)/2;

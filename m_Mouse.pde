@@ -2,6 +2,7 @@
 
 void mouse(){
   for (int myloop; myloop<760; myloop= myloop+2){
+    if (runMode > 0) {break;} // drop out if mode changes
     LED(xx,yy,zz,currentColor[0],currentColor[1],currentColor[2]);  //light up the current position with current color 
     xx1=xx; 
     yy1=yy; 
