@@ -52,7 +52,7 @@ const uint8_t LAYER[8] = {
 
 #define cubeStructure 0  // if your cube is built on SuperTech-IT's board, or if you followed Nick's instructions exactly, 
 // leave this as 0.   But if you accidentally built your cube as a mirror image of these, which several of us have done, you 
-// will need to change this to 1 to get your text scrolling correctly.
+// will need to change this to 1 (or anything non-zero) to get your text scrolling correctly.
 
 //These next 4 items support SuperTech-IT's music module
 #define MSGEQ7 0x01   // define if music module exists (1) or not (0)
@@ -62,18 +62,22 @@ int modes = 12; // The number of total music modes there are. Don't forget to ad
 int beat = 0; // global beat detect = 1 during beat, otherwise 0.
 int threshold = 900; // this is the threshold from 0 to 1023 of how high the bass must be to consider it a "beat"
 
+
 // the following are for referencing the pins by chip-kit pin number. 
 const int Clock = 6;
 const int Enable = 3;
 const int Latch = 5;
 const int myLayer[8] ={
   26,27,28,29,30,31,32,33};
-//  The cube matrix below stores the status of each LED in the cube
+//  The cube array below stores the status of each LED in the cube
 //  [column 0-7] [panel 0-7] [layer 0-7] [red, green, blue color components]
 //  Each of the 3 color components can vary from 0 to 63, giving us approx. 250,000 possible color variations
-byte cube[8][8][8][3];
+byte cube[8][8][8][3]; 
+// The buffer_cube array is where you put whatever you are going to have the rotation routines rotate.
+byte buffer_cube[8][8][8][3];
+float myangle, myangle2, rotation; // used by the rotation routines
 byte text_buffer[46][8];  //where font-based text is stored temporarily while it's being scrolled.
-byte myred, mygreen, myblue;
+byte myred, mygreen, myblue; // these are where the getColor routine returns its color components
 byte mycase;
 int offset; 
 int incomingByte = 0; 
@@ -83,8 +87,6 @@ int temp;
 float polar, count;
 float x,y,z;
 int colorCount;
-#define duration 20
-int cyclone[duration+1][3];
 int xx, yy, zz;      // x, y, and z coordinants for current position 
 int xx1, yy1, zz1;   // temporary place to store coordinants as thery're changing
 byte currentColor[3];    // Current color being stored.
@@ -109,30 +111,12 @@ void setup() {
   digitalWrite(Latch, LOW );
   digitalWrite(Clock, LOW );
   digitalWrite(Enable, LOW );
-  
-   if (MSGEQ7 == 1) { // leave this stuff alone if the module is not present
-   // This stuff sets up pins for SuperTech-ITs music module. 
-   pinMode (A1,INPUT); // where we read the analog MSGEQ7's output
-   pinMode (A2, OUTPUT); // MSGEQ7 strobe line
-   pinMode (A6, OUTPUT); // MSGEQ7 RESET line
-   pinMode (A8, INPUT); // music mode button
-   pinMode (38, INPUT); // animation mode button
-   digitalWrite (A6, HIGH); // on startup put the MSGEQ7 in reset mode
-   digitalWrite (A2, HIGH); // Ready the active low strobe for first reading on strobe toggle after reset low
-   }
-   //  end MSGEQ7 prep
 
   attachCoreTimerService(refreshCube);
 
   // This portion of setup is for the sample application running in the Main loop. It may be deleted when you create 
-  // your own application, and replaced with your own setup instructions.   
-  dir = 1;
-  currentColor = {
-    0,0,0              };
-  xx=7;  
-  yy= 7;  
-  zz=7;
-  xyz=1; 
+  // your own application, and replaced with your own setup instructions. 
+
 }
 
 

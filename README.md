@@ -1,22 +1,39 @@
-VERSION 4
+VERSION 5
 
-This version incorporates all the features of Versions 1, 2, and 3, plus it adds the ability to use music to control your cube. It requires some additional circuitry, both to analyize the incoming sound and to switch between the different modes of operation. It includes a number of special effects that make your cube respond to the incoming music source. Both the hardware the sofware to support music come from SuperTech-IT.
+This version of the software is all about rotating stuff in the cube. This version does not contain all the software and animations from previous versions. It does, however, contain all the subroutines from previous versions, including the ones that support music. It also has two new animations - one called Cosine and a new fireworks animation - fireWorks.
 
-INSTRUCTIONS FOR VERSION 4
+In this version, we look at various ways to rotate stuff, and we introduce the tools to rotate the entire content of the cube by any amount and at any speed. I've also included demos of everything in the main loop, including two examples of making a moving animation revolve while its running.
 
-Version 4 is all the work of SuperTech-IT. It adds both hardware and software to allow your cube to be driven by music. And it has a number of different visual effects as to how the music interacts with the cube. Still present are all the animations and text capabilities that are in Version 3, plus the addition of one new animation - a fireworks display.
+INSTRUCTIONS FOR VERSION 5
 
-If you want to add music, use this version. It contains support for the music hardware and the addition of switches to switch between animation and music modes and between the various music effects. If you have no plans for music, Version 3 is recommended, as it is somewhat easier to use and understand.
+Version 5 is all about rotating stuff in the cube.
 
-Here is a video from SuperTech-IT on how it all works: youtube.com/watch?v=xTHdJ9oVfT8
+But before getting into all that, we need to discuss the organizaion of all these various versions of the software. Up until now, every version has simply added to the features of the previous version. However, Versions 3 and 4 have gotten quite large, and version 4 contains special software throughout the various animations to support the buttons added to control the music effects. So Version 5 is a departure from having each version contain everything from the previous one. In version 5, we still have all the subroutines that were available to you in Version 4 (including support for music), but we have removed all the animations, and don't have any music support in the main loop. Instead, we have focused Version 5 at rotating stuff in the cube, and the animations in Version 5 are all examples of using these rotation schemes.
 
-At the heart of the hardware additions is the MSGEQ7, a 7 channel graphic analyzer IC. The additional circuitry required is shown below. You can wire it up yourself as shown here. The pin references are to Chipkit UNO32 pins.
+To begin talking about rotation, we start with the rotating text we introduced in Version 3. It is also the first animation in our demo software in this version. With this scheme, we simply rotate characters in 45 degree increments, 8 transitions in all for a full revolution. Because the diagonal of the cube is 1.414 (sq. root of 2) times the side of the cube, we squeeze down the characters by dividing their distance from center by sq. root of 2. This causes some distortion, but keeps the character width approximately constant during rotation. We also attempt the center each character in the cube, which doesn't happen automatically since our font characters are typically 6 or 7 bits wide. This appoach works reasonably well for displaying characters, but only works with characters and only works with a single rotating plane.
 
-![](imgs/image2.jpg)
+Another scheme to rotate characters or anything else in a single plane is our next subject. SuperTech-IT introduced me to it, though it has made the rounds in various cube software. It is also the second animation (a revolving arrow) in our demo software in this version. It has the advantages of being very fast and very smooth, but does not fix the fact that the diagonals are wider than the sides of the cube.
 
-An alternative to wiring the whole thing up yourself is a small circuit board that I found at Jameco. It's shown below and contains all the parts associated with the MSGEQ7. Of course, you'll still need the switches in addition to the audio analyzer. If you go with this option, please ignore the color of the wires on the cable that comes with it. Mine came with a red wire for ground and a black wire for +5v! Go by the position of the terminals on the board.
+![](imgs/rot_scheme.jpg)
 
-![](imgs/image1.jpg)
+The diagram above shows how it revolves through 45 degrees. You start on the diagonal and rotate 45 degrees to a flat surface on the cube. You can then work it in reverse to complete the next 45 degrees putting you back on the diagonal. Do all this three more times and you have a full rotation. The steps from diagonal to cube face are implimented through a short table, which in my implimentation is just called "table". See the code for more info on how it works.
 
+But what about rotating the full content of the cube. That is really the main subject of this version, and what the rest of the demos in this version show us. The code required to rotate the whole cube contains some complicated math, but it is very concise. We basically convert the location of each LED in one layer to polar coordinates, rotate the coordinates by a specific angle, then convert them back to Cartisian coordinates (X and Y), and then find the LED that is nearest to those new XY coordinates. This has to be done for every LED in a layer, and then for each layer.
 
-Between SuperTech-IT's video and what I've said here, you should have enough information to get a system up and running. The software support for music is sprinkled around in various places including the refresh timer interrupt. But the 11 actual music effects themselves are all contained in the Music tab. For a lot more information about how all the software in this version works and is organized, please see the instructions for Version 3.
+In order to make it happen fast enough, we resort to lookup tables to accomplish the math. The tables are stored at the bottom of our Font_Table tab. One table gives us the angle in radians to each LED from the center of the cube for one layer. The next table gives us the distance of each LED from the center of the cube, again for one layer. The last table gives us the sine and cosine for each 0.05 radians from 0 to 2 pi. (To find the sin or cos you need, the row you need in this table is int(myAngle*20 +.5) with sin in the first column and cos in the second.)
+
+Even with the lookup tables, I don't know if this would be fast enough on an Arduino, but it works well with the ChipKit UNO32's 80 MHz processor!
+
+But there is still one more complication to discuss. While we are rotating stuff around in the cube (which actually means in the cube array), we need to have a buffer area where we can store the stuff being rotated. So we create a second array called buffer_cube and that is where we store what is to be rotated. The nice thing about this approach is that we can put anything we want in the buffer_cube, including a whole animation. Then the whole moving animation can be rotated, as we demo with our cosine and fireworks animations.
+
+The primary routine that contains the guts of the rotation process is called rotateLayer. It rotates one layer in the buffer_cube by the specified angle (in radians) and transfers it to the cube. It rotates the entire layer using polar coordinates.
+
+A higher lever routine called rotateAll is used to rotate all layers by the specified angle (in radians) and transfers everything to the cube.
+
+The highest level routine rotates the content in the buffer_cube though a specified number of full rotations in steps of a specified angle in degrees (NOT radians). The higher the step angle, the faster it will rotate.
+
+These subroutines are all contained on the subroutine tab. The only thing required to use them is to put whatever you want to rotate into the buffer_cube array.
+
+If you are going to have an animation running in buffer_cube, then you need to combine the running of your animation with the rotate_All routine to keep both the animation running and the rotation going. See the Rotating Cosine Animation for an example.
+
+For additional information about what all is contained in Version 5 and how it's organized, please look at the code itself. It is well documented. Also please see instructions for Version 3, where we have additional information about all the subroutines from previous versions.

@@ -1,96 +1,91 @@
-// This is a new Fireworks animation
-
+// This is the new Fireworks animation adapted to rotate around in the cube. 
+// Comments here are only about how it's made to rotate.
 // This version is a single color, which must be specified
-// Also must specify the XY coordinates where it will appear
-void fireWork(int x,int y, int mycolor){
+void rFireWork(int x,int y, int mycolor){
   int mydelay = 80;
   float polar;
   getColor(mycolor,4);
-  for (int layer=0; layer<6; layer++) { // firework goes up here
-    LED(x,y, layer, 15, 31, 31);
-    delay(mydelay);
-    if (layer==5){
-      delay(mydelay);  // pauses slightly at the top
-    }
-    LED(x,y, layer, 0, 0, 0);
+  for (int layer=0; layer<6; layer++) {
+    buffer_LED(x,y, layer, 15, 31, 31);  // we are now putting everything in the buffer_cube array 
+    rotateIt();                          // instead of the cube array.  
+    buffer_LED(x,y, layer, 0, 0, 0);
   }
   
 
-  for (int layer=0; layer<8; layer++) { // starts to explode
+  for (int layer=0; layer<8; layer++) {
     for (int xx=0; xx<8; xx++){
       for (int yy=0; yy<8; yy++){
         polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
         if (polar <1){
-          LED(xx, yy, layer, myred, mygreen, myblue);
+          buffer_LED(xx, yy, layer, myred, mygreen, myblue);
         }
         else {
-          LED(xx, yy, layer,0,0,0);
+          buffer_LED(xx, yy, layer,0,0,0);
         }
       }
     }
   }
-  delay(mydelay);
-  for (int layer=0; layer<8; layer++) { // continues to explode
+  rotateIt();  // and everywhere that we had a pause in the stationary version
+               // we now insert our rotate subroutine which you can see below. 
+  for (int layer=0; layer<8; layer++) {
     for (int xx=0; xx<8; xx++){
       for (int yy=0; yy<8; yy++){
         polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
         if (polar <2){
-          LED(xx, yy, layer, myred, mygreen, myblue);
+          buffer_LED(xx, yy, layer, myred, mygreen, myblue);
         }
         else {
-          LED(xx, yy, layer,0,0,0);
+          buffer_LED(xx, yy, layer,0,0,0);
         }
       }
     }
   }
-  delay(mydelay);
-  for (int layer=0; layer<8; layer++) { //continues to explode
+  rotateIt();
+  for (int layer=0; layer<8; layer++) {
     for (int xx=0; xx<8; xx++){
       for (int yy=0; yy<8; yy++){
         polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
         if (polar <3){
-          LED(xx, yy, layer, myred, mygreen, myblue);
+          buffer_LED(xx, yy, layer, myred, mygreen, myblue);
         }
         else {
-          LED(xx, yy, layer,0,0,0);
+          buffer_LED(xx, yy, layer,0,0,0);
         }
       }
     }
   }
- delay(mydelay*3);  //pauses extra time at max expansion
-  for (int layer=0; layer<8; layer++) {  // then starts to fade
+  rotateIt();  // Having 3 here causes it to stay longer in fully exploded mode. 
+  rotateIt();
+  rotateIt();
+  for (int layer=0; layer<8; layer++) {
     for (int xx=0; xx<8; xx++){
       for (int yy=0; yy<8; yy++){
         polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
         if (polar == 2){
-          LED(xx, yy, layer, myred, mygreen, myblue);
+          buffer_LED(xx, yy, layer, myred, mygreen, myblue);
         }
         else {
-          LED(xx, yy, layer,0,0,0);
+          buffer_LED(xx, yy, layer,0,0,0);
         }
       }
     }
   }
-  delay(mydelay); 
-  for (count=0; count<8; count++){  // now what is left move down slowly 
-    shiftDown();  // shiftDown also fades the remains as they fall.
-    delay(mydelay*2);
+ rotateIt(); 
+  for (count=0; count<8; count++){
+    rShiftDown();
+    rotateIt();
   }
-  delay(random(4)*1000);  // pause a random amount of time before next firework. 
+  delay(random(4)*1000);
 }
 
-// This is same routine as above color of each element is set at random.  
-void fireWork2(int x,int y){
-  int mydelay = 80;
+//This version is multi-colored, adapted for rotation 
+void rFireWork2(int x,int y){
   
   float polar;
   for (int layer=0; layer<6; layer++) {
-    LED(x,y, layer, 15, 31, 31);  // on the way up, it's always white
-    delay(mydelay);
-    if (layer==5){
-      delay(mydelay);
-    }
-    LED(x,y, layer, 0, 0, 0);
+    buffer_LED(x,y, layer, 15, 31, 31);
+    rotateIt();
+    buffer_LED(x,y, layer, 0, 0, 0);
   }
   
 
@@ -99,21 +94,21 @@ void fireWork2(int x,int y){
       for (int yy=0; yy<8; yy++){
         polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
         if (polar <1){
-          if (random(2)>0) {myred=63;}  // here is where we select colors at random. 
+          if (random(2)>0) {myred=63;}
           else {myred=0;}
           if (random(2)>0) {mygreen=63;}
           else {mygreen=0;}
           if (random(2)>0) {myblue=63;}
           else {myblue=0;}
-          LED(xx, yy, layer, myred, mygreen, myblue);
+          buffer_LED(xx, yy, layer, myred, mygreen, myblue);
         }
         else {
-          LED(xx, yy, layer,0,0,0);
+          buffer_LED(xx, yy, layer,0,0,0);
         }
       }
     }
   }
-  delay(mydelay);
+  rotateIt();
   for (int layer=0; layer<8; layer++) {
     for (int xx=0; xx<8; xx++){
       for (int yy=0; yy<8; yy++){
@@ -125,15 +120,15 @@ void fireWork2(int x,int y){
           else {mygreen=0;}
           if (random(2)>0) {myblue=63;}
           else {myblue=0;}
-          LED(xx, yy, layer, myred, mygreen, myblue);
+          buffer_LED(xx, yy, layer, myred, mygreen, myblue);
         }
         else {
-          LED(xx, yy, layer,0,0,0);
+          buffer_LED(xx, yy, layer,0,0,0);
         }
       }
     }
   }
-  delay(mydelay);
+  rotateIt();
   for (int layer=0; layer<8; layer++) {
     for (int xx=0; xx<8; xx++){
       for (int yy=0; yy<8; yy++){
@@ -145,15 +140,17 @@ void fireWork2(int x,int y){
           else {mygreen=0;}
           if (random(2)>0) {myblue=63;}
           else {myblue=0;}
-          LED(xx, yy, layer, myred, mygreen, myblue);
+          buffer_LED(xx, yy, layer, myred, mygreen, myblue);
         }
         else {
-          LED(xx, yy, layer,0,0,0);
+          buffer_LED(xx, yy, layer,0,0,0);
         }
       }
     }
   }
- delay(mydelay*3);
+ rotateIt();
+ rotateIt();
+ rotateIt();
   for (int layer=0; layer<8; layer++) {
     for (int xx=0; xx<8; xx++){
       for (int yy=0; yy<8; yy++){
@@ -165,34 +162,48 @@ void fireWork2(int x,int y){
           else {mygreen=0;}
           if (random(2)>0) {myblue=63;}
           else {myblue=0;}
-          LED(xx, yy, layer, myred, mygreen, myblue);
+          buffer_LED(xx, yy, layer, myred, mygreen, myblue);
         }
         else {
-          LED(xx, yy, layer,0,0,0);
+          buffer_LED(xx, yy, layer,0,0,0);
         }
       }
     }
   }
-  delay(mydelay); 
+  rotateIt();
   for (count=0; count<8; count++){
-    shiftDown();
-    delay(mydelay*2);
+    rShiftDown();
+    rotateIt();
   }
   delay(random(4)*1000);
 }
 
 
 
-void shiftDown(){
+void rShiftDown(){  // modified to shift down in the buffer_cube array
   for (int x=0;x<8;x++){ // copy content of each layer to the layer below it.
     for (int y=0;y<8;y++){
       for (int z=1;z<8;z++){
         for (int c=0;c<3;c++){
-          cube [x][y][z-1][c] = (cube [x][y][z][c])/2;  // the divide by 2 causes it 
-          cube [x][y][z][c] = 0;                        // to fade on the way down. 
+          buffer_cube [x][y][z-1][c] = (buffer_cube [x][y][z][c])/2;
+          buffer_cube [x][y][z][c] = 0;
         }
       }
     }
   }
 }
-
+// This subroutine is a slightly modified version of the rotateAll() subroutine
+// It waits much longer that rotateAll's 8 msec. Also doesn't need to clear the cube 
+// when it's finished. 
+void rotateIt(){
+   int mydelay = 60;
+   for (byte layer=0; layer<8; layer++){  // scan thru each layer
+     rotateLayer(myangle, layer);
+   }
+  delay(mydelay);  // wait for 1 refresh before clearing cube
+  clearCube(); 
+    myangle = myangle + rotation; // increment the angle
+    if (myangle>6.28318) { // and make sure it doesn't overflow
+      myangle=0;
+    }
+  }
