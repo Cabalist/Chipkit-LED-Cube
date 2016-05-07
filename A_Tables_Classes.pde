@@ -1,6 +1,7 @@
 // This is where the font is stored for display of text. DO NOT MODIFY!
 // It is stored in program memory, not RAM.
 // Also stored here, after the font table, are the tables we use for rotational math.
+// Also storted here is our sprite class definition
 
 byte  const myfont[870][8]  = {
 // Space
@@ -2340,4 +2341,299 @@ float const sin_cos[126][2] = {
 {-0.083089403,0.996542097,},
 {-0.033179217,0.999449418,}
 };
+
+
+// The following is the definition of the sprite object class
+// DO NOT MODIFY (or at least - Modify at your own risk!)
+ class sprite {
+  private:
+    int lock;
+    int buffer[4][4][4];
+    void copyBack() {  // copies the buffer content back into the description array
+      for (int x= 0; x<4; x++){
+        for (int y= 0; y<4; y++){
+          for (int z= 0; z<4; z++){
+             description[x][y][z]=buffer[x][y][z];
+          }
+        }    
+      }
+    }
+  public: 
+    int myX; // these are just the X,Y,and Z dimensions of a particular sprite instance.
+    int myY;
+    int myZ;
+  // The following is a constuctor that lets us specify the dimensons of a sprite instance.
+  // can be specified from 1,1,1 (default) up to 4,4,4 (but doesn't have to be a cube)
+   sprite(int msizeX=1, int msizeY=1, int msizeZ=1){
+     myX = msizeX;
+     myY = msizeY;
+     myZ = msizeZ;
+   } 
+   ~sprite(){
+     ;}  // destructor; opposite of constructor.  Releases the resources. 
+  // The following are the 3 properties of the sprite
+  // Note: description is constructed 7-z,x,y, out of order 
+  // and with z reversed, to aid in builting it visually.  See examples to see why.  
+  int description[4][4][4];  // describes its shape and color of a sprite instance.
+  int place[3];  // specifies the lower corner of the position of the sprite
+  int motion [3]; // specifies the direction it will move when asked to move
+  // The following are the 4 methods or actions of the sprite class 
+  void setIt(){  // this displays the sprite in the cube at it's specified place
+    for (int x= 0; x<myX; x++){
+      for (int y= 0; y<myY; y++){
+        for (int z= 0; z<myZ; z++){
+          if (x+place[0]>-1 && x+place[0]<8 && y+place[1]>-1 && y+place[1]<8 && myZ-1-z+place[2]>-1 && myZ-1-z+place[2]<8){
+            getColor(description[z][x][y],4);
+            LED(x+place[0],y+place[1],myZ-1-z+place[2],myred,mygreen,myblue);
+          }
+        }
+      }    
+    }
+  } 
+
+  void clearIt(){  // this clears it from the cube at its specified place
+    for (int x= 0; x<myX; x++){
+      for (int y= 0; y<myY; y++){
+        for (int z= 0; z<myZ; z++){
+            LED(x+place[0],y+place[1],myZ-1-z+place[2],0,0,0);
+        }
+      }    
+    }
+  } 
+  // The next action is the easy way to describe a sprite.  Fills the whole thing with one color.
+  void colorIt(int mycolor){  // makes the whole description array one color
+    for (int x= 0; x<4; x++){
+      for (int y= 0; y<4; y++){
+        for (int z= 0; z<4; z++){
+            description[x][y][z]=mycolor;
+        }
+      }    
+    }
+  }
+  void moveIt() {  // this moves it by one step in its specified direction of motion
+    clearIt();
+    place[0]=place[0]+motion[0];
+    place[1]=place[1]+motion[1];
+    place[2]=place[2]+motion[2];
+    setIt();
+  }
+
+  void bounceIt() { // this moves it but also checks for edges of the cube.
+      moveIt();     // if an edge is hit, direction in that one plane is reversed. 
+      if (place[0]<1 && motion[0]<0){motion[0]=-motion[0];}
+      if (place[1]<1 && motion[1]<0){motion[1]=-motion[1];}
+      if (place[2]<1 && motion[2]<0){motion[2]=-motion[2];}
+      if (place[0]>7-myX && motion[0]>0){motion[0]=-motion[0];}
+      if (place[1]>7-myY && motion[1]>0){motion[1]=-motion[1];}
+      if (place[2]>7-myZ && motion[2]>0){motion[2]=-motion[2];}
+  }
+   // for the next 6 actions, dir = 0 is clockwise rotation, while dir = 1 is counter-clockwise. 
+     void rollX(int dir) { // this rotates the sprite around the edge of the cube around X axis
+      lock = 0;
+      if (dir== 0){
+        if (motion[0] == 0 && motion[1] == 0 && motion[2] == -1) {
+          lock= 1; 
+          if (place[2]<1){motion[0] = 0; motion[1] = -1; motion[2] = 0;}
+        }
+        if (motion[0] == 0 && motion[1] == -1 && motion[2] == 0) {
+          lock= 1; 
+          if (place[1]<1){motion[0] = 0; motion[1] = 0; motion[2] = 1;}
+        }
+        if (motion[0] == 0 && motion[1] == 0 && motion[2] == 1) {
+          lock= 1; 
+          if (place[2]>7-myX){motion[0] = 0; motion[1] = 1; motion[2] = 0;}
+        }
+        if (motion[0] == 0 && motion[1] == 1 && motion[2] == 0) {
+          lock= 1; 
+          if (place[1]>7-myY){motion[0] = 0; motion[1] = 0; motion[2] = -1;}
+        }
+        if (lock<1 && place[0]<7-myX) {
+          motion[0] = 0; motion[1] = 0; motion[2] = -1;
+        }
+        if (lock<1 && place[0]==7-myX) {
+          motion[0] = 0; motion[1] = -1; motion[2] = 0;
+        }
+      }
+      else {  
+        if (motion[0] == 0 && motion[1] == 0 && motion[2] == 1) {
+          lock= 1; 
+          if (place[2]>7-myZ){motion[0] = 0; motion[1] = -1; motion[2] = 0;}
+        }
+        if (motion[0] == 0 && motion[1] == 1 && motion[2] == 0) {
+          lock= 1; 
+          if (place[1]>7-myY){motion[0] = 0; motion[1] = 0; motion[2] = 1;}
+        }
+        if (motion[0] == 0 && motion[1] == 0 && motion[2] == -1) {
+          lock= 1; 
+          if (place[2]<1){motion[0] = 0; motion[1] = 1; motion[2] = 0;}
+        }
+        if (motion[0] == 0 && motion[1] == -1 && motion[2] == 0) {
+          lock= 1; 
+          if (place[1]<1){motion[0] = 0; motion[1] = 0; motion[2] = -1;}
+        }
+        if (lock<1 && place[2]<7-myZ) {
+          motion[0] = 0; motion[1] = 0; motion[2] = 1;
+        }
+        if (lock<1 && place[2]==7-myX) {
+          motion[0] = 0; motion[1] = 1; motion[2] = 0;
+        }
+      }   
+      moveIt();     // move on step
+  }
+  
+     void rollY(int dir) { // this rotate the sprite around the edge of the cube around Y axis
+      lock = 0;
+      if (dir== 0){
+        if (motion[0] == 1 && motion[1] == 0 && motion[2] == 0) {
+          lock= 1; 
+          if (place[0]>7-myX){motion[0] = 0; motion[1] = 0; motion[2] = -1;}
+        }
+        if (motion[0] == 0 && motion[1] == 0 && motion[2] == 1) {
+          lock= 1; 
+          if (place[2]>7-myY){motion[0] = 1; motion[1] = 0; motion[2] = 0;}
+        }
+        if (motion[0] == -1 && motion[1] == 0 && motion[2] == 0) {
+          lock= 1; 
+          if (place[0]<1){motion[0] = 0; motion[1] = 0; motion[2] = 1;}
+        }
+        if (motion[0] == 0 && motion[1] == 0 && motion[2] == -1) {
+          lock= 1; 
+          if (place[2]<1){motion[0] = -1; motion[1] = 0; motion[2] = 0;}
+        }
+        if (lock<1 && place[0]>1) {
+          motion[0] = -1; motion[1] = 0; motion[2] = 0;
+        }
+        if (lock<1 && place[0]==0) {
+          motion[0] = 0; motion[1] = 0; motion[2] = -1;
+        }
+      }  
+      else { 
+        if (motion[0] == 1 && motion[1] == 0 && motion[2] == 0) {
+          lock= 1; 
+          if (place[0]>7-myX){motion[0] = 0; motion[1] = 0; motion[2] = 1;}
+        }
+        if (motion[0] == 0 && motion[1] == 0 && motion[2] == 1) {
+          lock= 1; 
+          if (place[2]>7-myY){motion[0] = -1; motion[1] = 0; motion[2] = 0;}
+        }
+        if (motion[0] == -1 && motion[1] == 0 && motion[2] == 0) {
+          lock= 1; 
+          if (place[0]<1){motion[0] = 0; motion[1] = 0; motion[2] = -1;}
+        }
+        if (motion[0] == 0 && motion[1] == 0 && motion[2] == -1) {
+          lock= 1; 
+          if (place[2]<1){motion[0] = 1; motion[1] = 0; motion[2] = 0;}
+        }
+        if (lock<1 && place[0]<7-myX) {
+          motion[0] = 1; motion[1] = 0; motion[2] = 0;
+        }
+        if (lock<1 && place[0]==7-myX) {
+          motion[0] = 0; motion[1] = 0; motion[2] = 1;
+        }
+      }   
+      moveIt();     // move on step
+  }
+  
+     void rollZ(int dir) { // this rotate the sprite around the edge of the cube around Z axis
+      lock = 0;
+      if (dir== 0){
+        if (motion[0] == 1 && motion[1] == 0 && motion[2] == 0) {
+          lock= 1; 
+          if (place[0]>7-myX){motion[0] = 0; motion[1] = -1; motion[2] = 0;}
+        }
+        if (motion[0] == 0 && motion[1] == 1 && motion[2] == 0) {
+          lock= 1; 
+          if (place[1]>7-myY){motion[0] = 1; motion[1] = 0; motion[2] = 0;}
+        }
+        if (motion[0] == -1 && motion[1] == 0 && motion[2] == 0) {
+          lock= 1; 
+          if (place[0]<1){motion[0] = 0; motion[1] = 1; motion[2] = 0;}
+        }
+        if (motion[0] == 0 && motion[1] == -1 && motion[2] == 0) {
+          lock= 1; 
+          if (place[1]<1){motion[0] = -1; motion[1] = 0; motion[2] = 0;}
+        }
+        if (lock<1 && place[0]<7-myX) {
+          motion[0] = 1; motion[1] = 0; motion[2] = 0;
+        }
+        if (lock<1 && place[0]==7-myX) {
+          motion[0] = 0; motion[1] = 1; motion[2] = 0;
+        }
+      }  
+      else { 
+         if (motion[0] == -1 && motion[1] == 0 && motion[2] == 0) {
+          lock= 1; 
+          if (place[0]<1){motion[0] = 0; motion[1] = -1; motion[2] = 0;}
+        }
+        if (motion[0] == 0 && motion[1] == -1 && motion[2] == 0) {
+          lock= 1; 
+          if (place[1]<1){motion[0] = 1; motion[1] = 0; motion[2] = 0;}
+        }
+        if (motion[0] == 1 && motion[1] == 0 && motion[2] == 0) {
+          lock= 1; 
+          if (place[0]>7-myX){motion[0] = 0; motion[1] = 1; motion[2] = 0;}
+        }
+        if (motion[0] == 0 && motion[1] == 1 && motion[2] == 0) {
+          lock= 1; 
+          if (place[1]>7-myY){motion[0] = -1; motion[1] = 0; motion[2] = 0;}
+        }
+        if (lock<1 && place[0]<7-myX) {
+          motion[0] = -1; motion[1] = 0; motion[2] = 0;
+        }
+        if (lock<1 && place[0]==7-myX) {
+          motion[0] = 0; motion[1] = -1; motion[2] = 0;
+        }
+      }  
+      moveIt();     // move on step
+  }
+  void rotateX(int dir){
+      for (int x= 0; x<4; x++){
+        for (int y= 0; y<4; y++){
+          for (int z= 0; z<4; z++){
+            if (dir==0) {
+              buffer[y][x][myZ-1-z]=description[z][x][y];  // clockwise rotatation around Z 90 degrees
+            }
+            else {
+              buffer[myY-1-y][x][z]=description[z][x][y]; // counterclockwise rotatation 90 degrees 
+            }
+          }
+        }    
+      }
+      copyBack(); // bring rotated object in buffer back to description
+      setIt();  // show it
+    }
+      void rotateY(int dir){
+      for (int x= 0; x<4; x++){
+        for (int y= 0; y<4; y++){
+          for (int z= 0; z<4; z++){
+            if (dir==0) {
+              buffer[x][myZ-1-z][y]=description[z][x][y]; // clockwise rotatation around Y 90 degrees
+            }
+            else {
+              buffer[myX-1-x][z][y]=description[z][x][y];  // counterclockwise rotatation 90 degrees 
+            }
+          }
+        }    
+      }
+      copyBack();  // bring rotated object in buffer back to description
+      setIt();  // show it
+    }
+  void rotateZ(int dir){
+      for (int x= 0; x<4; x++){
+        for (int y= 0; y<4; y++){
+          for (int z= 0; z<4; z++){
+            if (dir==0) {
+              buffer[z][y][myX-1-x]=description[z][x][y]; // clockwise rotatation around Z 90 degrees
+            }
+            else {
+              buffer[z][myY-1-y][x]=description[z][x][y]; // counterclockwise rotatation 90 degrees 
+            }
+          }
+        }    
+      }
+      copyBack();  // bring rotated object in buffer back to description
+      setIt();    // show it
+    }
+
+};   // end of class description
 

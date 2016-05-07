@@ -1,11 +1,11 @@
-/* This application / sketch uses 8 x 8 x 8 Cube Application Template, Version 2.0  © 2014 by Doug Domke
+/* This application / sketch uses 8 x 8 x 8 Cube Application Template, Version 6.0  © 2014 by Doug Domke
  Downloads of this and upcoming versions, along with detailed instructions, are available at: http://d2-webdesign.com/cube  
  Anyone is free to use this template to create and publish their own applications / sketches, but PLEASE USE THE 2 LINES ABOVE in your work.
  
  This is for the Chipkit UNO32, and assumes you are using a SuperTech-IT 8x8x8 RGB Board.  It's similar to Nick Schulze's Chipkit software,
  but is somewhat simpler, and easier to work with, when generating your own application.  The pinouts for this implementation are the same as 
  Nick's published pinouts, where the red data line is pin 7 and the blue data line is pin 9. (This is different than Nick's actual software, 
- where the red and blue are actually reversed from his pinout diagram.)
+ where the red and blue were actually reversed from his pinout diagram.)
  
  This tab sets up pin connections and cube structure, defines global variables, and contains the setup subroutine.  
  */
@@ -112,10 +112,11 @@ void setup() {
   digitalWrite(Clock, LOW );
   digitalWrite(Enable, LOW );
 
-  attachCoreTimerService(refreshCube);
+  attachCoreTimerService(refreshCube);  // this enables the interrupt timer that refreshes the cube
 
   // This portion of setup is for the sample application running in the Main loop. It may be deleted when you create 
   // your own application, and replaced with your own setup instructions. 
+  // put your setup code here, to run once:
 
 }
 

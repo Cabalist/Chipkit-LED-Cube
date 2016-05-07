@@ -1,39 +1,57 @@
-VERSION 5
+VERSION 6
 
-This version of the software is all about rotating stuff in the cube. This version does not contain all the software and animations from previous versions. It does, however, contain all the subroutines from previous versions, including the ones that support music. It also has two new animations - one called Cosine and a new fireworks animation - fireWorks.
+Version 6 is all about moving stuff around in the cube. But more importantly, it introduces a new way to program the cube. It's a significant breakthough in my efforts to provide programming tools to cube builders. And because it's so easy to use, I've created a bunch of new animations with it that demonstate its use.
 
-In this version, we look at various ways to rotate stuff, and we introduce the tools to rotate the entire content of the cube by any amount and at any speed. I've also included demos of everything in the main loop, including two examples of making a moving animation revolve while its running.
+Version 6 takes advantage of object based programming. It gives you the tools to make it all easy. You build objects called sprites by defining their size, shape, and color, then give them a location and place them in the cube. You then have a number of actions you can call to move your sprites around like a single step move, or bounce them off the sides of the cube, or rotate them around the cube, or rotate them around themselves. You can have as many sprites as you want, and they can all move around simultaneously and independently of each other.
 
-INSTRUCTIONS FOR VERSION 5
+INSTRUCTIONS FOR VERSION 6
+Version 6 is all about moving stuff around in the cube. But more importantly, it introduces a new way to program the cube. It's a significant breakthough in my efforts to provide programming tools to cube builders. And because it's so easy to use, I've created a bunch of new animations with it that demonstate its use.
 
-Version 5 is all about rotating stuff in the cube.
+Like all previous versions, Version 6 still contains all the subroutines (including music support) from previous versions. However, you may not want to use them when you see how easy it is to use this new system.
 
-But before getting into all that, we need to discuss the organizaion of all these various versions of the software. Up until now, every version has simply added to the features of the previous version. However, Versions 3 and 4 have gotten quite large, and version 4 contains special software throughout the various animations to support the buttons added to control the music effects. So Version 5 is a departure from having each version contain everything from the previous one. In version 5, we still have all the subroutines that were available to you in Version 4 (including support for music), but we have removed all the animations, and don't have any music support in the main loop. Instead, we have focused Version 5 at rotating stuff in the cube, and the animations in Version 5 are all examples of using these rotation schemes.
+Version 6 takes advantage of object based programming. It gives you the tools to make it all easy. You build objects called sprites by defining their size, shape, and color, then give them a location and place them in the cube. You then have a number of actions you can call to move your sprites around like a single step move, or bounce them off the sides of the cube, or rotate them around the cube, or rotate them around themselves. You can have as many sprites as you want, and they can all move around simultaneously and independently of each other.
 
-To begin talking about rotation, we start with the rotating text we introduced in Version 3. It is also the first animation in our demo software in this version. With this scheme, we simply rotate characters in 45 degree increments, 8 transitions in all for a full revolution. Because the diagonal of the cube is 1.414 (sq. root of 2) times the side of the cube, we squeeze down the characters by dividing their distance from center by sq. root of 2. This causes some distortion, but keeps the character width approximately constant during rotation. We also attempt the center each character in the cube, which doesn't happen automatically since our font characters are typically 6 or 7 bits wide. This appoach works reasonably well for displaying characters, but only works with characters and only works with a single rotating plane.
+At the heart of Version 6 is the sprite object class. It is an encapsulated set of tools. You don't need to understand the code inside this object. You just need to learn how to use its various properties and actions.
 
-Another scheme to rotate characters or anything else in a single plane is our next subject. SuperTech-IT introduced me to it, though it has made the rounds in various cube software. It is also the second animation (a revolving arrow) in our demo software in this version. It has the advantages of being very fast and very smooth, but does not fix the fact that the diagonals are wider than the sides of the cube.
+First, to create an object and place it in your cube, you put this code in the main loop:
+sprite mySprite(2,2,2); // this creates a sprite called mySprite with dimensions 2x2x2 LEDs.
+mySprite.colorIt(Green); // makes my new sprite green.
+mySprite.place = {1,2,1}; // locate it in the lower, back corner of the cube
+mySprite.setIt(); // actually puts it in the cube, turning on the LEDs.
 
-![](imgs/rot_scheme.jpg)
+Now we can move our sprite around. For example, let's move it around in the cube, bouncing it off the walls as it moves. To do that, all we need to do is the following:
+mySprite.motion = {2,1,1}; // gives my sprite an initial direction of motion
+for (count=0; count<100; count++) { // loop around 100 times
+mySprite.bounceIt(); // move the sprite one increment. Reverse direction if cube's edge is detected.
+delay(100); // wait 1/10th second before next move.
+} // finish the loop
+mySprite.clearIt(); // turn off the sprite since we're done.
 
-The diagram above shows how it revolves through 45 degrees. You start on the diagonal and rotate 45 degrees to a flat surface on the cube. You can then work it in reverse to complete the next 45 degrees putting you back on the diagonal. Do all this three more times and you have a full rotation. The steps from diagonal to cube face are implimented through a short table, which in my implimentation is just called "table". See the code for more info on how it works.
+The simple illustration above using mySprite is the first thing you will see when you run the Version 6 on your cube. You might be wondering why we had to use a loop in the example above. Why not just build that loop into our bounce action. That's because we want the capability to bounce many sprites at a time. So our program contains an external loop, which could be bouncing 1 sprite, but could just as easily be bouncing 10 at once.
 
-But what about rotating the full content of the cube. That is really the main subject of this version, and what the rest of the demos in this version show us. The code required to rotate the whole cube contains some complicated math, but it is very concise. We basically convert the location of each LED in one layer to polar coordinates, rotate the coordinates by a specific angle, then convert them back to Cartisian coordinates (X and Y), and then find the LED that is nearest to those new XY coordinates. This has to be done for every LED in a layer, and then for each layer.
+In our illustration above we defined a sprite that was 2x2x2 LEDs and then colored all 8 LEDs green. That makes it very easy to define our sprite, but we can define much more complex structures using the .description property. This is an array with the color of each LED in the sprite, including Black for those you want off. So a sprite may have shape and be multi-colored - you just have to take the time to define it.
 
-In order to make it happen fast enough, we resort to lookup tables to accomplish the math. The tables are stored at the bottom of our Font_Table tab. One table gives us the angle in radians to each LED from the center of the cube for one layer. The next table gives us the distance of each LED from the center of the cube, again for one layer. The last table gives us the sine and cosine for each 0.05 radians from 0 to 2 pi. (To find the sin or cos you need, the row you need in this table is int(myAngle*20 +.5) with sin in the first column and cos in the second.)
+Now, here is a list of all the members of the sprite class:
+Constuctor:
+sprite MySprite - this creates a new class object called MyStrite or any other name of your choosing.
+Properties:
+(MySprite).description - is a 4x4x4 array containing the color-wheel color (or Standard Colors) for each LED in the sprite.
+The 4x4x4 defines the maximum size of the sprite, but it can be 1,1,1 (a single LED) or 2,2,2, or 1,2,4, i.e. whatever
+shape you want.
+.place - is a 3 integer location representing the X, Y, Z coordinates of the lower corner postion of the sprite.
+.motion - is a 3 integer vector representing the X, Y, Z direction the sprite is moving in.
+Methods (or Actions):
+.setIt - this displays the sprite in the cube at it's specified place
+.clearIt - this clears it from its present place (turns off all LEDs)
+.colorIt - this colors all LEDs within the boundaries of the sprite in a single specified color
+.moveIt - this moves the sprite one step in its specified motion direction, clearing it where it was, and set it in its new location.
+.bounceIt - this moves the sprite one step and checks for cube edges; if one is detected, the motion is reversed in the direction of that edge.
+These next 6 items take a 0 argument for clockwise, and a 1 argument for counter-clockwise. And the last three, which rotate the sprite itself, are meaningly unless you have defined a particular shape and/ or color scheme to your sprite.
+.rollX - rolls the sprite around the edge of the cube around the X axis in single steps.
+.rollY - rolls the sprite around the edge of the cube around the Y axis in single steps.
+.rollZ - rolls the sprite around the edge of the cube around the Z axis in single steps.
+.rotateX - rotates the sprite on its own X axis by 90 degrees.
+.rotateY - rotates the sprite on its own Y axis by 90 degrees.
+.rotateZ - rotates the sprite on its own Z axis by 90 degrees.
 
-Even with the lookup tables, I don't know if this would be fast enough on an Arduino, but it works well with the ChipKit UNO32's 80 MHz processor!
-
-But there is still one more complication to discuss. While we are rotating stuff around in the cube (which actually means in the cube array), we need to have a buffer area where we can store the stuff being rotated. So we create a second array called buffer_cube and that is where we store what is to be rotated. The nice thing about this approach is that we can put anything we want in the buffer_cube, including a whole animation. Then the whole moving animation can be rotated, as we demo with our cosine and fireworks animations.
-
-The primary routine that contains the guts of the rotation process is called rotateLayer. It rotates one layer in the buffer_cube by the specified angle (in radians) and transfers it to the cube. It rotates the entire layer using polar coordinates.
-
-A higher lever routine called rotateAll is used to rotate all layers by the specified angle (in radians) and transfers everything to the cube.
-
-The highest level routine rotates the content in the buffer_cube though a specified number of full rotations in steps of a specified angle in degrees (NOT radians). The higher the step angle, the faster it will rotate.
-
-These subroutines are all contained on the subroutine tab. The only thing required to use them is to put whatever you want to rotate into the buffer_cube array.
-
-If you are going to have an animation running in buffer_cube, then you need to combine the running of your animation with the rotate_All routine to keep both the animation running and the rotation going. See the Rotating Cosine Animation for an example.
-
-For additional information about what all is contained in Version 5 and how it's organized, please look at the code itself. It is well documented. Also please see instructions for Version 3, where we have additional information about all the subroutines from previous versions.
+For additional information on all the members of the sprite object class, see the examples in the Version 6 code. For additional information on all the other subroutines available in Version 6, please see instructions for Versions 3, 4, and 5.
