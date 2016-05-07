@@ -37,7 +37,7 @@ void RollingBall(){
     delay(50);
   }
  mySprite.clearIt();
- delay(500);
+ delay(1000);
 }
 
 

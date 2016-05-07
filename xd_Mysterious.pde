@@ -56,5 +56,6 @@ void Mysterious() {
     LED(xpos+1, ypos+1, 7, 0, 0, 0);
   }
   clearCube();
+  delay(1000);
 }
 

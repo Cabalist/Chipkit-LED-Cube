@@ -55,7 +55,7 @@ const uint8_t LAYER[8] = {
 // will need to change this to 1 (or anything non-zero) to get your text scrolling correctly.
 
 //These next 4 items support SuperTech-IT's music module
-#define MSGEQ7 0x01   // define if music module exists (1) or not (0)
+#define MSGEQ7 0x00   // define if music module exists (1) or not (0)
 int VU[7]; // music input level global array for 7 frequencies
 int runMode = 0; // runMode 0 = animations. 1=cycle through music modes. 2 or higher indicates which nusic mode to run and stay in.
 int modes = 12; // The number of total music modes there are. Don't forget to add 1 for the sequence mode - so if there are 3 modes of music, this has to be 4
@@ -100,6 +100,9 @@ int x3, y3, z3,count3, mywait=50;
 byte upDown[8][8];
 int blinkMe; 
 int rot = 1;
+#define duration 20
+int cyclone[duration+1][3];
+
 void setup() { 
   // This portion of setup sets up the IO.  DO NOT MODIFY.
   for (int x=3; x<10; x++){   

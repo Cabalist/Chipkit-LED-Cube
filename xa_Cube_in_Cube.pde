@@ -114,4 +114,5 @@ void bounceCube(int side, int x, int y, int z, int color){
     delay(95); // wait 1/10th second before next move.
   } // finish the loop
   mySprite.clearIt(); // turn off the sprite since we're done. 
+  delay(1000);
 }

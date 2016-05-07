@@ -23,5 +23,6 @@ void Glitter_ribbon(){
       clearCube();    // clear the cube
     }
   }
+  delay(1000);
 }
 

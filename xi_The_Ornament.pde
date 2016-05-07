@@ -152,5 +152,5 @@ void TheOrnament(){
   mySprite.setIt();
   delay(2000);
   clearCube();
-  delay(2000);
+  delay(1000);
 }

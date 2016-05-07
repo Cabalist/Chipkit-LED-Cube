@@ -30,8 +30,8 @@ void LED(int x,int y,int z,int R,int G,int B) {
   if (G>63){
     G=63;
   }
-  if (G>63){
-    G=63;
+  if (B>63){
+    B=63;
   }
   cube[x][y][z][0]=R;
   cube[x][y][z][1]=G;
@@ -45,8 +45,8 @@ void buffer_LED(int x,int y,int z,int R,int G,int B) {
   if (G>63){
     G=63;
   }
-  if (G>63){
-    G=63;
+  if (B>63){
+    B=63;
   }
   buffer_cube[x][y][z][0]=R;
   buffer_cube[x][y][z][1]=G;

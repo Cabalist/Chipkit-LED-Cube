@@ -59,5 +59,6 @@ void Chaos() {
     }
     clearCube();    // clear the cube
   }
+   delay(1000);
 }
 

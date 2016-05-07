@@ -47,10 +47,11 @@ void RandomFall() {
       }
     }
   }
-   delay(200);
+  delay(200);
   count3=0;
   delay(200);
   clearCube();
+  delay(1000);
 }
 
 

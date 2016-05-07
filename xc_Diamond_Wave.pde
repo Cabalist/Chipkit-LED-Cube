@@ -46,5 +46,6 @@ void DiamondWave() {
       clearCube();    // clear the cube
     }
   }
+   delay(1000);
 }
 
