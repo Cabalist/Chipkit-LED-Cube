@@ -57,7 +57,7 @@ const uint8_t LAYER[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 //These next 6 items support SuperTech-IT's music module
 #define MSGEQ7 0x01   // define if music module exists (1) or not (0)
 int virtualGain = 127; // define initial gain status until it is read from A5 - used in readmsgeq7 and spectrum8.
-int runMode = 0; // runMode 0 = animations. 1=cycle through music modes. 2 or higher indicates which nusic mode to run and stay in.
+int runMode = 0; // runMode 0 = animations. 1=cycle through music modes. 2 or higher indicates which music mode to run and stay in.
 int modes = 11; // The number of total music modes there are. Don't forget to add 1 for the sequence mode - so if there are 3 modes of music, this has to be 4
 //int beat = 0; // global beat detect = 1 during beat, otherwise 0.
 //int threshold = 900; // this is the threshold from 0 to 1023 of how high the bass must be to consider it a "beat"
