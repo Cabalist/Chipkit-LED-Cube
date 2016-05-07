@@ -18,28 +18,28 @@
  .moveIt: this moves your sprite one step in the direction specified by motion
  .bounceIt: similar to moveIt, but tests for cube boundaries and reverses course when an edge of the cube is detected. 
  
- Sprites are created using the sprite constuctor, like this: 
+ Sprites are created using the sprite constructor, like this:
  sprite MySprite(1,2,3); 
  where MySprite is the name of this particular instance of the object/class, and the 1,2,3 specifies its size in the X,Y,and Z directions.
  So a sprite could be a single LED, like:
  sprite LED1(1,1,1);
  */
-void loop(){
-  simple_demos(); 
-  delay(1000);
-  single_swirl();
-  delay(1000);
-  multi_swirl(); 
-  delay(1000);
-  eyes();
-  delay(1000);
-  flip_and_roll();
-  delay(1000);
-  flyingBoxes();
-  delay(1000);
-  bouncing_ball();
-  delay(1000); 
-  helicopter();
-  delay(1000);
+void loop() {
+    simple_demos();
+    delay(1000);
+    single_swirl();
+    delay(1000);
+    multi_swirl();
+    delay(1000);
+    eyes();
+    delay(1000);
+    flip_and_roll();
+    delay(1000);
+    flyingBoxes();
+    delay(1000);
+    bouncing_ball();
+    delay(1000);
+    helicopter();
+    delay(1000);
 
 }
