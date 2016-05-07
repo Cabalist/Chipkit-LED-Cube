@@ -1,7 +1,8 @@
 /*  These are items that you probably don't want to mess with unless you really understand them.
-    There are currently 2 items here:  
+    There are currently 3 items here:  
   1) the timer interupt routine to refresh the cube
-  2) the text scrolling core which advances text from one cube face to the next
+  2) code that supports SuperTech-IT's music module
+  3) the text scrolling core which advances text from one cube face to the next
 
 
 This timer interrupt refreshes the whole cube, based on data stored in the cube matrix.  It uses 6 bit BAM (bit angle modulation)
@@ -12,7 +13,7 @@ This timer interrupt refreshes the whole cube, based on data stored in the cube 
  */
 uint32_t refreshCube(uint32_t currentTime) {
   byte red, green, blue;
-  for (byte count=0; count<6; count++){  // BAM counter; each increment doubles the time the LED is on, starting at 5 microsecs.
+  for (byte count=0; count<6; count++){  // BAM counter; each increment doubles the time the LED is on, starting at 10 microsecs.
     digitalWrite(Latch, LOW );  //make sure outputs are latched
     LATDCLR = CLK|SDIR|SDIG|SDIB;
     if (cubeStructure==0){  // use this version if your cube is wired normally

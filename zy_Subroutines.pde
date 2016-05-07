@@ -1,19 +1,20 @@
-/* There are currently 9 subroutines here:
+/* There are a whole bunch subroutines here:
  1) The LED sub provides the ability to light any particular LED at a specified location with specified 3 RGB color components. 
- 2) The getColor sub the selects colors of the rainbow by number and intensity
- 3) The clearCube sub that clears the cube and turn all LEDs off. 
- 4) The scrollText sub lets you specify a string of text to be scrolled, specify its 3 RGB color conponents, 
+ 2) The getColor sub selects colors of the rainbow by number and intensity
+ 3) The rnd_std_color sub randomly picks one of 8 standard colors.
+ 4) The clearCube sub that clears the cube and turn all LEDs off. 
+ 5) The scrollText sub lets you specify a string of text to be scrolled, specify its 3 RGB color conponents, 
     and whether to display on 2 or 4 faces of the cube. 
- 5) The scrollThruX sub lets you specify a string of text to be scrolled, specify its 3 RGB color conponents, 
+ 6) The scrollThruX sub lets you specify a string of text to be scrolled, specify its 3 RGB color conponents, 
     and pass it through the middle of the cube from back to front in the X direction.  The scrollUpX subroutine is used by scrollThruX.
- 6) The scrollThruY sub lets you specify a string of text to be scrolled, specify its 3 RGB color conponents,
+ 7) The scrollThruY sub lets you specify a string of text to be scrolled, specify its 3 RGB color conponents,
     and pass it through the middle of the cube from back to front in the X direction.  The scrollUpY subroutine is used by scrollThruX.
- 7) The scrollTextStd2 sub lets you specify a string and standard color for display on 2 faces of the cube
- 8) The scrollTextStd4 sub lets you specify a string and standard color for display on 4 faces of the cube
- 9) The rotate sub lets you specify a string of text to be used, specify its 3 RGB color conponents, 
+ 8) The scrollTextStd2 sub lets you specify a string and standard color for display on 2 faces of the cube
+ 9) The scrollTextStd4 sub lets you specify a string and standard color for display on 4 faces of the cube
+ 10) The rotate sub lets you specify a string of text to be used, specify its 3 RGB color conponents, 
     and then it rotates the characters, one at a time, in the center of the cube.
-10) There are 9 subroutines that support Supertech-It's music effects. 
-11) There are 4 subroutines that support rotating the entire content of the cube using polar coordinates. They are:
+11) There are 9 subroutines that support Supertech-It's music effects. 
+12) There are 4 subroutines that support rotating the entire content of the cube using polar coordinates. They are:
     a) rotateCube which rotates the entire content of the cube a specified number of revolutions in steps of the specified angle 
     b) rotataAll which rotates all layers by a specified angle
     c) rotateLayer which is the core routine and rotates the specified layer by the specified angle
@@ -130,6 +131,40 @@ void getColor(int color, int intensity) {
     myred=0;
     mygreen=0;
     myblue=0;
+  }
+}
+
+// This subroutine randomly picks one of 8 standard colors and loads it 
+// into global variables myred, mygreen, and myblue for display.
+void rnd_std_color(){
+  int colorit= random(8)+1;
+  switch(colorit){
+  case 1:
+    getColor(Red,4);
+    break;
+  case 2:
+    getColor(Yellow,4);
+    break;
+  case 3:
+    getColor(Green,4);
+    break;
+  case 4:
+    getColor(Blue,4);
+    break;
+  case 5:
+    getColor(Purple,4);
+    break;
+  case 6:
+    getColor(Violet,4);
+    break;
+  case 7:
+    getColor(Orange,4);
+    break;
+  case 8:
+    getColor(Aqua,4);
+    break;
+  default: 
+    getColor(Black,0);  
   }
 }
 

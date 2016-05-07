@@ -2341,18 +2341,41 @@ float const sin_cos[126][2] = {
 {-0.083089403,0.996542097,},
 {-0.033179217,0.999449418,}
 };
-
-
-// The following is the definition of the sprite object class
-// DO NOT MODIFY (or at least - Modify at your own risk!)
+/*  SPRITE OBJECT CLASS
+ A sprite object has the following properties: 
+ .description: this is an array of minimum size 1,1,1 and max size 6,6,6. 
+ It sets the color (or lack of color) for each LED within the sprite. So it defines both the shape and color.
+ It may be a single LED (1,1,1) or as much as 1/4 of the cube (6,6,6)
+ .colorIt(color) is an alternative to building a description array. It turns the entire area of the sprite one color.
+ .outline(color) is like colorIt but only colors the outline of your sprite 
+ .place: this is the location of the lower corner of the sprite.  It's a 3 number array specifying an X, Y, Z position.
+ .motion: this is the direction the sprite will move when asked to move.  It's a 3 number array specifying the speed of movement in X,Y,Z directions. 
+ It will usually be a 0, +-1, or +-2 to get smooth movement within the cube. 
+ 
+ A sprite object also has some methods (or actions) it can take:
+ .setIt:  this displays your spite in the cube at its specified place
+ .clearIt:  this removes your sprite from the cube
+ .moveIt: this moves your sprite one step in the direction specified by motion
+ .bounceIt: similar to moveIt, but tests for cube boundaries and reverses course when an edge of the cube is detected.
+ .rollX, rollY, rollZ: rolls the sprite around the edge of the cube in the specified direction.
+ .rotateX, rotateY, rotateZ: rotates the the sprite on its own access in the specified direction. 
+ 
+ Sprites are created using the sprite constuctor, like this: 
+ sprite MySprite(1,2,3); 
+ where MySprite is the name of this particular instance of the object/class, and the 1,2,3 specifies its size in the X,Y,and Z directions.
+ So a sprite could be a single LED, like:
+ sprite LED1(1,1,1);
+ The following is the definition of the sprite object class
+ DO NOT MODIFY (or at least - Modify at your own risk!)
+*/
  class sprite {
   private:
     int lock;
-    int buffer[4][4][4];
+    byte buffer[6][6][6];
     void copyBack() {  // copies the buffer content back into the description array
-      for (int x= 0; x<4; x++){
-        for (int y= 0; y<4; y++){
-          for (int z= 0; z<4; z++){
+      for (int x= 0; x<6; x++){
+        for (int y= 0; y<6; y++){
+          for (int z= 0; z<6; z++){
              description[x][y][z]=buffer[x][y][z];
           }
         }    
@@ -2362,19 +2385,20 @@ float const sin_cos[126][2] = {
     int myX; // these are just the X,Y,and Z dimensions of a particular sprite instance.
     int myY;
     int myZ;
+    int intensity;
   // The following is a constuctor that lets us specify the dimensons of a sprite instance.
   // can be specified from 1,1,1 (default) up to 4,4,4 (but doesn't have to be a cube)
    sprite(int msizeX=1, int msizeY=1, int msizeZ=1){
      myX = msizeX;
      myY = msizeY;
      myZ = msizeZ;
+     intensity = 4;
    } 
-   ~sprite(){
-     ;}  // destructor; opposite of constructor.  Releases the resources. 
+
   // The following are the 3 properties of the sprite
   // Note: description is constructed 7-z,x,y, out of order 
   // and with z reversed, to aid in builting it visually.  See examples to see why.  
-  int description[4][4][4];  // describes its shape and color of a sprite instance.
+  byte description[6][6][6];  // describes its shape and color of a sprite instance.
   int place[3];  // specifies the lower corner of the position of the sprite
   int motion [3]; // specifies the direction it will move when asked to move
   // The following are the 4 methods or actions of the sprite class 
@@ -2383,13 +2407,19 @@ float const sin_cos[126][2] = {
       for (int y= 0; y<myY; y++){
         for (int z= 0; z<myZ; z++){
           if (x+place[0]>-1 && x+place[0]<8 && y+place[1]>-1 && y+place[1]<8 && myZ-1-z+place[2]>-1 && myZ-1-z+place[2]<8){
-            getColor(description[z][x][y],4);
+            getColor(description[z][x][y],intensity);
             LED(x+place[0],y+place[1],myZ-1-z+place[2],myred,mygreen,myblue);
           }
         }
       }    
     }
   } 
+  
+  // This sets the intensity of the LEDs in the sprite.   Default is 4 (max intensity)
+  // but you can specify 1,2,or 3 instead to make your sprite change intensity or pulsate.  
+  void ChgIntensity(int myInten) {
+    intensity = myInten; 
+  }
 
   void clearIt(){  // this clears it from the cube at its specified place
     for (int x= 0; x<myX; x++){
@@ -2402,10 +2432,63 @@ float const sin_cos[126][2] = {
   } 
   // The next action is the easy way to describe a sprite.  Fills the whole thing with one color.
   void colorIt(int mycolor){  // makes the whole description array one color
-    for (int x= 0; x<4; x++){
-      for (int y= 0; y<4; y++){
-        for (int z= 0; z<4; z++){
+    for (int x= 0; x<6; x++){
+      for (int y= 0; y<6; y++){
+        for (int z= 0; z<6; z++){
             description[x][y][z]=mycolor;
+        }
+      }    
+    }
+  }
+  // This action is similar to colorIt, but only outline the sprite with the selected color.
+  void outline(int mycolor){ 
+    for (int x= 0; x<myX; x++){
+      for (int y= 0; y<myY; y++){
+        for (int z= 0; z<myZ; z++){
+            description[x][y][z]=mycolor;
+        }
+      }    
+    }
+    for (int x= 0; x<myX; x++){
+      for (int y= 1; y<myY-1; y++){
+        for (int z= 1; z<myZ-1; z++){
+            description[x][y][z]=Black;
+        }
+      }    
+    }
+    for (int x= 1; x<myX-1; x++){
+      for (int y= 0; y<myY; y++){
+        for (int z= 1; z<myZ-1; z++){
+            description[x][y][z]=Black;
+        }
+      }    
+    }
+    for (int x= 1; x<myX-1; x++){
+      for (int y= 1; y<myY-1; y++){
+        for (int z= 0; z<myZ; z++){
+            description[x][y][z]=Black;
+        }
+      }    
+    }
+  }
+  // This action is similar to colorIt, but creates a shere with the selected color.  
+  // Sprite should be a cube (all sides the same).
+  // Also this feature is going to work best with large sprites like 6x6x6 or 5x5x5.
+  void sphere(int mycolor){  
+    float polar;
+    for (int x= 0; x<myX; x++){
+      for (int y= 0; y<myY; y++){
+        for (int z= 0; z<myZ; z++){
+          float centerX = myX/2;
+          float centerY = myY/2;
+          float centerZ = myZ/2;
+          polar = sqrt((x-centerX)*(x-centerX)+(y-centerY)*(y-centerY)+(z-centerZ)*(z-centerZ)); // Calculate the distance
+          if (polar<centerX){ // if an LED is inside the radius specified by myX, turn it on. 
+            description[x][y][z]=mycolor;
+          }
+          else {
+            description[x][y][z]=Black;
+          }
         }
       }    
     }
@@ -2441,16 +2524,16 @@ float const sin_cos[126][2] = {
         }
         if (motion[0] == 0 && motion[1] == 0 && motion[2] == 1) {
           lock= 1; 
-          if (place[2]>7-myX){motion[0] = 0; motion[1] = 1; motion[2] = 0;}
+          if (place[2]>7-myZ){motion[0] = 0; motion[1] = 1; motion[2] = 0;}
         }
         if (motion[0] == 0 && motion[1] == 1 && motion[2] == 0) {
           lock= 1; 
           if (place[1]>7-myY){motion[0] = 0; motion[1] = 0; motion[2] = -1;}
         }
-        if (lock<1 && place[0]<7-myX) {
+        if (lock<1 && place[0]<7-myZ) {
           motion[0] = 0; motion[1] = 0; motion[2] = -1;
         }
-        if (lock<1 && place[0]==7-myX) {
+        if (lock<1 && place[0]==7-myZ) {
           motion[0] = 0; motion[1] = -1; motion[2] = 0;
         }
       }
@@ -2474,7 +2557,7 @@ float const sin_cos[126][2] = {
         if (lock<1 && place[2]<7-myZ) {
           motion[0] = 0; motion[1] = 0; motion[2] = 1;
         }
-        if (lock<1 && place[2]==7-myX) {
+        if (lock<1 && place[2]==7-myZ) {
           motion[0] = 0; motion[1] = 1; motion[2] = 0;
         }
       }   
@@ -2490,7 +2573,7 @@ float const sin_cos[126][2] = {
         }
         if (motion[0] == 0 && motion[1] == 0 && motion[2] == 1) {
           lock= 1; 
-          if (place[2]>7-myY){motion[0] = 1; motion[1] = 0; motion[2] = 0;}
+          if (place[2]>7-myZ){motion[0] = 1; motion[1] = 0; motion[2] = 0;}
         }
         if (motion[0] == -1 && motion[1] == 0 && motion[2] == 0) {
           lock= 1; 
@@ -2514,7 +2597,7 @@ float const sin_cos[126][2] = {
         }
         if (motion[0] == 0 && motion[1] == 0 && motion[2] == 1) {
           lock= 1; 
-          if (place[2]>7-myY){motion[0] = -1; motion[1] = 0; motion[2] = 0;}
+          if (place[2]>7-myZ){motion[0] = -1; motion[1] = 0; motion[2] = 0;}
         }
         if (motion[0] == -1 && motion[1] == 0 && motion[2] == 0) {
           lock= 1; 
@@ -2587,9 +2670,9 @@ float const sin_cos[126][2] = {
       moveIt();     // move on step
   }
   void rotateX(int dir){
-      for (int x= 0; x<4; x++){
-        for (int y= 0; y<4; y++){
-          for (int z= 0; z<4; z++){
+      for (int x= 0; x<6; x++){
+        for (int y= 0; y<6; y++){
+          for (int z= 0; z<6; z++){
             if (dir==0) {
               buffer[y][x][myZ-1-z]=description[z][x][y];  // clockwise rotatation around Z 90 degrees
             }
@@ -2603,9 +2686,9 @@ float const sin_cos[126][2] = {
       setIt();  // show it
     }
       void rotateY(int dir){
-      for (int x= 0; x<4; x++){
-        for (int y= 0; y<4; y++){
-          for (int z= 0; z<4; z++){
+      for (int x= 0; x<6; x++){
+        for (int y= 0; y<6; y++){
+          for (int z= 0; z<6; z++){
             if (dir==0) {
               buffer[x][myZ-1-z][y]=description[z][x][y]; // clockwise rotatation around Y 90 degrees
             }
@@ -2619,9 +2702,9 @@ float const sin_cos[126][2] = {
       setIt();  // show it
     }
   void rotateZ(int dir){
-      for (int x= 0; x<4; x++){
-        for (int y= 0; y<4; y++){
-          for (int z= 0; z<4; z++){
+      for (int x= 0; x<6; x++){
+        for (int y= 0; y<6; y++){
+          for (int z= 0; z<6; z++){
             if (dir==0) {
               buffer[z][y][myX-1-x]=description[z][x][y]; // clockwise rotatation around Z 90 degrees
             }

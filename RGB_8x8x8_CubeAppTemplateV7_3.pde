@@ -1,5 +1,5 @@
-/* This application / sketch uses 8 x 8 x 8 Cube Application Template, Version 6.0  © 2014 by Doug Domke
- Downloads of this and upcoming versions, along with detailed instructions, are available at: http://d2-webdesign.com/cube  
+/* This application / sketch uses 8 x 8 x 8 Cube Application Template, Version 7.0  © 2015 by Doug Domke
+ Downloads of this and other versions, along with detailed instructions, are available at: http://d2-webdesign.com/cube  
  Anyone is free to use this template to create and publish their own applications / sketches, but PLEASE USE THE 2 LINES ABOVE in your work.
  
  This is for the Chipkit UNO32, and assumes you are using a SuperTech-IT 8x8x8 RGB Board.  It's similar to Nick Schulze's Chipkit software,
@@ -85,7 +85,7 @@ int temp;
 // The variales below are part of the sample application(s) running in the Main loop.   They may be deleted when you create
 // your own application.
 float polar, count;
-float x,y,z;
+float x,y,z, z1;
 int colorCount;
 int xx, yy, zz;      // x, y, and z coordinants for current position 
 int xx1, yy1, zz1;   // temporary place to store coordinants as thery're changing
@@ -96,8 +96,10 @@ int history[24][6];  // Where the trail is stored - 3 position markers, and the 
 int historyCount;    // Position counter for the trail
 int tempCount, tempCount2, mycount2;   // misc. temporary variables
 int counter, mycolor  ;
-
-
+int x3, y3, z3,count3, mywait=50; 
+byte upDown[8][8];
+int blinkMe; 
+int rot = 1;
 void setup() { 
   // This portion of setup sets up the IO.  DO NOT MODIFY.
   for (int x=3; x<10; x++){   
