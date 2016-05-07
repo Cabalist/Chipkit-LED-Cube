@@ -1,4 +1,17 @@
+VERSION 1
+
+Its objective is to make programming a cube easy. You don’t need to get involved in how bit angle modulation works or how the data gets loaded into the cube. These are handled for you by the color table and timer interrupts routine.
+A single matrix called “cube” controls the content of the cube. You just tell it what color and intensity you want where, and it happens.
+
+Color is controlled by a table which tells our software how to create 8 colors of the rainbow, plus black and white in 5 different intensities. It’s built into the template. It's easy to use because the cube matrix in this case only has one number for each LED.
+
+All the timing interrupt and cube refresh stuff is also build into the template and quietly runs in the background. This routine runs 6 bit BAM (bit angle modulation) and works with the color table to produce all the colors at different intensities.
+
+The Version 1 template comes with a sample application / sketch called WILD MOUSE which demonstrates its use. You can easily remove the sample and replace it with your own experiments.
+
+
 INSTRUCTIONS FOR VERSION 1
+
 I have divided up my Version 1 template into 4 files or tabs in the IDE:
 
 The basic tab, with the name of the application, sets up global variables, and contains the setup() routine where everything gets initialized. The cube matrix is defined here, which is where we store the current status of the cube. The cube matrix stores the status of each LED in the cube: [layer 0-7] [panel 0-7] [column 0-7] Data at each location is a color in the Color Table. I have also difined color names here, so while you can just refer to a color by its number, you can also refer to it as, for example, Aqua3 if you want aqua of intensity 3.
