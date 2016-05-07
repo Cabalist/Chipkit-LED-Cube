@@ -2,6 +2,9 @@ THE BIG SHOW
 
 The Big Show is a collection of all the animations from all 7 versions of my templates. It's built on the Version 7 platform and contains scrolling text plus 30 different animations. The whole show takes about 14 minutes before repeating. If you are just looking for something to really show off what your cube can do, this is the one from you! Thanks to David Yee, The Big Show now includes SuperTech-IT's music module.
 
+This is a whole new set of animations for the cube.
+Like The_Big_Show, it fills up the UNO32 with animations, but they are all different from ones in The_Big_Show.
+
 INSTRUCTIONS FOR THE BIG SHOW AND ANOTHER BIG SHOW
 
 Another Big Show is now available for download. It's an all new set of animations. These new animations were created to generate a new larger show (The Super Big Show) for the uC32 ChipKit. But so that you can still see these new animations on the UNO32, this is a download of just the new ones and still fits on the UNO32. Like The_Big_Show Version 2, Another_Big_Show lets you switch to music mode when you see the text "PRESS BUTTON FOR MUSIC. . . ." at startup.

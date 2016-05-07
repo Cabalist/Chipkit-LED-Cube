@@ -2210,6 +2210,23 @@ float const distance[8][8] = {
 {4.949747468,4.301162634,3.807886553,3.535533906,3.535533906,3.807886553,4.301162634,4.949747468,}
 };
 
+// This table gives us coordinates to smoothly move from a side to the diagonal
+byte const diagonal[8][8] = {
+  {0,0,0,0,0,0,0,0,        },
+  {0,0,0,0,1,1,1,1,        },
+  {0,0,0,1,1,2,2,2,        },
+  {0,0,1,1,2,2,2,3,        },
+  {0,1,1,2,2,3,3,4,        },
+  {0,1,2,2,3,3,4,5,        },
+  {0,1,2,3,3,4,5,6,        },
+  {0,1,2,3,4,5,6,7,        }
+};
+// this little table describes the columns in which Atom and Atom Smasher operates
+byte const atomTable[20][2] = {
+   {2,0  },{3,0  },{4,0  },{5,0  },{6,1  },{7,2  },{7,3  },{7,4  },{7,5  },{6,6  },
+   {5,7  },{4,7  },{3,7  },{2,7  },{1,6  },{0,5  },{0,4  },{0,3  },{0,2  },{1,1  }
+  , };
+
 // This table gives us the sine and cosine for each 0.05 radians from 0 to 2 pi.  To find the 
 // sin or cos you need, the row you need in this table is int(myAngle*20 +.5) with sin in the 
 // first column and cos in the second.  
@@ -2583,10 +2600,10 @@ float const sin_cos[126][2] = {
           lock= 1; 
           if (place[2]<1){motion[0] = -1; motion[1] = 0; motion[2] = 0;}
         }
-        if (lock<1 && place[0]>1) {
+        if (lock<1 && place[0]<7-myX) { // used to be >1 which I think is a mistake  Changed to be consistent
           motion[0] = -1; motion[1] = 0; motion[2] = 0;
         }
-        if (lock<1 && place[0]==0) {
+        if (lock<1 && place[0]==7-myX) { // used to be ==0
           motion[0] = 0; motion[1] = 0; motion[2] = -1;
         }
       }  
@@ -2671,8 +2688,8 @@ float const sin_cos[126][2] = {
   }
   void rotateX(int dir){
       for (int x= 0; x<6; x++){
-        for (int y= 0; y<6; y++){
-          for (int z= 0; z<6; z++){
+        for (int y= 0; y<myY; y++){
+          for (int z= 0; z<myZ; z++){
             if (dir==0) {
               buffer[y][x][myZ-1-z]=description[z][x][y];  // clockwise rotatation around Z 90 degrees
             }
@@ -2686,9 +2703,9 @@ float const sin_cos[126][2] = {
       setIt();  // show it
     }
       void rotateY(int dir){
-      for (int x= 0; x<6; x++){
+      for (int x= 0; x<myX; x++){
         for (int y= 0; y<6; y++){
-          for (int z= 0; z<6; z++){
+          for (int z= 0; z<myZ; z++){
             if (dir==0) {
               buffer[x][myZ-1-z][y]=description[z][x][y]; // clockwise rotatation around Y 90 degrees
             }
@@ -2702,8 +2719,8 @@ float const sin_cos[126][2] = {
       setIt();  // show it
     }
   void rotateZ(int dir){
-      for (int x= 0; x<6; x++){
-        for (int y= 0; y<6; y++){
+      for (int x= 0; x<myX; x++){
+        for (int y= 0; y<myY; y++){
           for (int z= 0; z<6; z++){
             if (dir==0) {
               buffer[z][y][myX-1-x]=description[z][x][y]; // clockwise rotatation around Z 90 degrees
