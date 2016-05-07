@@ -2583,10 +2583,10 @@ float const sin_cos[126][2] = {
           lock= 1; 
           if (place[2]<1){motion[0] = -1; motion[1] = 0; motion[2] = 0;}
         }
-        if (lock<1 && place[0]>1) {
+        if (lock<1 && place[0]<7-myX) { // used to be >1 which I think is a mistake  Changed to be consistent
           motion[0] = -1; motion[1] = 0; motion[2] = 0;
         }
-        if (lock<1 && place[0]==0) {
+        if (lock<1 && place[0]==7-myX) { // used to be ==0
           motion[0] = 0; motion[1] = 0; motion[2] = -1;
         }
       }  
@@ -2671,8 +2671,8 @@ float const sin_cos[126][2] = {
   }
   void rotateX(int dir){
       for (int x= 0; x<6; x++){
-        for (int y= 0; y<6; y++){
-          for (int z= 0; z<6; z++){
+        for (int y= 0; y<myY; y++){
+          for (int z= 0; z<myZ; z++){
             if (dir==0) {
               buffer[y][x][myZ-1-z]=description[z][x][y];  // clockwise rotatation around Z 90 degrees
             }
@@ -2686,9 +2686,9 @@ float const sin_cos[126][2] = {
       setIt();  // show it
     }
       void rotateY(int dir){
-      for (int x= 0; x<6; x++){
+      for (int x= 0; x<myX; x++){
         for (int y= 0; y<6; y++){
-          for (int z= 0; z<6; z++){
+          for (int z= 0; z<myZ; z++){
             if (dir==0) {
               buffer[x][myZ-1-z][y]=description[z][x][y]; // clockwise rotatation around Y 90 degrees
             }
@@ -2702,8 +2702,8 @@ float const sin_cos[126][2] = {
       setIt();  // show it
     }
   void rotateZ(int dir){
-      for (int x= 0; x<6; x++){
-        for (int y= 0; y<6; y++){
+      for (int x= 0; x<myX; x++){
+        for (int y= 0; y<myY; y++){
           for (int z= 0; z<6; z++){
             if (dir==0) {
               buffer[z][y][myX-1-x]=description[z][x][y]; // clockwise rotatation around Z 90 degrees
