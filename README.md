@@ -4,21 +4,21 @@ This version incorporates all the features of Versions 1 and 2, plus it adds var
 
 There are actually 6 subroutines for scrolling text. The main one "scrollText" allows you to specify the string of text you want to scroll, the 3 RGB components for the color of your text, and 2 or 4 depending on whether you want to scroll around all 4 faces of the cube or just 2. The reason for the 2 face option is that it's easier to read that the 4 side option, because there are lights flashing around in the background in the 4 face option. But, of course, 2 face is only viewable from a limited range of direction. So you have a choice.
 
-Two other scrolling subs are scrollTextStd2 and scrollTextStd4. These allow you to specify a string, and just specify one of our standand colors, like Red, Orange, Aqua, Blue, etc. They display on 2 or 4 faces respectively.
+Two other scrolling subs are scrollTextStd2 and scrollTextStd4. These allow you to specify a string, and just specify one of our standard colors, like Red, Orange, Aqua, Blue, etc. They display on 2 or 4 faces respectively.
 
 Three other text handling subroutines are scrollThruX and scrollThruY which scroll text through the middle of the cube, and rotate which rotates each character, one at a time, around in the center of the cube.
 
 Another feature in V3 is the ability to substitute your own custom characters in the font table. These custom characters can be assigned a name and inserted into the text stream. See the actual code for some examples.
 
-We also introduce the idea of right-handed and left-handed cubes in this version. Normally you wouldn't need to worry about this, but in the case of text, you know right away if your text is coming out mirror-imaged.
+We also introduce the idea of right-handed and left-handed cubes in this version. Normally you would not need to worry about this, but in the case of text, you know right away if your text is coming out mirror-imaged.
 
 INSTRUCTIONS FOR VERSION 3
 
 Version 3.7 is the latest version and an extension of Version 2. It adds the capability to scroll text and display text in a number of ways.
 
-There are actually 6 subroutines for scrolling text. The main one "scrollText" allows you to specify the string of text you want to scroll, the 3 RGB components for the color of your text, and 2 or 4 depending on whether you want to scroll around all 4 faces of the cube or just 2. The reason for the 2 face option is that it's easier to read than the 4 side option, because there are lights flashing around in the background in the 4 face option. But, of course, 2 face is only viewable from a limited range of direction. So you have a choice. You can also set the speed at which text scolls. It's set in the first tab by #define scrollRate.
+There are actually 6 subroutines for scrolling text. The main one "scrollText" allows you to specify the string of text you want to scroll, the 3 RGB components for the color of your text, and 2 or 4 depending on whether you want to scroll around all 4 faces of the cube or just 2. The reason for the 2 face option is that it's easier to read than the 4 side option, because there are lights flashing around in the background in the 4 face option. But, of course, 2 face is only viewable from a limited range of direction. So you have a choice. You can also set the speed at which text scrolls. It's set in the first tab by #define scrollRate.
 
-Two other scrolling subs are scrollTextStd2 and scrollTextStd4. These allow you to specify a string, and just specify one of our standand colors, like Red, Orange, Aqua, Blue, etc. They display on 2 or 4 faces respectively.
+Two other scrolling subs are scrollTextStd2 and scrollTextStd4. These allow you to specify a string, and just specify one of our standard colors, like Red, Orange, Aqua, Blue, etc. They display on 2 or 4 faces respectively.
 
 There are also three other text subroutines: scrollThruX and scrollThruY allow you to scroll text through the middle of the cube from front to back, in the X and Y directions respectively. The rotate subroutine lets you rotate text in the middle of the cube and specify the number of rotations each character makes before moving to the next character.
 
@@ -40,7 +40,7 @@ The m_Mouse tab is where the Wild Mouse animation is stored as a subroutine.
 
 The m_Rain tab is where the Rain animation is stored as a subroutine.
 
-The m_Sinewave tab is where the Sinwave animation is stored as a subroutine.
+The m_Sinewave tab is where the Sinewave animation is stored as a subroutine.
 
 The m-Sphere tab is where the Pulsing Sphere animation is stored as a subroutine.
 
@@ -55,15 +55,15 @@ The Subroutines tab is where subroutines are located that can be called by other
 
 --4) The scrollText() subroutine allows you to specify the string of text you want to scroll, the 3 RGB components for the color of your text, and 2 or 4 faces of the cube.
 
---5) The scrollThruX sub lets you specify a string of text to be scrolled, specify its 3 RGB color conponents, and pass it through the middle of the cube from back to front in the X direction. (The scrollUpX subroutine is used by scrollThruX.)
+--5) The scrollThruX sub lets you specify a string of text to be scrolled, specify its 3 RGB color components, and pass it through the middle of the cube from back to front in the X direction. (The scrollUpX subroutine is used by scrollThruX.)
 
---6) The scrollThruY sub lets you specify a string of text to be scrolled, specify its 3 RGB color conponents, and pass it through the middle of the cube from back to front in the X direction. (The scrollUpY subroutine is used by scrollThruX.)
+--6) The scrollThruY sub lets you specify a string of text to be scrolled, specify its 3 RGB color components, and pass it through the middle of the cube from back to front in the X direction. (The scrollUpY subroutine is used by scrollThruX.)
 
---7) The scrollTextStd2() subroutine allows you to specify a string, and just specify one of our standand colors on 2 faces
+--7) The scrollTextStd2() subroutine allows you to specify a string, and just specify one of our standard colors on 2 faces
 
---8) The scrollTextStd4() subroutine allows you to specify a string, and just specify one of our standand colors on 4 faces
+--8) The scrollTextStd4() subroutine allows you to specify a string, and just specify one of our standard colors on 4 faces
 
---9) The rotate() sub lets you specify a string of text to be used, specify its 3 RGB color conponents, and then it rotates the characters, one at a time, in the center of the cube.
+--9) The rotate() sub lets you specify a string of text to be used, specify its 3 RGB color components, and then it rotates the characters, one at a time, in the center of the cube.
 
 
 
