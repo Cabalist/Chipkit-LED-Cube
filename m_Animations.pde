@@ -1,9 +1,6 @@
 
 /*
-This animation creates a whole bunch of different sprites, but only creates  them very briefly 
-inside a subroutine.  That way they are automatically disposed of when the sub  is exited.
-The displayCube sub and the bounceCube sub are where the actual sprites are  created.  We use
-the new .outline action of the sprite object class to create the cube  outlines. 
+This file contains all the animations from the original Big Show. 
 */
 void CubeInCube(){ 
   for (int i=0; i<4; i++) {
@@ -82,6 +79,7 @@ void CubeInCube(){
   clearCube();
   delay(390);
   }
+  delay(1000);
 }
 
 
@@ -150,6 +148,7 @@ void RollingBall(){
     delay(50);
   }
  mySprite.clearIt();
+  delay(1000);
 }
 
 
@@ -160,7 +159,7 @@ animation - no sprites or anything fancy!
 */
 
 void DiamondWave() {
-  for (int j=0; j<10; j++){  // go up and down 10 times
+  for (int j=0; j<15; j++){  // go up and down 10 times
     colorCount=colorCount+10;  // change color with each pass
     if (colorCount>180) {
       colorCount=10;
@@ -201,6 +200,7 @@ void DiamondWave() {
       clearCube();    // clear the cube
     }
   }
+   delay(1000);
 }
 
 
@@ -209,7 +209,7 @@ int xpos = 3;
 int ypos = 3;
 int mydelay = 50;
 int myrandom;
-  for (int j=0; j<300; j++){
+  for (int j=0; j<400; j++){
     myrandom=random(8);
     if (myrandom==0){
       xpos++;
@@ -267,6 +267,7 @@ int myrandom;
     }
   }
   clearCube();
+  delay(1000);
  }
 
 
@@ -325,6 +326,7 @@ void RandomFall() {
   count3=0;
   delay(200);
   clearCube();
+  delay(1000);
  }
 
 /*
@@ -516,6 +518,7 @@ void Helicopter(){
   delay(1000);  // blinking stops 
   blinkMe=0;
   clearCube();  // done - clear the cube
+  delay(1000);
 }
 
 void rotor(int delayx){  // makes the rotor rotate
@@ -602,7 +605,7 @@ void blinkRed(){  // turns tail light on if off, or off if on.
 // to produce a wavy flat sheet moving up and down.  Then we've added in some  sparkle. 
 
 void Glitter_ribbon(){
-  for (int j=0; j<10; j++){
+  for (int j=0; j<15; j++){
     for (int i=0; i<36; i++){   //it takes 36 steps to complete one full cycle
       getColor(i*5, 3); // get a rainbow color.  We need to go through most of  189 colors over the course of one full cycle. 
       for (byte xx=0; xx<8; xx++){
@@ -623,6 +626,7 @@ void Glitter_ribbon(){
       clearCube();    // clear the cube
     }
   }
+   delay(1000);
 }
 
 
@@ -677,6 +681,7 @@ void Elevators() {
     delay(300-j);  // wait, with animation speeding up as j increases. 
   }
   clearCube();    // clear the cube
+  delay(1000);
 }
 
 
@@ -834,6 +839,7 @@ void TheOrnament(){
   mySprite.setIt();
   delay(2000);
   clearCube();
+  delay(1000);
 }
 
 
@@ -880,6 +886,7 @@ void Hula(){
   }
   clearBufferCube();
   clearCube();
+  delay(1000);
 }
 
 
@@ -909,6 +916,7 @@ void Sparkle() {
     LED(newx1, newy1, newz1, 0, 0, 0);  // turn off the first
   }
   clearCube();
+  delay(1000);
 }
 
 
@@ -973,6 +981,7 @@ void Chaos() {
     }
     clearCube();    // clear the cube
   }
+  delay(1000);
 }
 
 
@@ -1025,6 +1034,7 @@ void Multi_Swirl() {
   LED4.clearIt();
   LED5.clearIt();
   LED6.clearIt();
+  delay(1000);
 }
 
 
@@ -1124,6 +1134,7 @@ for (int count=0; count<15; count++){
   delay(mydelay);
 }
  clearCube(); 
+  delay(1000);
 }
 
 
@@ -1157,11 +1168,11 @@ void FlyingBoxes() {
   mySprite.clearIt(); // turn off the sprite since we're done.
   mySprite2.clearIt(); // turn off the sprite since we're done.
   mySprite3.clearIt(); // turn off the sprite since we're done.
+  delay(1000);
 }
 
 
 // this is the pulsing sphere animation.
-
 void Pulsing_Sphere(int mycount){
   for (int counter=0; counter<mycount; counter++){
     for (count=0; count<5; count++){  //expand
@@ -1171,6 +1182,7 @@ void Pulsing_Sphere(int mycount){
       show_sphere();
     }
   }
+  delay(1000);
 }
 
 
@@ -1221,6 +1233,7 @@ void Sinewave(int repeat) {
     }
   }
   clearCube();
+   delay(1000);
 }
 
 
@@ -1251,6 +1264,7 @@ void Cyclone(){
       }
     }
     clearCube();
+     delay(1000);
   }
 
 void cyclone1(){  // actually display in LEDs
@@ -1319,6 +1333,7 @@ void Rain(int times){
     }
   }
   clearCube();
+   delay(1000);
 }
 
 
@@ -1518,6 +1533,7 @@ void Mouse1(){
     LED(xx1,yy1,zz1,0,0,0);
   }
   clearCube();  // Clear the cube
+   delay(1000);
 }
 
 
@@ -1763,6 +1779,7 @@ void Donut(int mycount) {
   }
   clearBufferCube();
   clearCube();
+  delay(1000);
 }
 
 
@@ -1814,10 +1831,10 @@ void Tornado(){
   }
   clearBufferCube();
   clearCube();
+  delay(1000);
 }
 
 // The animation creates some interesting stuff to rotate around in the cube
-
 void Rotor(int reps, int myspeed) {
   rotation = myspeed * .0174532; // convert angle to radians
   for (int mycount=0; mycount<reps; mycount++){ // create the first pattern
@@ -1922,6 +1939,7 @@ void Rotor(int reps, int myspeed) {
   }
   clearBufferCube();
   clearCube();
+   delay(1000);
 }
 
 
@@ -1945,6 +1963,7 @@ void Cosine(int myNumber){  // myNumber is number of iterations of this  animati
       clearCube();    // clear the cube
     }
   }
+   delay(1000);
 }
 
 
@@ -1981,6 +2000,7 @@ void RandomRotation(int myspeed) {
   }
   clearBufferCube();
   clearCube();
+   delay(1000);
 }
 
 // In this demo we are rotating a simple sprite around itself.  There is one  restriction that must
@@ -2029,6 +2049,7 @@ void Eyes() {
     delay(mydelay);
   }
   Sprite1.clearIt();
+  delay(1000);
 }
 
 
@@ -2078,6 +2099,7 @@ void Single_Swirl() {
   LED3.clearIt();
   LED4.clearIt();
   LED5.clearIt();
+   delay(1000);
 }
 
 
@@ -2202,6 +2224,7 @@ void Basketball_Dribble(){
     delay(5);  // timing of each step is 10 msec. 
   }
   clearCube();
+   delay(1000);
   }
   
   
@@ -2221,7 +2244,7 @@ void Basketball_Dribble(){
  sustainable colony.  */
 
 void GameOfLife(){ 
-  for (int simruns=0; simruns<3; simruns++){
+  for (int simruns=0; simruns<5; simruns++){
     int myspeed = 10; // This is where you set the speed. It is basically the number of generations per second. 
     for (byte layer=2; layer<8; layer++){  // This is where we set up a random pattern of living cells
       for (byte column=2; column<6; column++){  

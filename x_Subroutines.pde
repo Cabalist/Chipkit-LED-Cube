@@ -52,7 +52,6 @@ void LED(int x,int y,int z,int R,int G,int B) {
  It sets up the RGB color components for the selected color in global variables myred, mygreen, and myblue. These can then be transferred to the cube array.  
  */
 void getColor(int color, int intensity) {
-
   if (color<64){
     mygreen = color;
     myred = 63-mygreen;
@@ -104,6 +103,14 @@ void getColor(int color, int intensity) {
     mygreen=0;
     myblue=0;
   }
+}
+// gradually change the color, always keeping it in bounds. 
+// specify the amount of chg, from 1 to 20
+void chgColor(int amt){
+  mycolor= mycolor+amt; 
+      if (mycolor > 189){
+        mycolor=0;
+      }
 }
 
 // This subroutine turns off every LED in the cube.
@@ -476,84 +483,6 @@ void rotateLayer(float myangle, int layer) {
     }
 }
 
-// Deleting this increases program size for now.
-// This routine loads a test pattern for rotation experiments  
-void loadTestPattern(){ 
-  buffer_LED(3,3,7,63,0,0);
-  buffer_LED(2,2,7,63,0,0);
-  buffer_LED(1,1,7,63,0,0);
-  buffer_LED(4,4,7,63,0,0);
-  buffer_LED(5,5,7,63,0,0);
-  buffer_LED(6,6,7,63,0,0);  
-  buffer_LED(2,3,7,0,31,31);
-  buffer_LED(1,2,7,0,31,31);
-  buffer_LED(0,1,7,0,31,31);
-  buffer_LED(3,4,7,0,31,31);
-  buffer_LED(4,5,7,0,31,31);
-  buffer_LED(5,6,7,0,31,31);
-  buffer_LED(4,3,7,0,31,31);
-  buffer_LED(3,2,7,0,31,31);
-  buffer_LED(2,1,7,0,31,31);
-  buffer_LED(5,4,7,0,31,31);
-  buffer_LED(6,5,7,0,31,31);
-  buffer_LED(7,6,7,0,31,31);
-
-  buffer_LED(3,0,4,31,31,0);
-  buffer_LED(3,1,4,31,31,0);
-  buffer_LED(3,2,4,31,31,0);
-  buffer_LED(3,3,4,31,31,0);
-  buffer_LED(3,4,4,31,31,0);
-  buffer_LED(3,5,4,31,31,0);
-  buffer_LED(3,6,4,31,31,0);
-  buffer_LED(3,7,4,31,31,0);
-
-  buffer_LED(4,0,4,0,0,63);
-  buffer_LED(4,1,4,0,0,63);
-  buffer_LED(4,2,4,0,0,63);
-  buffer_LED(4,3,4,0,0,63);
-  buffer_LED(4,4,4,0,0,63);
-  buffer_LED(4,5,4,0,0,63);
-  buffer_LED(4,6,4,0,0,63);
-  buffer_LED(4,7,4,0,0,63);
-
-  buffer_LED(3,0,3,31,31,0);
-  buffer_LED(3,1,3,31,31,0);
-  buffer_LED(3,2,3,31,31,0);
-  buffer_LED(3,3,3,31,31,0);
-  buffer_LED(3,4,3,31,31,0);
-  buffer_LED(3,5,3,31,31,0);
-  buffer_LED(3,6,3,31,31,0);
-  buffer_LED(3,7,3,31,31,0);
-
-  buffer_LED(4,0,3,0,0,63);
-  buffer_LED(4,1,3,0,0,63);
-  buffer_LED(4,2,3,0,0,63);
-  buffer_LED(4,3,3,0,0,63);
-  buffer_LED(4,4,3,0,0,63);
-  buffer_LED(4,5,3,0,0,63);
-  buffer_LED(4,6,3,0,0,63);
-  buffer_LED(4,7,3,0,0,63);
-
-  buffer_LED(0,3,0,63,0,0);
-  buffer_LED(1,3,0,63,0,0);
-  buffer_LED(2,3,0,63,0,0);
-  buffer_LED(3,3,0,63,0,0);
-  buffer_LED(4,3,0,63,0,0);
-  buffer_LED(5,3,0,63,0,0);
-  buffer_LED(6,3,0,63,0,0);
-  buffer_LED(7,3,0,63,0,0);
-
-  buffer_LED(0,4,0,0,63,0);
-  buffer_LED(1,4,0,0,63,0);
-  buffer_LED(2,4,0,0,63,0);
-  buffer_LED(3,4,0,0,63,0);
-  buffer_LED(4,4,0,0,63,0);
-  buffer_LED(5,4,0,0,63,0);
-  buffer_LED(6,4,0,0,63,0);
-  buffer_LED(7,4,0,0,63,0);
-}
-
-
 // This subroutine randomly picks one of 8 standard colors and loads it 
 // into global variables myred, mygreen, and myblue for display.
 void rnd_std_color(){
@@ -726,7 +655,7 @@ void show_sphere2(){ // draw the sphere and change its color
   getColor(colorCount, 3); // get the color wheel color for next pass
 }
 
-
+//  Just like LED except for the buffer array used for rotations.
 void buffer_LED(int x,int y,int z,int R,int G,int B) {
   if (R>63){
     R=63;

@@ -2,45 +2,13 @@
  Downloads of this and upcoming versions, along with detailed instructions, are available at: http://d2-webdesign.com/cube  
  Anyone is free to use this template to create and publish their own applications / sketches, but PLEASE USE THE 2 LINES ABOVE in your work.
  
- This is for the Chipkit UNO32, and assumes you are using a SuperTech-IT 8x8x8 RGB Board.  It's similar to Nick Schulze's Chipkit software,
+ This is for the Chipkit UNO32 or uC32, and assumes you are using a SuperTech-IT 8x8x8 RGB Board.  It's similar to Nick Schulze's Chipkit software,
  but is somewhat simpler, and easier to work with, when generating your own application.  The pinouts for this implementation are the same as 
  Nick's published pinouts, where the red data line is pin 7 and the blue data line is pin 9. (This is different than Nick's actual software, 
  where the red and blue are actually reversed from his pinout diagram.)
  
  This tab sets up pin connections and cube structure, defines global variables, and contains the setup subroutine.  
  */
- 
-// The following notes are from David Yee and provides on the changes he contributed: 
-// 130604 
-// 130808
-// Remove programs that don't work so well, beat 1, beat 2, remove delays from 
-// big picture. remove redundant programs.  Changed the rolly def on the sprite class.
-// moved global variables into mystery.  shiftdown is redundant.
-// 131880
-// eliminate some sqrt out of music using distance.
-// take msgeq7 code out of interrupt and modify all music.
-// 130540
-// 130496 variable beat taken out - backed up
-
-// one of the following failed on rain when testing
-// 130536 updown[][] eliminated
-// 130504  currentColor [] eliminated.
-// 130492  history and historycount eliminated.  Note replaceing sprite.clearit calls with clearCube made it bigger.
-// 130360  mycase variable eliminated and getcolor modified.  Division replaced with  >> 1
-
-// try updown, currencolor and mycase , test and save.
-//  130360 Note that eliminating history and historycount did nothing.  BACKUP
-//130364  Currentclor on the blok now.
-// 130456 getting rid of currentcolor.   Test, record pass and save.  Testing  BACKUP
-
-
-// create cleartop for music stuff, optimize music and port over other changes made for mega.
-//  129816
-//  129764  optimize m-fireworks, cleaned out music code.  Testing now BACKUP
-//  129748  Got rid of thrreshold global variable 129748
-//  129768  added back vitualgain calc in readmsg
-//  129712  used clearcube to clear cube throughout the big show.  Same code.
-
 
 // The definitions and variables below are part of the template.  DO NOT MODIFY
 // the following definitions are for the direct port toggling used in the cube refresh interrupt routine. 
@@ -64,6 +32,8 @@ const uint8_t LAYER[8] = {
 #define Violet	148
 #define Purple	169
 #define White	190
+#define Rainbow 999  // not used by getColo, but is used in some animations. 
+
 // These define custom characters that have been substituted 
 // in the font table, so that they can be called by name
 #define Omega "*"
@@ -81,8 +51,7 @@ const uint8_t LAYER[8] = {
 
 #define scrollRate 800  // this is the time in msec. to scroll from one character to the next. 
 // you can modify this to make text scroll faster or slower. 
-#define musicActive 1  // set this to 1 if you want the option at startup to activate Music Mode (Default)
-// set it to 0 if you to deactivate music mode and skip scrolling the "PRESS BUTTON NOW FOR MUSIC. . . ." 
+
 #define cubeStructure 0  // if your cube is built on SuperTech-IT's board, or if you followed Nick's instructions exactly, 
 // leave this as 0.   But if you accidentally built your cube as a mirror image of these, which several of us have done, you 
 // will need to change this to 1 to get your text scrolling correctly.
@@ -167,25 +136,9 @@ void setup() {
    digitalWrite (A2, HIGH); // Ready the active low strobe for first reading on strobe toggle after reset low
    }
    //  end MSGEQ7 prep
-
   attachCoreTimerService(refreshCube);
-
   // This portion of setup is for the sample application running in the Main loop. It may be deleted when you create 
   // your own application, and replaced with your own setup instructions.   
-  dir = 1;
-  xx=7;  
-  yy= 7;  
-  zz=7;
-  xyz=1; 
+  
 }
-
-
-
-
-
-
-
-
-
-
 
