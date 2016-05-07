@@ -57,7 +57,7 @@ const uint8_t LAYER[8] = {
 // will need to change this to 1 to get your text scrolling correctly.
 
 //These next 6 items support SuperTech-IT's music module
-#define MSGEQ7 0x00   // define if music module exists (1) or not (0)
+#define MSGEQ7 0x01   // define if music module exists (1) or not (0)
 int virtualGain = 127; // define initial gain status until it is read from A5 - used in readmsgeq7 and spectrum8.
 int runMode = 0; // runMode 0 = animations. 1=cycle through music modes. 2 or higher indicates which nusic mode to run and stay in.
 int modes = 11; // The number of total music modes there are. Don't forget to add 1 for the sequence mode - so if there are 3 modes of music, this has to be 4
