@@ -1,2041 +1,2332 @@
-/*  This is where are animation code is storted and the subroutines
-which support them (subroutines that are not generic and only
-support a single animation. */
 
-
-// As the name implies, this forms a dish, which changes
-// color and floats around using the full cube rotation
-void dish(){
-  mycolor=0;
-  getColor(mycolor,4); 
-  for (int j=0; j<8; j++){
-    for (byte x=0; x<8; x++){  
-      for (byte y=0; y<8; y++){
-        buffer_LED(x,y,((x*x)+(y*y))/12,myred, mygreen, myblue);
-      }
-    }
-    mycolor=mycolor+30;
-    manage_color();
-    rotateCube(1+random(3), 15);
-    for (byte x=0; x<8; x++){  
-      for (byte y=0; y<8; y++){
-        buffer_LED(x,y,((x*x)+(y*y))/12,myred, mygreen, myblue);
-      }
-    }
-    mycolor=mycolor+30;
-    manage_color();
-    rotateCube(1+random(3), -15);
-  }
-  clearCube();
-  clearBufferCube();
-  delay(1000);
-}
-
-// This is a rotating saddle or hyperbolic paraboloid.  It was originally suppose
-// to increase and decrease in amplitude as it rotated.  But I forgot to clear
-// the buffer_cube array after each rotation and the result was a cool mixture
-// of colors.  I decided to leave it that way.  If you uncomment the clear
-// buffer_cube you will see another version, but I like this better. 
-void saddle(){
-  float myZ; 
-  int z; 
-  manage_color();
-  for (int j=0; j<5; j++){
-    for (byte x=0; x<8; x++){  // scan thru each x
-      for (byte y=0; y<8; y++){  // scan thru every y
-        myZ= (x-3.5)*(x-3.5)-(y-3.5)*(y-3.5);
-        z= int(3.5 +(myZ)/(3+j));
-        buffer_LED(x,y,z,myred, mygreen, myblue);
-      }
-    }
-    manage_color(); 
-    rotateCube(1, 10);
-  //  clearBufferCube();
-  }
-  for (int j=5; j>-1; j--){
-    for (byte x=0; x<8; x++){  // scan thru each x
-      for (byte y=0; y<8; y++){  // scan thru every y
-        myZ= (x-3.5)*(x-3.5)-(y-3.5)*(y-3.5);
-        z= int(3.5 +(myZ)/(3+j));
-        buffer_LED(x,y,z,myred, mygreen, myblue);
-      }
-    }
-    manage_color(); 
-    rotateCube(1, -10);
-  //  clearBufferCube();
-  }
-    for (int j=0; j<5; j++){
-    for (byte x=0; x<8; x++){  // scan thru each x
-      for (byte y=0; y<8; y++){  // scan thru every y
-        myZ= (x-3.5)*(x-3.5)-(y-3.5)*(y-3.5);
-        z= int(3.5 +(myZ)/(3+j));
-        buffer_LED(x,y,z,myred, mygreen, myblue);
-      }
-    }
-    manage_color(); 
-    rotateCube(1, 10);
-  //  clearBufferCube();
-  }
-  clearCube();
-  clearBufferCube();
-  delay(1000);
-}
-
-// A simple animation with a panel changing color and rotating.
-void colors() {
-  for (int j=0; j<25; j++){
-   for (int z=0; z<8; z++){
-    getColor(mycolor, 4);
-    for (int x=0; x<8; x++) {
-      buffer_LED(x,x,z,myred, mygreen, myblue);   
-    }
-    mycolor= mycolor+20; 
-    if (mycolor > 189){
-      mycolor=0;
-    }
-  }
-  mycolor= count; 
-  count= count+10;
-  if (count == 190){
-    count=0;
-    }
-  rotateCube(1, 15);
-   }
-  clearCube();
-  clearBufferCube();
-  delay(1000);
-}
-
-// This is the original version of the saddle routine where the clear buffer_cube
-// is left in, giving our saddle a single slowly changing color. 
-void saddle2(){
-  float myZ; 
-  int z; 
-  manage_color();
-  for (byte x=0; x<8; x++){  // scan thru each x
-      for (byte y=0; y<8; y++){  // scan thru every y
-        myZ= (x-3.5)*(x-3.5)-(y-3.5)*(y-3.5);
-        z= int(3.5 +(myZ)/(15));
-        buffer_LED(x,y,z,myred, mygreen, myblue);
-      }
-    }
-    manage_color(); 
-    rotateCube(1, -10);
-    clearBufferCube();
-  for (int j=5; j>-1; j--){
-    for (byte x=0; x<8; x++){  // scan thru each x
-      for (byte y=0; y<8; y++){  // scan thru every y
-        myZ= (x-3.5)*(x-3.5)-(y-3.5)*(y-3.5);
-        z= int(3.5 +(myZ)/(3+j));
-        buffer_LED(x,y,z,myred, mygreen, myblue);
-      }
-    }
-    manage_color(); 
-    rotateCube(1, -10);
-    clearBufferCube();
-  }
-    for (byte x=0; x<8; x++){  // scan thru each x
-      for (byte y=0; y<8; y++){  // scan thru every y
-        myZ= (x-3.5)*(x-3.5)-(y-3.5)*(y-3.5);
-        z= int(3.5 +(myZ)/(3));
-        buffer_LED(x,y,z,myred, mygreen, myblue);
-      }
-    }
-    manage_color(); 
-    rotateCube(5, -10);
-    clearBufferCube();
-  
-    for (int j=0; j<5; j++){
-    for (byte x=0; x<8; x++){  // scan thru each x
-      for (byte y=0; y<8; y++){  // scan thru every y
-        myZ= (x-3.5)*(x-3.5)-(y-3.5)*(y-3.5);
-        z= int(3.5 +(myZ)/(3+j));
-        buffer_LED(x,y,z,myred, mygreen, myblue);
-      }
-    }
-    manage_color(); 
-    rotateCube(1, -10);
-    clearBufferCube();
-  }
- manage_color();
-    for (byte x=0; x<8; x++){  // scan thru each x
-      for (byte y=0; y<8; y++){  // scan thru every y
-        myZ= (x-3.5)*(x-3.5)-(y-3.5)*(y-3.5);
-        z= int(3.5 +(myZ)/(15));
-        buffer_LED(x,y,z,myred, mygreen, myblue);
-      }
-    }
-    manage_color(); 
-    rotateCube(1, -10);
-    clearBufferCube();
-  clearCube();
-  clearBufferCube();
-  delay(1000);
-}
-
-
-void manage_color() {
-  mycolor=mycolor+10;
-  if (mycolor>189){
-    mycolor=0;
-  } 
-  getColor(mycolor, 4);
-}
-
-/*  Atom is my version of Nick Schulze's Atom animation.  There are a lot of things 
-going on here.  The animation operates in a small set of only 20 columns, represented by 
-atomTable.  We basically operate around these 20 columns using index i. We step 
-through the animation with index k, first with k increasing and then with k decreasing.  
-More positions are lit as k increases. The real action is in which layer each of Atom's 
-columns is lit up. There is a linear vertical component called p which varies between
-0 and 3, and sinewave component controlled by both j(the offset of i) and k.  Together 
-j and k give us a double sinewave that slowly precesses around the cube. 
+/*
+This file contains all the animations from the original Big Show. 
 */
-// This is the main Atom routine
-void atom(){
-  int j, p=1, up_down; 
-  int mySpeed=40;
-  mycolor=0;
-  for (int k=0; k<20; k++){  // at first k is increassing
-    if (up_down==0){  // up_down controls the direction of the linear vertical offset
-      p++;
-    }
-    else {
-      p--;
-    }
-    if (p<1){
-      up_down=0;
-    }
-    if (p>2){
-      up_down=1;
-    }
-    for(int i=0; i<20; i++) {  // i steps us through the 20 columns being used
-      j=i+0;  // j is the offset of i for the different lit positions, starting with 0 offset.
-      if (j>19){
-        j=j-20;
-      }
-      manage_color2();  // routine that manages color
-      // the next line is where the first atom shown gets its position
-      LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      if(k>3){  // if k is >3, then the 2nd atom is shown
-        j=i-3;
-        if (j<0){
-          j=j+20;
-        }
-       manage_color2();
-       // the next line is where the 2nd atom shown gets its position
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      if(k>6){
-        j=i-6;
-        if (j<0){
-          j=j+20;
-        }
-        manage_color2();
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      if(k>9){
-        j=i-9;
-        if (j<0){
-          j=j+20;
-        }
-        manage_color2();
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      if(k>12){
-        j=i-12;
-        if (j<0){
-          j=j+20;
-        }
-        manage_color2();
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      if(k>15){
-        j=i-15;
-        if (j<0){
-          j=j+20;
-        }
-        manage_color2();
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      if(k>18){
-        j=i-18;
-        if (j<0){
-          j=j+20;
-        }
-        manage_color2();
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      delay(mySpeed);
-      clearAtom();  //clears the cube, but only the columns being used.
-    }
-  mycolor=mycolor+(k*8); // k is used to offset the color in addition to changing as we go through                         
-  getColor(mycolor, 4);  // the various positions. 
+void CubeInCube(){ 
+  for (int i=0; i<4; i++) {
+    displayCube(6,1,1,1,Blue);
+    displayCube(5,1,1,1,Blue+5);
+    displayCube(4,1,1,1,Blue+10);
+    displayCube(3,1,1,1,Blue+15);
+    displayCube(2,1,1,1,Blue+20);
+    displayCube(2,1,1,1,Blue+20);
+    displayCube(2,1,1,1,Blue+20);
+    displayCube(3,1,1,1,Blue+15);
+    displayCube(4,1,1,1,Blue+10);
+    displayCube(5,1,1,1,Blue+5);
+    displayCube(6,1,1,1,Blue);
+    displayCube(6,1,1,1,Blue);
   }
-  for (int k=18; k>0; k--){  // Now we do it all over again with k declining
-    if (up_down==0){
-      p++;
+  for (int i=0; i<4; i++) {
+    displayCube(6,1,1,1,Blue);
+    displayCube(5,2,2,1,Blue-15);
+    displayCube(4,3,3,1,Blue-30);
+    displayCube(3,4,4,1,Blue-45);
+    displayCube(2,5,5,1,Blue-60);
+    displayCube(2,5,5,1,Blue-60);
+    displayCube(2,5,5,1,Blue-60);
+    displayCube(3,4,4,1,Blue-45);
+    displayCube(4,3,3,1,Blue-30);
+    displayCube(5,2,2,1,Blue-15);
+    displayCube(6,1,1,1,Blue);
+    displayCube(6,1,1,1,Blue);
+  }
+  for (int i=0; i<4; i++) {
+    displayCube(6,1,1,1,Blue);
+    displayCube(5,2,1,2,Blue+15);
+    displayCube(4,3,1,3,Blue+30);
+    displayCube(3,4,1,4,Blue+45);
+    displayCube(2,5,1,5,Blue+60);
+    displayCube(2,5,1,5,Blue+60);
+    displayCube(2,5,1,5,Blue+60);
+    displayCube(3,4,1,4,Blue+45);
+    displayCube(4,3,1,3,Blue+30);
+    displayCube(5,2,1,2,Blue+15);
+    displayCube(6,1,1,1,Blue);
+    displayCube(6,1,1,1,Blue);
+  }
+  for (int i=0; i<4; i++) {
+    displayCube(6,1,1,1,Blue);
+    displayCube(5,1,2,2,Blue-20);
+    displayCube(4,1,3,3,Blue-40);
+    displayCube(3,1,4,4,Blue-60);
+    displayCube(2,1,5,5,Blue-80);
+    displayCube(2,1,5,5,Blue-80);
+    displayCube(2,1,5,5,Blue-80);
+    displayCube(3,1,4,4,Blue-60);
+    displayCube(4,1,3,3,Blue-40);
+    displayCube(5,1,2,2,Blue-20);
+    displayCube(6,1,1,1,Blue);
+    displayCube(6,1,1,1,Blue);
+  }
+  bounceCube(4,1,1,1,Blue);
+  clearCube();
+  delay(500);
+  // This is where the flashing occurs. 
+  for (int i=0; i<5; i++){
+    //Turn everything ON to white
+  for (byte layer=0; layer<8; layer++){  // scan thru each layer
+    for (byte column=0; column<8; column++){  // scan thru every column
+      for (byte panel=0; panel<8; panel++){  // scan thru every panel
+        cube[layer][panel][column][0]=31;
+        cube[layer][panel][column][1]=63;
+        cube[layer][panel][column][2]=63;
+      }
     }
-    else {
-      p--;
-    }
-    if (p<1){
-      up_down=0;
-    }
-    if (p>2){
-      up_down=1;
-    }
-    for(int i=0; i<20; i++) {
-      j=i+0;
-      if (j>19){
-        j=j-20;
-      }
-      manage_color2();
-      LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      if(k>3){
-        j=i-3;
-        if (j<0){
-          j=j+20;
-        }
-       manage_color2();
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      if(k>6){
-        j=i-6;
-        if (j<0){
-          j=j+20;
-        }
-        manage_color2();
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      if(k>9){
-        j=i-9;
-        if (j<0){
-          j=j+20;
-        }
-        manage_color2();
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      if(k>12){
-        j=i-12;
-        if (j<0){
-          j=j+20;
-        }
-        manage_color2();
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      if(k>15){
-        j=i-15;
-        if (j<0){
-          j=j+20;
-        }
-        manage_color2();
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      if(k>18){
-        j=i-18;
-        if (j<0){
-          j=j+20;
-        }
-        manage_color2();
-        LED(atomTable[j][0],atomTable[j][1],2+p+int(3*sin(((j-k)*12.56)/20)),myred, myblue, mygreen); 
-      }
-      delay(mySpeed);
-    clearAtom();
-    }
-  mycolor=mycolor+(k);
-  getColor(mycolor, 4);
+  }
+  delay(10);
+  //Turn everything off.(Same as clearCube)
+  clearCube();
+  delay(390);
   }
   delay(1000);
 }
 
-// This changes colors for Atom
-void manage_color2() {
-  getColor(mycolor, 4);
-  mycolor=mycolor+2;
-  if (mycolor>189){mycolor=0;} 
+
+void displayCube(int side, int x, int y, int z, int color){
+ sprite mySprite(side,side,side); 
+ mySprite.outline(color);
+ mySprite.place = {x,y,z};
+ mySprite.setIt();
+ delay(50);
+ mySprite.clearIt();
 }
 
- // This little routine clears the cube, but for speed,
- // it only operates onperates on the specific columns used by Atom
- void clearAtom(){  
-   for (byte j=0; j<20; j++){  
-      for (byte layer=0; layer<8; layer++){  
-        cube[int(atomTable[j][0])][int(atomTable[j][1])][layer][0]=0;
-        cube[int(atomTable[j][0])][int(atomTable[j][1])][layer][1]=0;
-        cube[int(atomTable[j][0])][int(atomTable[j][1])][layer][2]=0;
-      }
+
+void bounceCube(int side, int x, int y, int z, int color){
+ sprite mySprite(side,side,side); 
+ mySprite.place = {x,y,z};
+ mySprite.motion = {1,2,-1}; // gives my sprite an initial direction of motion
+  for (count=0; count<66; count++) { // loop around 100 times
+    color=color+3;
+    if (color>189){color=0;}
+    mySprite.outline(color);
+    mySprite.bounceIt(); // move the sprite one increment. Reverse direction  if cube's edge is detected.
+    delay(95); // wait 1/10th second before next move.
+  } // finish the loop
+  mySprite.clearIt(); // turn off the sprite since we're done. 
+  delay(1000);
+}
+
+
+/*
+This animation uses the new .sphere action of the sprite object class to  create a 6 LED diameter sphere where is then rolled around the main cube.  
+*/
+void RollingBall(){ 
+// This created the sprite and rolls it around the cube. 
+// The sprite is rotated around the axis, and then 
+// gradually moved back and forth on the x axis.
+ int color;
+ sprite mySprite(6,6,6); 
+ mySprite.sphere(color);
+ mySprite.place = {-1,1,1};
+ for (int x=0; x<95; x++){
+    color=color+2;
+    if (color>189){color=0;}
+      mySprite.sphere(color);
+    if (x>15){
+      clearCube();
+      mySprite.place[0]= 0;
     }
+    if (x>30){
+      clearCube();
+      mySprite.place[0]= 1;
+    }
+    if (x>45){
+      clearCube();
+      mySprite.place[0]= 2;
+    }
+    if (x>60){
+      clearCube();
+      mySprite.place[0]= 1;
+    }
+    if (x>75){
+      clearCube();
+      mySprite.place[0]= 0;
+    }
+    mySprite.rollX(0);
+    delay(50);
   }
-
-// This is the series of calls to the SwingAll subroutine. 
-void swings(){
- int myTime = 25;
-
- swingAll("1f", "xx","xx", myTime);
- swingAll("4f", "xx", "xx", myTime);
- swingAll("3f", "xx", "xx", myTime);
- swingAll("2f", "xx", "xx", myTime);
- swingAll("2r", "xx","xx", myTime);
- swingAll("3r", "xx", "xx", myTime);
- swingAll("4r", "xx", "xx", myTime);
- swingAll("1r", "xx", "xx", myTime);
- swingAll("pfy", "xx", "xx", myTime);
- swingAll("pry", "xx", "xx", myTime);
- 
- swingAll("xx", "1f", "xx", myTime);
- swingAll("xx", "4f", "xx", myTime);
- swingAll("xx", "3f", "xx", myTime);
- swingAll("xx", "2f", "xx", myTime);
- swingAll("xx", "2r", "xx", myTime);
- swingAll("xx", "3r", "xx", myTime);
- swingAll("xx", "4r", "xx", myTime);
- swingAll("xx", "1r", "xx", myTime);
- swingAll("xx", "pfx", "xx", myTime);
- swingAll("xx", "prx", "xx", myTime);
- 
- swingAll("xx", "xx", "1f", myTime);
- swingAll("xx", "xx", "4f", myTime);
- swingAll("xx", "xx", "3f", myTime);
- swingAll("xx", "xx", "2f", myTime);
- swingAll("xx", "xx", "2r", myTime);
- swingAll("xx", "xx", "3r", myTime);
- swingAll("xx", "xx", "4r", myTime);
- swingAll("xx", "xx", "1r", myTime);
- swingAll("xx", "xx", "pfx", myTime);
- swingAll("xx", "xx", "prx", myTime);
-
- myTime = 35;
- swingAll("2r", "xx", "1f", myTime);
- swingAll("3r", "xx", "4f", myTime);
- swingAll("4r", "xx", "3f", myTime);
- swingAll("1r", "xx", "2f", myTime);
-  swingAll("1f", "xx", "1f", myTime);
- swingAll("4f", "xx", "4f", myTime);
- swingAll("3f", "xx", "3f", myTime);
- swingAll("2f", "xx", "2f", myTime);
-
- swingAll("xx", "1f","2r", myTime);
- swingAll("xx", "4f", "3r", myTime);
- swingAll("xx", "3f", "4r", myTime);
- swingAll("xx", "2f", "1r", myTime);
- swingAll("xx", "1f","1f", myTime);
- swingAll("xx", "4f", "4f", myTime);
- swingAll("xx", "3f", "3f", myTime);
- swingAll("xx", "2f", "2f", myTime);
- 
- swingAll("2r", "1f","xx", myTime);
- swingAll("3r", "4f", "xx", myTime);
- swingAll("4r", "3f", "xx", myTime);
- swingAll("1r", "2f", "xx", myTime);
- swingAll("1f", "2r","xx", myTime);
- swingAll("4f", "3r", "xx", myTime);
- swingAll("3f", "4r", "xx", myTime);
- swingAll("2f", "1r", "xx", myTime);
-
- myTime = 45;
- swingAll("1f", "1f","1f", myTime);
- swingAll("4f", "4f", "4f", myTime);
- swingAll("3f", "3f", "3f", myTime);
- swingAll("2f", "2f", "2f", myTime);
- 
- swingAll("2r", "pfx", "3r", myTime);
- swingAll("2f", "prx", "3f", myTime); 
- 
- swingAll("1f", "1f","1f", myTime);
- swingAll("4f", "4f", "4f", myTime);
- swingAll("3f", "3f", "3f", myTime);
- swingAll("2f", "2f", "2f", myTime);
- swingAll("1f", "1f","1f", myTime);
- swingAll("4f", "4f", "4f", myTime);
-  
- swingAll("4r", "pfz", "3r", myTime);
- swingAll("4f", "prz", "3f", myTime);
- 
- swingAll("3f", "3f", "3f", myTime);
- swingAll("2f", "2f", "2f", myTime);
- swingAll("1f", "1f","1f", myTime);
- swingAll("4f", "4f", "4f", myTime);
- swingAll("3f", "3f", "3f", myTime);
- swingAll("2f", "2f", "2f", myTime);
- swingAll("2r", "1f","1f", myTime);
- swingAll("3r", "4f", "4f", myTime);
- swingAll("4r", "3f", "3f", myTime);
- 
- swingAll("pfy", "3r", "3r", myTime);
- swingAll("pry", "3f", "3f", myTime);
- 
- swingAll("1r", "2f", "2f", myTime);
- swingAll("2r", "1f","1f", myTime);
- swingAll("3r", "4f", "4f", myTime);
- swingAll("4r", "3f", "3f", myTime);
- swingAll("1r", "2f", "2f", myTime);
- swingAll("2r", "2r","1f", myTime);
- 
- swingAll("prz", "2f", "1r", myTime);
- swingAll("pfz", "2r", "1f", myTime);
- 
- swingAll("3r", "3r", "4f", myTime);
- swingAll("4r", "4r", "3f", myTime);
- swingAll("1r", "1r", "2f", myTime);
- swingAll("2r", "2r","1f", myTime);
- 
- swingAll("2f", "2f", "prx", myTime);
- swingAll("2r", "2r", "pfx", myTime);
- 
- swingAll("3r", "3r", "4f", myTime);
- swingAll("4r", "4r", "3f", myTime);
- swingAll("1r", "1r", "2f", myTime);
- swingAll("2r", "2r","2r", myTime);
- swingAll("3r", "3r", "3r", myTime);
- swingAll("4r", "4r", "4r", myTime);
-  
- swingAll("4f", "4f", "pry", myTime);
- swingAll("4r", "4r", "pfy", myTime);
- 
- swingAll("1r", "1r", "1r", myTime);
- swingAll("2r", "2r", "2r", myTime);
- swingAll("3r", "3r", "3r", myTime);
- swingAll("4r", "4r", "4r", myTime);
- swingAll("1r", "1r", "1r", myTime);
-
- myTime = 35;
-  swingAll("2r", "1f","xx", myTime);
- swingAll("3r", "4f", "xx", myTime);
- swingAll("4r", "3f", "xx", myTime);
- swingAll("1r", "2f", "xx", myTime);
- swingAll("1f", "2r","xx", myTime);
- swingAll("4f", "3r", "xx", myTime);
- swingAll("3f", "4r", "xx", myTime);
- swingAll("2f", "1r", "xx", myTime);
- 
- myTime = 25;
- swingAll("1f", "xx","xx", myTime);
- swingAll("4f", "xx", "xx", myTime);
- swingAll("3f", "xx", "xx", myTime);
- swingAll("2f", "xx", "xx", myTime);
- swingAll("2r", "xx","xx", myTime);
- swingAll("3r", "xx", "xx", myTime);
- swingAll("4r", "xx", "xx", myTime);
- swingAll("1r", "xx", "xx", myTime);
- 
- swingAll("xx", "1f", "xx", myTime);
- swingAll("xx", "4f", "xx", myTime);
- swingAll("xx", "3f", "xx", myTime);
- swingAll("xx", "2f", "xx", myTime);
- swingAll("xx", "2r", "xx", myTime);
- swingAll("xx", "3r", "xx", myTime);
- swingAll("xx", "4r", "xx", myTime);
- swingAll("xx", "1r", "xx", myTime);
- 
- swingAll("xx", "xx", "1f", myTime);
- swingAll("xx", "xx", "4f", myTime);
- swingAll("xx", "xx", "3f", myTime);
- swingAll("xx", "xx", "2f", myTime);
- swingAll("xx", "xx", "2r", myTime);
- swingAll("xx", "xx", "3r", myTime);
- swingAll("xx", "xx", "4r", myTime);
- swingAll("xx", "xx", "1r", myTime);
- delay(1000);
+ mySprite.clearIt();
+  delay(1000);
 }
 
-// This is a subroutine that swings three sheets of LEDs from one face of the cube to another.  The string input 
-// tells the routine the corner which we are going to swing from, and direction of 
-// rotation.  The time input in milliseconds between steps (25 is pretty fast; 200 is pretty slow). 
-// It also has some options to sent the sheet straight across the cube instead of swinging. These
-// start with a p and then specify the direction and plane of movement.
-void swingAll(String RedString, String GreenString, String BlueString, int myTime) {
-  
-  for (int i=0; i<8; i++){
-    for (int z=0; z<8; z++){
-      for (int x=0; x<8; x++) {
-        // do it all around the z axis
-        if (BlueString == "1r"){
-          BlueLED(x,diagonal[x][i],z);  
-        }
-        else if (BlueString == "1f"){
-            BlueLED(diagonal[7-x][i],7-x,z); 
-        }
-        else if (BlueString == "2f"){
-            BlueLED(x,7-diagonal[x][i],z); 
-        }
-        else if (BlueString == "2r"){
-          BlueLED(diagonal[7-x][i],x,z); 
-        }
-        else if (BlueString == "3r"){
-          BlueLED(7-x,7-diagonal[x][i],z);   
-        }
-        else if (BlueString == "3f"){
-          BlueLED(7-diagonal[7-x][i],x,z); 
-        }
-        else if (BlueString == "4f"){
-            BlueLED(7-x,diagonal[x][i],z); 
-        }
-        else if (BlueString == "4r"){
-            BlueLED(7-diagonal[7-x][i],7-x,z); 
-        }
-        else if (BlueString == "pfy"){
-            BlueLED(x,i/2,z);
-        }
-         else if (BlueString == "pry"){
-            BlueLED(x,7-(i/2),z); 
-        }
-         else if (BlueString == "pfx"){
-            BlueLED(i/2,x,z);
-        }
-         else if (BlueString == "prx"){
-            BlueLED(7-(i/2),x,z); 
-        }
-        // now do it all again around the x axis
-         if (RedString == "1r"){
-          RedLED(z,x,diagonal[x][i]);   
-        }
-        else if (RedString == "1f"){
-            RedLED(z,diagonal[7-x][i],7-x); 
-        }
-        else if (RedString == "2f"){
-            RedLED(z,x,7-diagonal[x][i]); 
-        }
-        else if (RedString == "2r"){
-          RedLED(z,diagonal[7-x][i],x); 
-        }
-        else if (RedString == "3r"){
-          RedLED(z,7-x,7-diagonal[x][i]);   
-        }
-       else if (RedString == "3f"){
-          RedLED(z,7-diagonal[7-x][i],x); 
-        }
-        else if (RedString == "4f"){
-            RedLED(z,7-x,diagonal[x][i]); 
-        }
-        else if (RedString == "4r"){
-            RedLED(z,7-diagonal[7-x][i],7-x); 
-        }
-         else if (RedString == "pfy"){
-            RedLED(x,i/2,z);
-        }
-         else if (RedString == "pry"){
-            RedLED(x,7-(i/2),z); 
-        }
-         else if (RedString == "pfz"){
-            RedLED(x,z,i/2);
-        }
-         else if (RedString == "prz"){
-            RedLED(x,z,7-(i/2)); 
-        }
-        // now do it all again around the y axis
-         if (GreenString == "1r"){
-          GreenLED(x,z,diagonal[x][i]);   
-        }
-        else if (GreenString == "1f"){
-           GreenLED(diagonal[7-x][i],z,7-x); 
-        }
-        else if (GreenString == "2f"){
-            GreenLED(x,z,7-diagonal[x][i]); 
-        }
-        else if (GreenString == "2r"){
-          GreenLED(diagonal[7-x][i],z,x); 
-        }
-        else if (GreenString == "3r"){
-          GreenLED(7-x,z,7-diagonal[x][i]);   
-        }
-       else if (GreenString == "3f"){
-          GreenLED(7-diagonal[7-x][i],z,x); 
-        }
-        else if (GreenString == "4f"){
-            GreenLED(7-x,z,diagonal[x][i]); 
-        }
-        else if (GreenString == "4r"){
-            GreenLED(7-diagonal[7-x][i],z,7-x); 
-        }
-        else if (GreenString == "pfx"){
-            GreenLED(i/2,x,z);
-        }
-         else if (GreenString == "prx"){
-            GreenLED(7-(i/2),x,z); 
-        }
-         else if (GreenString == "pfz"){
-            GreenLED(x,z,i/2);
-        }
-         else if (GreenString == "prz"){
-            GreenLED(x,z,7-(i/2)); 
+
+/*
+This is a new animation.  Basically two pyramids, one right-side up and an  inverted one below it,
+are moved up and down, almost completely through the cube in each direction.  This is a convensional
+animation - no sprites or anything fancy!
+*/
+
+void DiamondWave() {
+  for (int j=0; j<15; j++){  // go up and down 10 times
+    colorCount=colorCount+10;  // change color with each pass
+    if (colorCount>180) {
+      colorCount=10;
+    }
+    getColor(colorCount,4);
+    for (int i=0; i<18; i++){ // moving upward
+
+      for (byte xx=0; xx<8; xx++){ // Here we generate both the upper and  lower pyramid
+        for (byte yy=0; yy<8; yy++){ // If actually starts out as a cone, but  flairs out to a square at its widest.
+          z= int(i - 9.5 + distance[xx][yy]);
+          z1= int(i - 0.5 - distance[xx][yy]);
+          if (z>-1 && z<8) {
+            LED(xx,yy, z, myred,mygreen,myblue);
+          }
+          if (z1>-1 && z1<8) {
+            LED(xx,yy, z1, myred,mygreen,myblue);
+          }
         }
       } 
+      delay(40);       // Increase or decrease to change speed of this  animation 
+      clearCube();    // clear the cube
     }
-    delay(myTime);
-    clearCube();
-  }
+    for (int i=16; i>0; i--){ //moving downward
 
-for (int i=6; i>-1; i--){
-    for (int z=0; z<8; z++){
-      for (int x=0; x<8; x++) {
-        // do it all around the z axis
-        if (BlueString == "1r"){
-          BlueLED(diagonal[x][i],x,z); 
-        } 
-         else if (BlueString == "1f"){
-          BlueLED(7-x,diagonal[7-x][i],z); 
-        } 
-        else  if (BlueString == "2f"){
-          BlueLED(diagonal[x][i],7-x,z);  
-        } 
-       else  if (BlueString == "2r"){
-          BlueLED(7-x,7-diagonal[7-x][i],z);  
-        } 
-        else if (BlueString == "3r"){
-         BlueLED(7-diagonal[x][i],7-x,z);  
-        } 
-        else if (BlueString == "3f"){
-          BlueLED(x,7-diagonal[7-x][i],z); 
-        } 
-         else if (BlueString == "4f"){
-         BlueLED(7-diagonal[x][i],x,z);  
-        } 
-        else if (BlueString == "4r"){
-          BlueLED(x,diagonal[7-x][i],z); 
-        } 
-        else if (BlueString == "pfy"){
-            BlueLED(x,3+(7-i)/2,z);
+      for (byte xx=0; xx<8; xx++){ // 
+        for (byte yy=0; yy<8; yy++){ 
+          z= int(i - 9.5 + distance[xx][yy]);
+          z1= int(i - 0.5 - distance[xx][yy]);
+          if (z>-1 && z<8) {
+            LED(xx,yy, z, myred,mygreen,myblue);
+          }
+          if (z1>-1 && z1<8) {
+            LED(xx,yy, z1, myred,mygreen,myblue);
+          }
         }
-         else if (BlueString == "pry"){
-            BlueLED(x,4-(7-i)/2,z); 
-        }
-          else if (BlueString == "pfx"){
-            BlueLED(3+(7-i)/2,x,z);
-        }
-         else if (BlueString == "prx"){
-            BlueLED(4-(7-i)/2, x,z); 
-        }
-        // now do it all again around the x axis
-        if (RedString == "1r"){
-          RedLED(z,diagonal[x][i],x); 
-        } 
-        else if (RedString == "1f"){
-          RedLED(z,7-x,diagonal[7-x][i]); 
-        } 
-         else if (RedString == "2f"){
-          RedLED(z,diagonal[x][i],7-x);  
-        } 
-        else if (RedString == "2r"){
-          RedLED(z,7-x,7-diagonal[7-x][i]);  
-        } 
-        else if (RedString == "3r"){
-         RedLED(z,7-diagonal[x][i],7-x);  
-        } 
-        else if (RedString == "3f"){
-          RedLED(z,x,7-diagonal[7-x][i]); 
-        } 
-         else if (RedString == "4f"){
-         RedLED(z,7-diagonal[x][i],x);  
-        } 
-        else if (RedString == "4r"){
-          RedLED(z,x,diagonal[7-x][i]); 
-        } 
-         else if (RedString == "pfy"){
-            RedLED(x,3+(7-i)/2,z);
-        }
-         else if (RedString == "pry"){
-            RedLED(x,4-(7-i)/2,z); 
-        }
-          else if (RedString == "pfz"){
-            RedLED(x,z,3+(7-i)/2);
-        }
-         else if (RedString == "prz"){
-            RedLED(x,z,4-(7-i)/2); 
-        }
-        
-         // now do it all again around the y axis
-        if (GreenString == "1r"){
-          GreenLED(diagonal[x][i],z,x); 
-        } 
-        else if (GreenString == "1f"){
-          GreenLED(7-x,z,diagonal[7-x][i]); 
-        } 
-         else if (GreenString == "2f"){
-          GreenLED(diagonal[x][i],z,7-x);  
-        } 
-        else if (GreenString == "2r"){
-          GreenLED(7-x,z,7-diagonal[7-x][i]);  
-        } 
-        else if (GreenString == "3r"){
-         GreenLED(7-diagonal[x][i],z,7-x);  
-        } 
-        else if (GreenString == "3f"){
-          GreenLED(x,z,7-diagonal[7-x][i]); 
-        } 
-         else if (GreenString == "4f"){
-         GreenLED(7-diagonal[x][i],z,x);  
-        } 
-        else if (GreenString == "4r"){
-          GreenLED(x,z,diagonal[7-x][i]); 
-        }
-       else if (GreenString == "pfx"){
-            GreenLED(3+(7-i)/2,x,z);
-        }
-         else if (GreenString == "prx"){
-            GreenLED(4-(7-i)/2,x,z); 
-        }
-          else if (GreenString == "pfz"){
-            GreenLED(x,z,3+(7-i)/2);
-        }
-         else if (GreenString == "prz"){
-            GreenLED(x,z,4-(7-i)/2); 
-        } 
-      }
+      } 
+      delay(40);       // Increase or decrease to change speed of this  animation 
+      clearCube();    // clear the cube
     }
-
-    delay(myTime);
-     clearCube();
   }
-}
-void RedLED(int x,int y,int z) {
-  cube[x][y][z][0]=63;
-}
-void GreenLED(int x,int y,int z) {
-  cube[x][y][z][1]=63;
- }
-void BlueLED(int x,int y,int z) {
-  cube[x][y][z][2]=63;
+   delay(1000);
 }
 
 
-/* Suppose your cube was a sub-atomic particle detector, capable of
-   displaying the tracks of neutrinos zipping around everywhere. Watch
-   as a burst of neutrinos reaches your cube.  */
-void neutrinos(){
-  counter=0;
-  zing(4, 7, 7, 0,-1,-1,White);
-  delay(1000);
-  for (int q=0; q<25;q++){
-    if (q<13) {counter++;}
-    else {counter--;}
-    zing(0, 5, 5, 1,1,-1,White);
-    zing(0, 7, 1, 1,-1,1,Blue);
-    zing(4, 7, 7, 0,-1,-1,Green);
-    zing(5, 0, 6, 0,1,-1,Purple);
-    zing(0, 0, 0, 1,1,1,Aqua);
-    zing(7, 1, 7, -1, 1,-1,White);
-    zing(0, 5, 5, 1,1,-1,White);
-    zing(2, 0, 0, 1,1,1,Orange);
-    zing(2, 7, 1, 1,-1,1,Blue);
-    zing(6, 7, 2, 0,-1,1,Purple);
-    zing(6, 0, 6, -1,1,-1,Red);
-    zing(2, 5, 7, 1, 1,-1,White);
-    zing(3, 2, 7, 0, 0,-1,Yellow);
-  }
-  delay(1000);
-  zing(4, 7, 7, 0,-1,-1,White);
-  delay(1000);
-}
-
-
-void zing(int x, int y, int z, int xm, int ym, int zm, int mycolor) {
-  getColor(mycolor,4);
-  int newx=x, newy=y, newz=z;
-  for (int p=0; p<8; p++) {
-    if (newx>-1 && newx<8 && newy>-1 && newy<8 && newz>-1 && newz<8) {
-      LED(newx,newy,newz,myred, mygreen, myblue);
-      delay(25);
-      LED(newx,newy,newz,0, 0, 0);
+void Mysterious() {
+int xpos = 3;
+int ypos = 3;
+int mydelay = 50;
+int myrandom;
+  for (int j=0; j<400; j++){
+    myrandom=random(8);
+    if (myrandom==0){
+      xpos++;
     }
-    newx=newx+xm; 
-    newy=newy+ym; 
-    newz=newz+zm; 
-  }
-  delay(random(2000/(counter*3+1)));
-}
-
-// whatThe is the result of a simple experiment. The idea was have each layer going around
-// (using the atom table) at a different speed. A lot of work just to end up with a 
-// simple animation.  Then let's try to put everything back by reversing the process. 
-// That doesn't quite work.  I had to fudge it a little.  But here it is. 
-void whatThe() {
-  mycolor=0;
-  getColor(mycolor, 4);
-  for (int k=0; k<6; k++){
-    byte index0=0, index1=0, index2=0, index3=0, index4=0, index5=0, index6=0, index7=0;
-  for (int j=0;j<1000; j++) {
-      if (j%20==0){index0++;} 
-      if (index0>19){index0=0;}
-      LED(atomTable[index0][0],atomTable[index0][1],0,myred, myblue, mygreen);
-      if (j%19==0){index1++;} 
-      if (index1>19){index1=0;}
-      LED(atomTable[index1][0],atomTable[index1][1],1,myred, myblue, mygreen);
-      if (j%18==0){index2++;} 
-      if (index2>19){index2=0;}
-      LED(atomTable[index2][0],atomTable[index2][1],2,myred, myblue, mygreen);
-      if (j%17==0){index3++;} 
-      if (index3>19){index3=0;}
-      LED(atomTable[index3][0],atomTable[index3][1],3,myred, myblue, mygreen);
-      if (j%16==0){index4++;} 
-      if (index4>19){index4=0;}
-      LED(atomTable[index4][0],atomTable[index4][1],4,myred, myblue, mygreen);
-      if (j%15==0){index5++;} 
-      if (index5>19){index5=0;}
-      LED(atomTable[index5][0],atomTable[index5][1],5,myred, myblue, mygreen);  
-      if (j%14==0){index6++;} 
-      if (index6>19){index6=0;}
-      LED(atomTable[index6][0],atomTable[index6][1],6,myred, myblue, mygreen);
-     if (j%13==0){index7++;} 
-      if (index7>19){index7=0;}
-      LED(atomTable[index7][0],atomTable[index7][1],7,myred, myblue, mygreen);
-      mycolor=mycolor+5;
-      if (mycolor>189){mycolor=0;}
-        getColor(mycolor,4);
-      if(j%10<1) {
-       delay(25+ 25/(j/100+10)); 
-       clearAtom();
-      }
+    if (myrandom==1){
+      xpos--;
     }
-    for (int j=1000;j<3000; j++) {
-      if (j%16==0){index0++;} 
-      if (index0>19){index0=0;}
-      LED(atomTable[index0][0],atomTable[index0][1],0,myred, myblue, mygreen);
-      if (j%16==0){index1++;} 
-      if (index1>19){index1=0;}
-      LED(atomTable[index1][0],atomTable[index1][1],1,myred, myblue, mygreen);
-      if (j%16==0){index2++;} 
-      if (index2>19){index2=0;}
-      LED(atomTable[index2][0],atomTable[index2][1],2,myred, myblue, mygreen);
-      if (j%16==0){index3++;} 
-      if (index3>19){index3=0;}
-      LED(atomTable[index3][0],atomTable[index3][1],3,myred, myblue, mygreen);
-      if (j%16==0){index4++;} 
-      if (index4>19){index4=0;}
-      LED(atomTable[index4][0],atomTable[index4][1],4,myred, myblue, mygreen);
-      if (j%16==0){index5++;} 
-      if (index5>19){index5=0;}
-      LED(atomTable[index5][0],atomTable[index5][1],5,myred, myblue, mygreen);  
-      if (j%16==0){index6++;} 
-      if (index6>19){index6=0;}
-      LED(atomTable[index6][0],atomTable[index6][1],6,myred, myblue, mygreen);
-     if (j%16==0){index7++;} 
-      if (index7>19){index7=0;}
-      LED(atomTable[index7][0],atomTable[index7][1],7,myred, myblue, mygreen);
-      mycolor=mycolor+5;
-      if (mycolor>189){mycolor=0;}
-        getColor(mycolor,4);
-      if(j%10<1) {
-       delay(25); 
-       clearAtom();
+    if (myrandom==2){
+      ypos++;
+    }
+    if (myrandom==3){
+      ypos--;
+    }
+    if (xpos<0) {
+      xpos=1;
+    }
+    if (xpos>6) {
+      xpos=5;
+    }
+    if (ypos<0) {
+      ypos=1;
+    }
+    if (ypos>6) {
+      ypos=5;
+    }
+    getColor(mycolor,4);
+    mycolor=mycolor-3;
+    if (mycolor<1){
+      mycolor=189;
+    }
+    if (xpos > -1 && ypos > -1)
+    {
+    LED(xpos, ypos, 7, myred, mygreen, myblue);
+    LED(xpos+1, ypos, 7, myred, mygreen, myblue);
+    LED(xpos, ypos+1, 7, myred, mygreen, myblue);
+    LED(xpos+1, ypos+1, 7, myred, mygreen, myblue);
+    delay(mydelay);
+    }
+    for (int x=0;x<8;x++){ // copy content of each layer to the layer below  it.
+      for (int y=0;y<8;y++){
+        for (int z=1;z<8;z++){
+          for (int c=0;c<3;c++){
+            cube [x][y][z-1][c] = cube [x][y][z][c];
+          }
+        }
       }
     }
     
-    for (int j=3000;j<4150; j++) {
-      if (j%13==0){index0++;} 
-      if (index0>19){index0=0;}
-      LED(atomTable[index0][0],atomTable[index0][1],0,myred, myblue, mygreen);
-      if (j%14==0){index1++;} 
-      if (index1>19){index1=0;}
-      LED(atomTable[index1][0],atomTable[index1][1],1,myred, myblue, mygreen);
-      if (j%15==0){index2++;} 
-      if (index2>19){index2=0;}
-      LED(atomTable[index2][0],atomTable[index2][1],2,myred, myblue, mygreen);
-      if (j%16==0){index3++;} 
-      if (index3>19){index3=0;}
-      LED(atomTable[index3][0],atomTable[index3][1],3,myred, myblue, mygreen);
-      if (j%17==0){index4++;} 
-      if (index4>19){index4=0;}
-      LED(atomTable[index4][0],atomTable[index4][1],4,myred, myblue, mygreen);
-      if (j%18==0){index5++;} 
-      if (index5>19){index5=0;}
-      LED(atomTable[index5][0],atomTable[index5][1],5,myred, myblue, mygreen);  
-      if (j%19==0){index6++;} 
-      if (index6>19){index6=0;}
-      LED(atomTable[index6][0],atomTable[index6][1],6,myred, myblue, mygreen);
-     if (j%20==0){index7++;} 
-      if (index7>19){index7=0;}
-      LED(atomTable[index7][0],atomTable[index7][1],7,myred, myblue, mygreen);
-      mycolor=mycolor+5;
-      if (mycolor>189){mycolor=0;}
-        getColor(mycolor,4);
-      if(j%10<1) {
-       delay(25); 
-       clearAtom();
-      }
+    if (xpos > -1 && ypos > -1)
+    {
+    LED(xpos, ypos, 7, 0, 0, 0);
+    LED(xpos+1, ypos, 7, 0, 0, 0);
+    LED(xpos, ypos+1, 7, 0, 0, 0);
+    LED(xpos+1, ypos+1, 7, 0, 0, 0);
     }
-    clearAtom();
-    for (int j=0; j<8;j++){
-      LED(2,0,j,myred, myblue, mygreen);
-    }
-    delay(100);
-}
-clearAtom();
-delay(1000);
-}
-
-/* Angled is simple - a diagonal plane running from one corner 
-of the cube to the oposite corner is rotated.  Variations include
-multiple planes and different colors.
- */
-
-void angled(){
-    getColor(Blue, 4);
-    for (int z=0; z<8; z++){
-      for (int x=0;x<8;x++){
-        for (int y=0;y<8;y++){
-          if (x+y==2*z) {
-            buffer_LED(x,y,z,myred, mygreen, myblue); 
-          } 
-        }
-      }
-    }
-  rotateCube(5, 5);
-  for (int j=0; j<25; j++){
-    mycolor=mycolor+5;
-    if (mycolor>189){
-      mycolor=0;
-    }
-    int my2ndColor= mycolor+85;
-    if (my2ndColor>189){
-      my2ndColor=0;
-    }
-    getColor(mycolor, 4);
-    for (int z=0; z<8; z++){
-      for (int x=0;x<8;x++){
-        for (int y=0;y<8;y++){
-          if (x+y==2*z) {
-            buffer_LED(x,y,z,myred, mygreen, myblue); 
-          } 
-        }
-      }
-    }
-    if (j<5 || j>14){
-    getColor(my2ndColor,4);}
-    else {
-    getColor(mycolor,4);
-    }
-    for (int z=0; z<8; z++){
-      for (int x=0;x<8;x++){
-        for (int y=0;y<8;y++){
-          if (x+y==2*z) {
-            if (j<10 || j>20) {
-              buffer_LED(x,7-y,z,myred, mygreen, myblue); }
-            if (j>9) {
-              buffer_LED(7-x,7-y,z,myred, mygreen, myblue);
-            }
-          } 
-        }
-      }
-    }
-   
-    rotateCube(1, 5);
-    if (j<20) {clearBufferCube();}
   }
   clearCube();
-  clearBufferCube();
-  delay (1000);
-}
-
-// Bouncer is some simple effects based on the sprite object class and its bounce action.
-void bouncer(){
-  bouncer2();
-  bouncer3();
-  bouncer1();
   delay(1000);
-  }
-// This version of bouncer has 3 sprites bouncing around the cube while changing colors  
-void bouncer1(){
-  sprite mySprite1(2,2,2); 
-  sprite mySprite2(2,2,2); 
-  sprite mySprite3(2,2,2); 
-  mySprite1.place = {1,2,3};
-  mySprite2.place = {0,4,4};
-  mySprite3.place = {4,4,0};
-  mySprite1.motion = {1,2,1};
-  mySprite2.motion = {1,-1,-2};
-  mySprite3.motion = {-2,-1,-1};
-  for (int j=0; j<200; j++){
-   mycolor =mycolor + 5;
-   if (mycolor>100) {mycolor=0;}
-   mySprite1.colorIt(mycolor);
-   mySprite2.colorIt(mycolor+40);
-   mySprite3.colorIt(mycolor+80);
-   mySprite1.bounceIt();
-   delay(50);
-   mySprite2.bounceIt();
-   delay(50);
-   mySprite3.bounceIt();
-   delay(50);
  }
- mySprite1.clearIt();
- mySprite2.clearIt();
- mySprite3.clearIt();
-  
-}
 
-// This bouncer has a red, greeen, and blue sprite bouncing back and forth, each in their own
-// plane.  It gets faster and faster as it goes.
-void bouncer2(){
-  sprite mySprite1(2,2,2); 
-  mySprite1.colorIt(Red);
-  mySprite1.place = {0,2,3};
-  mySprite1.motion = {1,0,0};
-  sprite mySprite2(2,2,2);
-  mySprite2.colorIt(Green);
-  mySprite2.place = {5,2,4};
-  mySprite2.motion = {0,1,0};
-  sprite mySprite3(2,2,2); 
-  mySprite3.colorIt(Blue);
-  mySprite3.place = {2,4,4};
-  mySprite3.motion = {0,0,1};
-  for (int j=0; j<210;j++){
-  mySprite1.bounceIt();
-  delay(50-j/5);
-  if (j>36){
-    mySprite2.bounceIt();
-    }
-  delay(50-j/5);
-  if (j>72){
-    mySprite3.bounceIt();
-    }
- delay(50-j/5);
- }
- mySprite1.clearIt();
- mySprite2.clearIt();
- mySprite3.clearIt();
-}
-//  This is a transition between the first two version.  It's a white ball that fades.
-void bouncer3(){
-  sprite mySprite1(6,6,6); 
-  mySprite1.sphere(White);
-  mySprite1.place = {1,1,1};
-  mySprite1.setIt();
-  delay(150);
-  for (int j=3; j>-1;j--){
-    mySprite1.setIt();
-    delay(150);
-    mySprite1.ChgIntensity(j);
-  }
-  mySprite1.clearIt();
+
+/*
+This is a very simple animation. Not much to it, but a nice effect.  My intent  was mainly to create 
+the falling effect, but some people think the best part is the return where  they all rapidly return
+to their original position on the top.  Looks like a whole bunch of guns going  off. 
+*/
+void RandomFall() {
+    byte upDown[8][8];
+    for (int x=0;x<8;x++){
+      for (int y=0;y<8;y++){
+        LED (x, y, 7, 63,0,0); 
+        upDown[x][y] = 0;
+      }
+  } 
   delay(500);
-}
+  while(count3<64){
+    x3= random(8); 
+    y3= random(8);
+    if (upDown[x3][y3]==0){
+      upDown[x3][y3]=1;
+      count3++;
+      mycolor=16;
+      getColor(mycolor, 4);
+      for (z=7; z>0; z--){
+        LED(x3, y3, z, 0,0,0);
+        LED(x3, y3, z-1, myred,mygreen,myblue);
+        delay((z*mywait)/5);
+        mycolor=mycolor+15;
+        getColor(mycolor, 4);
+      }
+    }
+  }
+  delay(200);
+  count3=0;
 
-byte const growTable[4][4] = {
-  {3,4,0,0,},
-  {2,5,3,4,},
-  {1,6,2,5,},
-  {0,7,1,6,},
-};
+  while(count3<64){
+    x3= random(8); 
+    y3= random(8);
+    if (upDown[x3][y3]==1){
+      upDown[x3][y3]=0;
+      count3++;
+      mycolor=91;
+      getColor(mycolor, 4);
+      for (z=0; z<7; z++){
+        LED(x3, y3, z, 0,0,0);
+        LED(x3, y3, z+1, myred,mygreen,myblue);
+        delay(mywait/5);
+        mycolor=mycolor-15;
+        getColor(mycolor, 4);
+      }
+    }
+  }
+  delay(200);
+  count3=0;
+  delay(200);
+  clearCube();
+  delay(1000);
+ }
 
-//  This animatin is  based on the grow routine below that builds boxes
-//  We create a bunch of interesting effects by rapidly changing the boxes. 
-void grower(){
-  for (int q=0; q<15; q++){
-    mycolor=mycolor+10;
-    if(mycolor>189){mycolor=0;}
-    grow(0, mycolor, 100); 
-    grow(1, mycolor, 100); 
-    grow(2, mycolor, 100); 
-    grow(3, mycolor, 100); 
-    delay(100);
-    mycolor=mycolor+10;
-    if(mycolor>189){mycolor=0;} 
-    grow(2, mycolor, 100); 
-    grow(1, mycolor, 100); 
-    grow(0, mycolor, 100); 
-    delay(100);
-    if (q%2) {clearCube();}
+/*
+This is the new and improved Helicopter!  It takes advantage of the fact that  sprites
+can now be up to 6x6x6.   It's now 6x6x4 while the old one was 4x4x4.   
+The main roter is bigger and actually rotates now. And the tail is longer, so  it actually
+looks a little more like a helicopter.  There are actually three different  subroutines
+here working on the sprite, so it is created globally, outside of any of them.   This is
+very wasteful of RAM, but I have enough because I have been very careful in  all the other 
+animations to dispose of sprites when they are finished with. I guess I could  have done that
+here too. but it's not that easy to create. Also, I would need some global  variable to keep track
+of where it is as its flying around if I kept distroying it (and losing its  position) after every
+subroutine. 
+
+And thanks to David Yee for some minor improvements which are now included here. 
+*/
+sprite heli(6,6,4);  // Our sprite is 6 x 6 x 4.
+void Helicopter(){
+  heli.place = {  // set up its initial location
+    2,2,0          };
+  heli.motion = {  // set up its initial motion
+    1,-1, 1          };
+  heli.description = {  // define the shape and color of the helicopter. 
+    {  // top layer
+      {
+        White,  Black, Black, Black, Black, Black          }
+      , // 1st column,  6 panels 
+      {
+        Black,  White, Black, Black, Black, Black                 }
+      , // 2nd column,  6 panels
+      {
+        Black,  Black, White, Black , Black, Black                  }
+      , // 3rd column,  6 panels
+      {
+        Black,  Black, Black, White , Black, Black               }
+      , // 4th column,  6 panels
+      {
+        Black,  Black, Black, Black , White, Black               }
+      , // 5th column,  6 panels
+      {
+        Black,  Black, Black, Black , Black, White               }
+      , // 6th column,  6 panels
+    }
+    ,
+    {  // 1st middle layer 
+      {
+        Black,  Black, Black, Black, Black, Black              }
+      , // 1st column,  6panels 
+      {
+        Black, Black, Black, Black, Black, Black             }
+      , // 2nd column,  6 panels
+      {
+        Black,  Blue, Blue, Blue, Blue, Blue             }
+      , // 3rd column,  6 panels
+      {
+        Black,  Blue, Blue, Blue, Blue, Blue                  }
+      , // 4th column,  6 panels
+      {
+        Black,  Black, Black, Black, Black, Black                  }
+      , // 5th column,  6 panels
+      {
+        Black,  Black, Black, Black, Black, Black                  }
+      , // 6th column,  6 panels
+    }
+    ,
+    {  // 2nd middle layer
+      {
+        Black,  Black, Black, Black, Black, Black                }
+      , // 1st column,  6 panels 
+      {
+        Black,  Black, Black, Black, Black, Black               }
+      , // 2nd column,  6 panels
+      {
+        Black,  Blue, Blue, Black, Black, Black              }
+      , //// 3rd column,  6 panels
+      {
+        Black,  Blue, Blue, Black, Black, Black              }
+      , // 4th column,  6 panels
+      {
+        Black,  Black, Black, Black, Black, Black              }
+      , // 5th column,  6 panels
+      {
+        Black,  Black, Black, Black, Black, Black              }
+      ,// 6th column,  6 panels
+    }
+    ,
+    {  // bottom layer
+      {
+        Black,  Black, Black, Black, Black, Black                 }
+      , // 1st column,  6 panels 
+      {
+        Black,  Black, Black, Black, Black, Black           }
+      , // 2nd column,  6 panels
+      {
+        Blue,  Black, Blue, Black, Black, Black                }
+      , // 3rd column,  6 panels
+      {
+        Blue,  Black, Blue, Black, Black, Black               }
+      , // 4th column,  6 panels
+      {
+        Black,  Black, Black, Black, Black, Black               }
+      , // 5th column,  6 panels
+      {
+        Black,  Black, Black, Black, Black, Black               }
+      , // 6th column,  6 panels
+    }
+    ,
+  };
+   heli.setIt();  // display helicopter
+  delay(1000);
+  for (int count=0; count<6; count++){  // make the tail light blink
+    blinkRed();
+    heli.setIt();
+    delay(500);
   }
-  for (int q=0; q<15; q++){
-    if (q%2){mycolor=85;}
-    else {mycolor=0;}
-    grow(0, mycolor, 100); 
-    grow(1, mycolor, 100); 
-    grow(2, mycolor, 100); 
-    grow(3, mycolor, 100); 
-    delay(100);
-    grow(2, mycolor, 100); 
-    grow(1, mycolor, 100); 
-    grow(0, mycolor, 100); 
-    delay(100);
-    if (q%2==1){
-      clearCube();}
+  for (int count=0; count<5; count++){  // start the rotor turning
+    blinkRed(); 
+    heli.setIt();
+    rotor(160);
   }
-    for (int q=0; q<15; q++){
-    mycolor=White;
-    grow(0, mycolor, 100); 
-    grow(1, mycolor, 50); 
-    grow(2, mycolor, 50); 
-    grow(3, mycolor, 100); 
-    clearCube();
-    grow(2, mycolor, 50); 
-    clearCube();
-    grow(1, mycolor, 50); 
-    clearCube();
+  for (int count=0; count<5; count++){  // start the rotor turning
+    blinkRed(); 
+    heli.setIt();
+    rotor(140);
   }
+  for (int count=0; count<5; count++){  // start the rotor turning
+    blinkRed(); 
+    heli.setIt();
+    rotor(120);
+  }
+  for (int count=0; count<5; count++){  // start the rotor turning
+    blinkRed(); 
+    heli.setIt();
+    rotor(100);
+  }
+  for (int count=0; count<5; count++){  // start the rotor turning
+    blinkRed(); 
+    heli.setIt();
+    rotor(80);
+  }  
+  for (int count=0; count<5; count++){  // start the rotor turning
+    blinkRed(); 
+    heli.setIt();
+    rotor(50);
+  }    
+  for (int count=0; count<40; count++){  // now the helicopter is flying
+    heli.bounceIt();
+    blinkRed();
+    rotor(40);
+    rotor(40);
+    rotor(40);
+    rotor(40);
+    rotor(40);
+    blinkRed();
+    rotor(40);
+    rotor(40);
+    rotor(40);
+    rotor(40);
+    rotor(40);
+  }
+  if (heli.description[0][3][0]==Black){  // now it's landing
+    rotor(50);  
+  }
+  for (int count=0; count<5; count++){  // start the rotor turning
+    blinkRed(); 
+    heli.setIt();
+    rotor(80);
+  }
+  for (int count=0; count<5; count++){  // start the rotor turning
+    blinkRed(); 
+    heli.setIt();
+    rotor(120);
+  }
+  for (int count=0; count<5; count++){  // start the rotor turning
+    blinkRed(); 
+    heli.setIt();
+    rotor(140);
+  }
+  for (int count=0; count<5; count++){  // start the rotor turning
+    blinkRed(); 
+    heli.setIt();
+    rotor(160);
+  }
+  for (int count=0; count<5; count++){  // rotor stops but tail light still  blinks
+    blinkRed();
+    heli.setIt();
+    delay(500);
+  }
+  delay(1000);  // blinking stops 
+  blinkMe=0;
+  clearCube();  // done - clear the cube
   delay(1000);
 }
-// this routine builds the outline of a box in the center of the cube.  
-//  You can specify is size, color and how long it exists. 
-//  
-void grow(int sz, int color, int time){
- getColor(color, 4);
- for (int x=growTable[sz][0]; x<growTable[sz][1]+1; x++){
-   for (int y=growTable[sz][0]; y<growTable[sz][1]+1; y++){
-     for (int z=growTable[sz][0]; z<growTable[sz][1]+1; z++){
-       LED(x,y,z,myred, mygreen, myblue);
-     }
-   }
- }
- if (sz>0){
-   for (int x=growTable[sz][2]; x<growTable[sz][3]+1; x++){
-     for (int y=growTable[sz][2]; y<growTable[sz][3]+1; y++){
-       for (int z=growTable[sz][2]; z<growTable[sz][3]+1; z++){
-         LED(x,y,z,0, 0, 0);
-       }
-     }
-   }
- }
- delay(time);
-}
 
-// Another animations using the sprite object class
-// More boxes, but not concentic. These just pop into
-// and out of existence with different colors and sizes.
-void miniCubes(){
-  sprite mysprite1(2,2,2);
-  sprite mysprite2(3,3,3);
-  sprite mysprite3(2,2,2);
-  for (int j=0; j<50; j++){
-    get_std_color();
-    mysprite1.outline(mycolor); 
-    mysprite1.place[0] =random(7);
-    mysprite1.place[1] =random(7); 
-    mysprite1.place[2] =random(7);  
-    mysprite1.setIt();
-    delay(200-j*3);
-    
-    get_std_color();
-    mysprite2.outline(mycolor); 
-    mysprite2.place[0] =random(6);
-    mysprite2.place[1] =random(6); 
-    mysprite2.place[2] =random(6);  
-    mysprite2.setIt();
-    delay(200-j*3);
-    
-    get_std_color();
-    mysprite3.outline(mycolor); 
-    mysprite3.place[0] =random(7);
-    mysprite3.place[1] =random(7); 
-    mysprite3.place[2] =random(7);  
-    mysprite3.setIt();
-    delay(200-j*3);
-    mysprite1.clearIt(); 
-    mysprite2.clearIt();
-    mysprite3.clearIt(); 
-  }
- delay(1000); 
-}
-// this is used to assign a standard color to a sprite
-// by randomly putting a standard color's number in mycolor.
- void get_std_color(){
-  int colorit= random(8)+1;
-  switch(colorit){
+void rotor(int delayx){  // makes the rotor rotate
+  switch(rot){
   case 1:
-    mycolor=Red;
-    break;
+    heli.description[0][3][0]=Black;
+    heli.description[0][3][1]=Black;
+    heli.description[0][3][2]=Black;
+    heli.description[0][2][3]=Black;
+    heli.description[0][2][4]=Black;
+    heli.description[0][2][5]=Black;
+    heli.description[0][0][0]=White;
+    heli.description[0][1][1]=White;
+    heli.description[0][2][2]=White;
+    heli.description[0][3][3]=White;
+    heli.description[0][4][4]=White;
+    heli.description[0][5][5]=White;
+    rot=2; 
+    break; 
   case 2:
-    mycolor=Yellow;
-    break;
+    heli.description[0][0][0]=Black;
+    heli.description[0][1][1]=Black;
+    heli.description[0][2][2]=Black;
+    heli.description[0][3][3]=Black;
+    heli.description[0][4][4]=Black;
+    heli.description[0][5][5]=Black;
+    heli.description[0][5][3]=White;
+    heli.description[0][4][3]=White;
+    heli.description[0][3][3]=White;
+    heli.description[0][2][2]=White;
+    heli.description[0][1][2]=White;
+    heli.description[0][0][2]=White;
+    rot=3;
+    break; 
   case 3:
-    mycolor=Green;
-    break;
+    heli.description[0][5][3]=Black;
+    heli.description[0][4][3]=Black;
+    heli.description[0][3][3]=Black;
+    heli.description[0][2][2]=Black;
+    heli.description[0][1][2]=Black;
+    heli.description[0][0][2]=Black;
+    heli.description[0][5][0]=White;
+    heli.description[0][4][1]=White;
+    heli.description[0][3][2]=White;
+    heli.description[0][2][3]=White;
+    heli.description[0][1][4]=White;
+    heli.description[0][0][5]=White;
+    rot=4;
+    break; 
   case 4:
-    mycolor=Blue;
-    break;
-  case 5:
-    mycolor=Purple;;
-    break;
-  case 6:
-    mycolor=Violet;
-    break;
-  case 7:
-    mycolor=Orange;
-    break;
-  case 8:
-    mycolor=Aqua;
-    break;
-  default: 
-    mycolor=Black;;  
+    heli.description[0][5][0]=Black;
+    heli.description[0][4][1]=Black;
+    heli.description[0][3][2]=Black;
+    heli.description[0][2][3]=Black;
+   heli.description[0][1][4]=Black;
+    heli.description[0][0][5]=Black;
+    heli.description[0][3][0]=White;
+    heli.description[0][3][1]=White;
+    heli.description[0][3][2]=White;
+    heli.description[0][2][3]=White;
+    heli.description[0][2][4]=White;
+    heli.description[0][2][5]=White;
+    rot=1;
+    break; 
   }
+  heli.setIt();
+  delay(delayx);
 }
 
-// This probably holds the record for my simplist animation
-void randomLights(){
-  // first we select standard colors
- for (int k=0; k<12; k++){
-  rnd_std_color();
-  for (int j=0; j<256; j++){
-    LED(random(8), random(8), random(8), myred, mygreen, myblue); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    delay(8);
-  }
- }
- clearCube();
- delay(250);
- mycolor=0;
- // then we scan through the colors of the rainbow. 
- for (int k=0; k<35; k++){
-  mycolor=mycolor+5;
-  if (mycolor>189){mycolor=0;}
-  getColor(mycolor,4);
-  for (int j=0; j<70; j++){
-    LED(random(8), random(8), random(8), myred, mygreen, myblue); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    delay(8);
-  }
- }
- mycolor = 170;
- // Finally we hang out in the blue/ violet/ purple area of the
- // spectrum and try to create an effect something like northern lights.
- for (int k=0; k<40; k++){
-  if (random(2)) {
-    mycolor=mycolor+5;
-    if (mycolor>189){mycolor=180;}
+void blinkRed(){  // turns tail light on if off, or off if on. 
+  if (blinkMe==0){
+    blinkMe = 1;
+    heli.description[1][2][5]=Blue;
+    heli.description[1][3][5]=Blue;
   }
   else {
-    mycolor=mycolor-5;
-    if (mycolor<140){mycolor=150;}
-  }
-  getColor(mycolor,4);
-  for (int j=0; j<50; j++){
-    LED(random(8), random(8), random(8), myred, mygreen, myblue); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    LED(random(8), random(8), random(8), 0, 0, 0); 
-    delay(8);
-  }
- }
- clearCube();
- delay(1000);
-}
-
-/*  Paddles basically steals from two other animations.  It uses the 
-    same separate color drivers as the Swings animation, and it is based
-    on the Simple_Rotation scheme introduced in template verson 5, where
-    we were rotating a red arrow. In this version, we changed the arrow
-    and inverted what is lit up creating something like a frame with  
-    a hollow center.  Then for each color, we rotate around a different
-    axis.  */
-void paddles(){
-  int rotations=1, mydelay=35;
-  // This is a pattern to be rotated. It can be anything fitting in an 8x8 panel.
-  // But for this animation, we are displaying its inverse, so red is dark. 
-  int const myPattern[8][8]  = {
-    {Black,Black,Black,Black,Black,Black,Black,Black,  }, 
-    {Black,Black,Red,Red,Red,Red,Black,Black,      }, 
-    {Black,Red,Red,Red,Red,Red,Red,Black,      },
-    {Black,Red,Red,Black,Black,Red,Red,Black,   },
-    {Black,Red,Red,Black,Black,Red,Red,Black, },
-    {Black,Red,Red,Red,Red,Red,Red,Black,      },
-    {Black,Black,Red,Red,Red,Red,Black,Black,      },
-    {Black,Black,Black,Black,Black,Black,Black,Black,  },  
-  };
-  // This is the table that tells Y how to move for each X as we move though 45 degrees. 
-  int const table[32] = {
-    0,1,2,3,4,5,6,7,1,1,2,3,4,5,6,6,2,2,3,3,4,4,5,5,3,3,3,3,4,4,4,4  };
-  for (int j=0; j<35; j++){  
-    if (j>5) {mydelay = 45;}
-    if (j>10) {mydelay = 55;}
-    if (j>24) {mydelay = 45;}
-    if (j>29) {mydelay = 35;}
-  for (int x =0; x<rotations; x++){  // move first 45 degrees
-    for (int count=0; count<4; count++){
-      for (int layer=0; layer<8; layer++){
-        for (int x=0; x<8; x++){
-          if (myPattern[layer][x]>0){
-            if (j<25){
-            RedLED(x,table[count*8+x],layer);}
-            if (j>5 && j<30){ 
-            GreenLED(layer,x,table[count*8+x]);}
-            if (j>10){
-            BlueLED(table[count*8+x],layer,x);}
-          }
-        }
-      }
-      delay(mydelay);
-      clearCube();
-    }
-    for (int count=0; count<4; count++){  // move second 45 degrees
-      for (int layer=0; layer<8; layer++){
-        for (int x=0; x<8; x++){
-         if (myPattern[layer][x]>0){
-           if (j<25){
-            RedLED(x,table[31-(count*8+x)],layer);}
-           if (j>5 && j<30){  
-            GreenLED(layer,x,table[31-(count*8+x)]);}  
-           if (j>10){
-            BlueLED(table[31-(count*8+x)],layer, x);}
-          }
-        }
-      }
-      delay(mydelay);
-      clearCube();
-    }
-
-    for (int count=1; count<4; count++){  // move third 45 degrees
-      for (int layer=0; layer<8; layer++){
-        for (int x=0; x<8; x++){
-          if (myPattern[layer][x]>0){  //???
-           if (j<25){
-            RedLED(table[count*8+x],7-x,layer);}
-            if (j>5 && j<30){  
-            GreenLED(layer,table[count*8+x],7-x);}
-            if (j>10){
-            BlueLED(7-x,layer,table[count*8+x]);}
-          }
-        }
-      }
-      delay(mydelay);
-      clearCube();
-    }
-
-    for (int count=0; count<3; count++){  // move fourth 45 degrees
-      for (int layer=0; layer<8; layer++){
-        for (int x=0; x<8; x++){
-          if (myPattern[layer][x]>0){
-            if (j<25){
-            RedLED(table[31-(count*8+x)],7-x,layer);}
-            if (j>5 && j<30){ 
-            GreenLED(layer,table[31-(count*8+x)],7-x);}
-            if (j>10){
-            BlueLED(7-x,layer,table[31-(count*8+x)]);}
-          }
-        }
-      }
-      delay(mydelay);
-      clearCube();
-    }
-
-    for (int count=0; count<4; count++){  // move fifth 45 degrees
-      for (int layer=0; layer<8; layer++){
-        for (int x=0; x<8; x++){
-          if (myPattern[layer][x]>0){
-           if (j<25){
-            RedLED(x,table[count*8+x],layer);}
-           if (j>5 && j<30){  
-            GreenLED(layer,x,table[count*8+x]);}
-            if (j>10){
-            BlueLED(table[count*8+x],layer,x);}
-          }
-        }
-      }
-      delay(mydelay);
-      clearCube();
-    }
-
-    for (int count=1; count<4; count++){  // move sixth 45 degrees
-      for (int layer=0; layer<8; layer++){
-        for (int x=0; x<8; x++){
-          if (myPattern[layer][x]>0){
-            if (j<25){
-            RedLED(x,table[31-(count*8+x)],layer);}
-            if (j>5 && j<30){ 
-            GreenLED(layer,x,table[31-(count*8+x)]);}
-           if (j>10){
-            BlueLED(table[31-(count*8+x)],layer,x);}
-          }
-        }
-      }
-      delay(mydelay);
-      clearCube();
-    }
-
-    for (int count=1; count<4; count++){  // move seventh 45 degrees
-      for (int layer=0; layer<8; layer++){
-        for (int x=0; x<8; x++){
-         if (myPattern[layer][x]>0){
-            if (j<25){
-            RedLED(table[count*8+x],7-x,layer);}
-            if (j>5 && j<30){  
-            GreenLED(layer,table[count*8+x],7-x);}
-           if (j>10){
-            BlueLED(7-x,layer,table[count*8+x]);}
-          }
-        }
-      }
-      delay(mydelay);
-      clearCube();
-    }
-    for (int count=0; count<3; count++){  // move last 45 degrees
-      for (int layer=0; layer<8; layer++){
-        for (int x=0; x<8; x++){
-          if (myPattern[layer][x]>0){
-            if (j<25){
-            RedLED(table[31-(count*8+x)],7-x,layer);}
-            if (j>5 && j<30){ 
-            GreenLED(layer,table[31-(count*8+x)],7-x);}
-            if (j>10){
-            BlueLED(7-x,layer,table[31-(count*8+x)]);}
-          }
-        }
-      }
-      delay(mydelay);
-      clearCube();
-    }
-  }
-  }
-  clearCube();
-  delay(1000);
-}
-
-/* Angled2 is another diagonal plane animaiton.  Variations include
- multiple planes and different colors.
- */
-
-void angled2(){
-  mycolor=0;
-  for (int j=0; j<80; j++){
-    int mydelay=100;
-    angledx(mycolor, j);
-    delay(mydelay);
-    clearCube(); 
-    angledy(mycolor, j);
-    delay(mydelay);
-    clearCube(); 
-    angledz(mycolor, j);
-    delay(mydelay);
-    clearCube(); 
-    mycolor=mycolor-5; 
-    if (mycolor<0){
-      mycolor=185;
-    }
-  }
-  clearCube();
-  delay(1000);
-}
-
-void angledx(int color, int mycount){
-  getColor(color, 4); 
-  for (int z=0; z<8; z++){
-    for (int x=0;x<8;x++){
-      for (int y=0;y<8;y++){
-        if (x+y==2*z) {
-          if (mycount<40) {
-            LED(x,y,z, myred, mygreen, myblue);
-          }
-          else  {
-            LED(x,y,7-z, myred, mygreen, myblue);
-          }
-        } 
-      }
-    }
+    blinkMe = 0;
+    heli.description[1][2][5]=Red;
+    heli.description[1][3][5]=Red;
   }
 }
 
+// This is new animation which is a variation on the previous cosine  animation.  In this modification, the cosine function is flattened out 
+// to produce a wavy flat sheet moving up and down.  Then we've added in some  sparkle. 
 
-void angledy(int color, int mycount){
-  getColor(color, 4); 
-  for (int z=0; z<8; z++){
-    for (int x=0;x<8;x++){
-      for (int y=0;y<8;y++){
-        if (x+y==2*z) {
-          if (mycount<40) {
-            LED(y,z,x, myred, mygreen, myblue);
+void Glitter_ribbon(){
+  for (int j=0; j<15; j++){
+    for (int i=0; i<36; i++){   //it takes 36 steps to complete one full cycle
+      getColor(i*5, 3); // get a rainbow color.  We need to go through most of  189 colors over the course of one full cycle. 
+      for (byte xx=0; xx<8; xx++){
+        for (byte yy=0; yy<8; yy++){
+          z=((byte)(4+cos((xx/7.23)+(yy/12.23)+(float)i/6.28)*4)); // the  actual z calculation
+          if (z>7) {
+            z=7;
           }
-          else  {
-            LED(y,z,7-x, myred, mygreen, myblue);
+          if (random(40)==0){
+            LED(xx,yy, z, 31,63,63);  // add white flash sparkle 1/40th of the  time.
+          }
+          else {
+            LED(xx,yy, z, myred,mygreen,myblue); 
           }
         }
       } 
+      delay(30);       // Increase or decrease to change speed of this  animation 
+      clearCube();    // clear the cube
     }
   }
+   delay(1000);
 }
 
-void angledz(int color, int mycount){
-  getColor(color, 4); 
-  for (int z=0; z<8; z++){
+
+void Elevators() {
+  byte location[8][8][2];  //this array stores the location and direction of  each elevator 
+  for (byte xx=0; xx<8; xx++){  // this is the setup routine.
+    for (byte yy=0; yy<8; yy++){
+      location[xx][yy][0]= random(4); // pick an initial floor
+      if (location[xx][yy][0] >0) {location[xx][yy][0]= 10;}  // only ones on  the ground floor are chosen. 
+      // other 2/4 of LEDs are banished to the 10th floor where they won't be  seen.  
+      location[xx][yy][1]= random(3);  // select an initial direction of  travel: up, down, or stopped. 
+      if (location[xx][yy][0]<8)  {  // if it's not on the 10th floor, assign  it a color
+        rnd_std_color();
+        LED(xx,yy,location[xx][yy][0], myred, mygreen, myblue); // and turn it  on.  
+      }
+    }
+  } 
+  delay(2000); // our elevators are all set up and lit up on the ground floor.   
+  for (int j=0;  j<250; j++){  // now we put them in motion
+    for (byte xx=0; xx<8; xx++){
+      for (byte yy=0; yy<8; yy++){
+        if (location[xx][yy][0]<8)  { // if it's a valid elevator
+          myred=cube[xx][yy][location[xx][yy][0]][0]; // get its color
+          mygreen=cube[xx][yy][location[xx][yy][0]][1];
+          myblue=cube[xx][yy][location[xx][yy][0]][2];
+          LED(xx,yy,location[xx][yy][0],0,0,0); // then erase it from its  current position
+          if (random(3)==0){  // 1/3 of the time
+            location[xx][yy][1]= random(3);  //change direction: up, down, or  stopped
+          }
+          if (location[xx][yy][1]==1){ // if it's going up, 
+            if (location[xx][yy][0]<7){  // and not already on the top floor
+              location[xx][yy][0]=location[xx][yy][0]+1; // move it up one
+            }
+            else{ // on the top floor?
+              location[xx][yy][0]=location[xx][yy][0]-1;  // move down one
+              location[xx][yy][1]==2; // change direction to down
+            }
+          }
+          if (location[xx][yy][1]==2){  // if it's going down,
+            if (location[xx][yy][0]>0){ // and not already on the ground floor
+              location[xx][yy][0]=location[xx][yy][0]-1;  // move it down one
+            }
+            else{ // on the bottom floor?
+              location[xx][yy][0]=location[xx][yy][0]+1; // move up one
+              location[xx][yy][1]==1;  //change direction to up
+            }
+          }
+          LED(xx,yy,location[xx][yy][0], myred, mygreen, myblue); // turn on  in new location
+        }
+      }
+    } 
+    delay(300-j);  // wait, with animation speeding up as j increases. 
+  }
+  clearCube();    // clear the cube
+  delay(1000);
+}
+
+
+/* This is a new animaiton.  It uses the sprite object class to create an  ornament like object and move it around the cube.
+It use a new feature just added to the sprite object class called  ChgIntensity() which allows you to modify the intensity
+of the LEDs in your sprite selecting 1-4.   The default intensity is always 4  (max. intensity), but this allows you to 
+alter it if you want.
+*/
+
+void TheOrnament(){ 
+  sprite mySprite(3,3,6); 
+  mySprite.description = {  // define the shape and color. 
+    {  // top layer
+      {
+        Black,  Black, Black                     }
+      , // 1st column,  3 panels 
+      {
+        Black,  Red, Black                            }
+      , // 2nd column,  3 panels
+      {
+        Black,  Black, Black                           }
+      , // 3rd column,  3 panels
+    }
+    ,
+    {  // 2nd layer
+      {
+        Black,  Orange, Black                     }
+      , // 1st column,  3 panels 
+      {
+        Orange,  Black, Orange                            }
+      , // 2nd column,  3 panels
+      {
+        Black,  Orange, Black                          }
+      , // 3rd column,  3 panels
+    }
+    ,
+    {  // 3rd layer
+      {
+        Green,  Green, Green                     }
+      , // 1st column,  3 panels 
+      {
+        Green,  Green, Green                            }
+      , // 2nd column, 3 panels
+      {
+        Green,  Green, Green                           }
+      , // 3rd column,  3 panels
+    }
+    ,
+    {  // 4th layer
+      {
+        Blue,  Blue, Blue                     }
+      , // 1st column,  3 panels 
+      {
+        Blue,  Blue, Blue                           }
+      , // 2nd column,  3 panels
+      {
+        Blue,  Blue, Blue                           }
+      , // 3rd column,  3 panels
+    }
+    ,
+    {  // 5th layer
+      {
+        Black,  Purple, Black                     }
+      , // 1st column,  3 panels 
+      {
+        Purple,  Black, Purple                            }
+      , // 2nd column,  3 panels
+      {
+        Black,  Purple, Black                          }
+      , // 3rd column,  3 panels
+    }
+    ,
+    {  // 6th layer
+      {
+        Black,  Black, Black                     }
+      , // 1st column,  3 panels 
+      {
+        Black,  Violet, Black                            }
+      , // 2nd column,  3 panels
+      {
+        Black,  Black, Black                           }
+      , // 3rd column,  3 panels
+    }
+    ,
+  };
+  mySprite.place = { 3,3,1    };
+ for (int j=0; j<7;j++){
+  mySprite.ChgIntensity(1);
+  mySprite.setIt();
+  delay(150);
+   mySprite.ChgIntensity(2);
+  mySprite.setIt();
+ delay(150);
+   mySprite.ChgIntensity(3);
+  mySprite.setIt();
+  delay(150);
+   mySprite.ChgIntensity(4);
+  mySprite.setIt();
+  delay(150);
+  mySprite.ChgIntensity(3);
+  mySprite.setIt();
+  delay(150);
+   mySprite.ChgIntensity(2);
+  mySprite.setIt();
+ delay(150);
+ }
+ mySprite.ChgIntensity(1);
+  mySprite.setIt();
+  delay(150);
+  mySprite.ChgIntensity(2);
+  mySprite.setIt();
+ delay(150);
+   mySprite.ChgIntensity(3);
+  mySprite.setIt();
+  delay(150);
+  mySprite.ChgIntensity(4);
+  mySprite.setIt();
+  delay(3000);
+  for (int j=0; j<50;j++){
+   mySprite.rollZ(1); 
+   delay(100);
+  }
+  clearCube();
+  mySprite.place = { 3,3,1    };
+  mySprite.motion = {0,0,1};
+  for (int j=0; j<28;j++){
+  mySprite.bounceIt();
+  delay(200);
+  }
+  for (int j=0; j<50;j++){
+   mySprite.ChgIntensity(1+j%4);
+   mySprite.rollZ(0); 
+   delay(200);
+  }
+  clearCube();
+  mySprite.ChgIntensity(4);
+  mySprite.place = { 3,3,1    };
+  mySprite.motion = {0,0,1};
+  for (int j=0; j<27;j++){
+  mySprite.bounceIt();
+  delay(200);
+  }
+  mySprite.clearIt();
+  mySprite.place = { 3,3,1    };
+  mySprite.ChgIntensity(4);
+  mySprite.setIt();
+  delay(500);
+  mySprite.ChgIntensity(3);
+  mySprite.setIt();
+ delay(500);
+   mySprite.ChgIntensity(2);
+  mySprite.setIt();
+  delay(500);
+  mySprite.ChgIntensity(1);
+  mySprite.setIt();
+  delay(2000);
+  clearCube();
+  delay(1000);
+}
+
+
+void Hula(){ 
+  colorCount=0; 
+  rotation = 10 * .0174532; // convert 10 degree angle to radians
+  for (int reps=0; reps<50; reps++){
+    for (int z=0; z<8; z++) {  // for each layer
+      getColor(colorCount,4);  // pick a color.  It will gradually change as  colorCount increases.
+      colorCount = colorCount+3;
+      if (colorCount>188){
+        colorCount=0;
+      }
+      // here is the actual animation for one layer and it's compliment (7-z)
+      for (int x=0; x<z+1; x++){
+        for (int y=0; y<z+1; y++){
+          buffer_LED(x, y, 7-z, myred, mygreen, myblue);
+        }
+      }
+      for (int x=0; x<z+1; x++){
+        for (int y=0; y<z+1; y++){
+          buffer_LED(x, y, z, myred, mygreen, myblue);
+        }
+      }
+      for (int x=1; x<z; x++){
+        for (int y=1; y<z; y++){
+          buffer_LED(x, y, 7-z, 0, 0,0);
+        }
+      }
+      for (int x=1; x<z; x++){
+        for (int y=1; y<z; y++){
+          buffer_LED(x, y, z, 0, 0,0);
+        }
+      }
+    }
+    // Now we rotate the new formation 90 degrees. (9 * 10 degrees)
+    for (int count=0; count<9; count++) {  // now rotate it. 
+      rotateAll(myangle);  // the actual rotation of the animation
+      myangle = myangle + rotation; // increment the angle
+      if (myangle>6.28318) { // and make sure it doesn't overflow
+        myangle=myangle-6.28318;  //subtract 2 pi radians
+      }
+    }
+  }
+  clearBufferCube();
+  clearCube();
+  delay(1000);
+}
+
+
+// this code creates flash effects. We turn on a random LED every 10 msec.
+// each LED once on stays on through one complete loop or 30 msec. 
+void Sparkle() {
+  getColor(White, 4);  //flashes are white
+  for (int j=0; j<200; j++){  // go around 75 times
+    int newx1, newy1, newz1, newx2, newy2, newz2, newx3, newy3, newz3; //  locations for 3 LEDs that are on at one time
+    newx1=random(8);
+    newy1=random(8);
+    newz1=random(8);
+    LED(newx1, newy1, newz1, myred, mygreen, myblue); // create the first
+    delay(10);
+    LED(newx2, newy2, newz2, 0, 0, 0);  // turn off the second
+    newx2=random(8);
+    newy2=random(8);
+    newz2=random(8);
+    LED(newx2, newy2, newz2, myred, mygreen, myblue);  // create the second
+    delay(10);
+    LED(newx3, newy3, newz3, 0, 0, 0); // turn off the third
+    newx3=random(8);
+    newy3=random(8);
+    newz3=random(8);
+    LED(newx3, newy3, newz3, myred, mygreen, myblue);  // create the third
+    delay(10);
+    LED(newx1, newy1, newz1, 0, 0, 0);  // turn off the first
+  }
+  clearCube();
+  delay(1000);
+}
+
+
+// This is new animation derived from the elevator animation.  Just messing  with the 
+// elevator's code created this interesting effect.
+
+void Chaos() {
+  for (int k=0; k<15; k++){
+    byte location[8][8][2];  //this array stores the location and direction of  each column 
+    for (byte xx=0; xx<8; xx++){  // this is the setup routine.
+      for (byte yy=0; yy<8; yy++){
+        location[xx][yy][0]= random(7);
+        if (location[xx][yy][0] >0) {
+          location[xx][yy][0]= 10;
+        }  // only ones at layer 0 are chosen. 
+        // other 3/4 of LEDs are banished to the 10th layer where they won't  be seen.  
+        location[xx][yy][1]= random(3);  // select an initial direction of  travel: up, down, or stopped. 
+        if (location[xx][yy][0]<8)  {  // if it's not on the 10th level,  assign it a color
+          LED(xx,yy,location[xx][yy][0], myred, mygreen, myblue); // and turn  it on.  
+        }
+      }
+    } 
+
+    for (int j=0;  j<50; j++){  // now we put them in motion
+      getColor(mycolor,4);
+      mycolor=mycolor-1;
+      if (mycolor<1){
+        mycolor=189;
+      }
+      for (byte xx=0; xx<8; xx++){
+        for (byte yy=0; yy<8; yy++){
+          if (location[xx][yy][0]<8)  { // if it's a valid location (not 10th  layer
+            if (random(3)==0){  // 1/3 of the time
+              location[xx][yy][1]= random(3);  //change direction: up, down,  or stopped
+              for (int z=0; z<8; z++) { // at this time erase everything in  this xx,yy column
+                LED(xx,yy,z,0,0,0);
+              }
+            }
+            if (location[xx][yy][1]==1){ // if it's going up, 
+              if (location[xx][yy][0]<7){  // and not already on the top floor
+                location[xx][yy][0]=location[xx][yy][0]+1; // move it up one
+              }
+              else{ // on the top floor?
+                location[xx][yy][0]=location[xx][yy][0]-1;  // move down one
+                location[xx][yy][1]==2; // change direction to down
+              }
+            }
+            if (location[xx][yy][1]==2){  // if it's going down,
+              if (location[xx][yy][0]>0){ // and not already on the ground  floor
+                location[xx][yy][0]=location[xx][yy][0]-1;  // move it down  one
+              }
+              else{ // on the bottom floor?
+                location[xx][yy][0]=location[xx][yy][0]+1; // move up one
+                location[xx][yy][1]==1;  //change direction to up
+              }
+            }
+            LED(xx,yy,location[xx][yy][0], myred, mygreen, myblue); // turn on  in new location
+          }
+        }
+      } 
+      delay(30); // this moves pretty fast
+    }
+    clearCube();    // clear the cube
+  }
+  delay(1000);
+}
+
+
+// This animation is similar to the single swirl except our sprites are 2 x 2  x 2 in size.  They are just as easy to create as our single LED sprites, 
+// and are much easier to track as they move about in the cube. 
+
+void Multi_Swirl() {
+   sprite LED1(2,2,2);  //create 6 sprites
+  LED1.colorIt(Yellow);
+  LED1.place = {5,4,3};
+  LED1.motion = {1,-2,1};
+
+  sprite LED2(2,2,2);
+  LED2.colorIt(Green);
+  LED2.place = {3,4,5};
+  LED2.motion = {2,1,-2};
+  
+  sprite LED3(2,2,2);
+  LED3.colorIt(Blue);
+  LED3.place = {2,6,3};
+  LED3.motion = {1,-1,-1};
+   
+  sprite LED4(2,2,2);
+  LED4.colorIt(Violet);
+  LED4.place = {5,1,2};
+  LED4.motion = {2,1,-1};
+ 
+  sprite LED5(2,2,2);
+  LED5.colorIt(Orange);
+  LED5.place = {1,2,3};
+  LED5.motion = {1,1,2};
+
+  sprite LED6(2,2,2);
+  LED6.colorIt(Red);
+  LED6.place = {5,1,2};
+  LED6.motion = {2,1,-1};
+
+  for (int count=0; count<150; count++) {  //now bounce all these sprites  around in the cube
+    LED1.bounceIt();
+    LED2.bounceIt();
+    LED3.bounceIt();
+    LED4.bounceIt();
+    LED5.bounceIt();
+    LED6.bounceIt();
+    delay(125); // delay 125msec between each movement. 
+  }
+  LED1.clearIt();
+  LED2.clearIt();
+  LED3.clearIt();
+  LED4.clearIt();
+  LED5.clearIt();
+  LED6.clearIt();
+  delay(1000);
+}
+
+
+// In this animation, we create three sprites, then rotate them around  themselves while rolling them around the edge of the cube. 
+// An interesting effect demonstating both .roll and .rotate methods of our  sprite object class.
+
+void Flip_and_Roll(){
+ int mydelay = 250;
+  sprite Sprite1(3,3,3);  // X and Y dimensions must be equal if we are going  to rotate around Z axis.   
+  Sprite1.place= {1,1,1};
+  Sprite1.description = {  // just a simple red green green line across 3  layers
+		    {  // top layer
+			{Red,  Red, Red},  // 1st column,  3 panels 
+			{Red,  Red, Red},  // 2nd column,  3 panels
+			{Red,  Red, Red}   // 3rd column,  3 panels
+		    },
+		    {  // middle layer
+			{Black, Black, Black},  
+			{Black, Black, Black},
+			{Black, Black, Black}
+		    },
+	            {  // bottom layer
+			{Black, Black, Black}, 
+			{Black, Black, Black},
+			{Black, Black, Black}
+		    },
+		 };
+  sprite Sprite2(3,3,3);  // X and Y dimensions must be equal if we are going  to rotate around X axis.   
+  Sprite2.place= {4,4,5};
+  Sprite2.description = {  // just a simple red green green line across 3  layers
+		    {  // top layer
+			{Green, Black, Black}, 
+			{Green, Black, Black},
+			{Green, Black, Black}  
+		    },
+		    {  // middle layer
+			{Green, Black, Black}, 
+			{Green, Black, Black},
+			{Green, Black, Black}
+		    },
+	            {  // bottom layer
+			{Green, Black, Black}, 
+			{Green, Black, Black},
+			{Green, Black, Black}
+		    },
+		 };
+  sprite Sprite3(3,3,3);  // X and Y dimensions must be equal if we are going  to rotate around X axis.   
+  Sprite3.place= {1,4,3};
+  Sprite3.description = {  // just a simple red green green line across 3  layers
+		    {  // top layer
+			{Blue, Black, Black}, 
+			{Blue, Black, Black},
+			{Blue, Black, Black}  
+		    },
+		    {  // middle layer
+			{Blue, Black, Black}, 
+			{Blue, Black, Black},
+			{Blue, Black, Black}
+		    },
+	            {  // bottom layer
+			{Blue, Black, Black}, 
+			{Blue, Black, Black},
+			{Blue, Black, Black}
+		    },
+		 };
+ 
+for (int count=0; count<15; count++){
+  Sprite1.rotateX(0);
+  Sprite2.rotateZ(1);
+  Sprite3.rotateZ(1);
+  Sprite1.rollZ(0);
+  Sprite2.rollZ(1);
+  Sprite3.rollZ(0);
+  delay(mydelay);
+  Sprite1.rotateZ(0);
+  Sprite2.rotateY(1);
+  delay(mydelay);
+  Sprite1.rotateY(0);
+  Sprite2.rotateX(0);
+  Sprite3.rotateX(0);
+  Sprite1.rollZ(0);
+  Sprite2.rollZ(1);
+  Sprite3.rollZ(0);
+  delay(mydelay);
+  Sprite1.rotateX(0);
+  Sprite2.rotateZ(1);
+  delay(mydelay);
+  Sprite1.rotateZ(0);
+  Sprite2.rotateY(1);
+  Sprite3.rotateY(1);
+  Sprite1.rollZ(0);
+  Sprite2.rollZ(1);
+  Sprite3.rollZ(0);
+  delay(mydelay);
+  Sprite1.rotateY(0);
+  Sprite2.rotateX(0);
+  delay(mydelay);
+}
+ clearCube(); 
+  delay(1000);
+}
+
+
+// This animation creates red, green, and blue boxes. Then it rolls one around  the edge of the cube around the X axis, one is rolled around the Y axis,
+// and one is rolled around the Z axis.  Creates an interesting effect. 
+void FlyingBoxes() {
+  sprite mySprite(3,3,3); // this creates a sprite called mySprite with  dimensions 2x2x2 LEDs.
+  mySprite.colorIt(Green);
+  mySprite.place = {3,5,3}; // locate it in the lower, back corner of the cube
+  mySprite.setIt(); // actually puts it in the cube, turning on the LEDs. 
+  mySprite.motion = {2,1,1}; // gives my sprite an initial direction of motion
+  
+  sprite mySprite2(3,3,3); // this creates a sprite called mySprite with  dimensions 2x2x2 LEDs.
+  mySprite2.colorIt(Red);
+  mySprite2.place = {0,3,2}; // locate it in the lower, back corner of the  cube
+  mySprite2.setIt(); // actually puts it in the cube, turning on the LEDs. 
+  mySprite2.motion = {2,1,1}; // gives my sprite an initial direction of  motion
+  
+  sprite mySprite3(3,3,3); // this creates a sprite called mySprite with  dimensions 2x2x2 LEDs.
+  mySprite3.colorIt(Blue);
+  mySprite3.place = {4,2,4}; // locate it in the lower, back corner of the  cube
+  mySprite3.setIt(); // actually puts it in the cube, turning on the LEDs. 
+  mySprite3.motion = {2,1,1}; // gives my sprite an initial direction of  motion
+  
+  for (count=0; count<250; count++) { // loop around 100 times
+    mySprite.rollX(1); 
+    mySprite2.rollZ(1); 
+    mySprite3.rollY(0); 
+    delay(100); // wait 1/10th second before next move.
+  } 
+  mySprite.clearIt(); // turn off the sprite since we're done.
+  mySprite2.clearIt(); // turn off the sprite since we're done.
+  mySprite3.clearIt(); // turn off the sprite since we're done.
+  delay(1000);
+}
+
+
+// this is the pulsing sphere animation.
+void Pulsing_Sphere(int mycount){
+  for (int counter=0; counter<mycount; counter++){
+    for (count=0; count<5; count++){  //expand
+      show_sphere();
+    }
+    for (count=4; count>0; count--){  //contract
+      show_sphere();
+    }
+  }
+  delay(1000);
+}
+
+
+void show_sphere(){ // draw the sphere and change its color
+  for (byte layer=0; layer<8; layer++){  // scan thru each layer
+    for (byte column=0; column<8; column++){  // scan thru every column
+      for (byte panel=0; panel<8; panel++){  // scan thru every panel
+        x= float(layer); // convert coordinates to floating point to compute  distance from center of cube
+        y= float(panel); 
+        z= float(column); 
+        float polar = sqrt((x-3.5)*(x-3.5)+(y-3.5)*(y-3.5)+(z-3.5)*(z-3.5)); //  Calculate the distance
+        if (polar<count){ // if an LED is inside the radius specified by  count, turn it on. 
+          LED(column, panel, layer, myred, mygreen, myblue);
+        }
+        else{  // otherwise turn it off
+          LED(column, panel, layer,0,0,0);
+        }
+      }
+    }
+  }
+  delay(75);  // control speed
+  colorCount = colorCount + 12;  // increment color wheel by twelve
+  if (colorCount > 189){  // keep color wheel colors in bounds
+    colorCount =0;
+  }
+  getColor(colorCount, 3); // get the color wheel color for next pass
+}
+
+
+void Sinewave(int repeat) {
+  for (int reps =0; reps<repeat; reps++){
+    for (int i=0; i<80; i++){   //it takes 40 steps to complete one full cycle
+      getColor(i*2, 4); // get a rainbow color.  We need to go through all 189  color over the course of one full cycle. 
+      for (byte xx=0; xx<4; xx++){ // for 1 quadrant of the cube
+        for (byte yy=0; yy<4; yy++){
+          // the next line is the guts of the calculation, where the z value  is calculated both as a function of i and distance 
+          // from center of cube.  The calculation is time consuming, so we  calculate it for only one quadrant and 
+          // then reflect it onto the other 3 quadrants.
+          z=((byte)((4+sin(sqrt((3.5-xx)*(3.5-xx)+(3.5-yy)*(3.5- yy))/1.3+(float)i/12)*4))); // the actual z calculation
+          LED(xx,yy, z, myred,mygreen,myblue); // put z into the proper place  for each position in quadrant 1
+          LED(7-xx,7-yy, z, myred,mygreen,myblue); // put z into the proper  place for each position in quatrant 3
+          LED(7-xx,yy, z, myred,mygreen,myblue);  // put z into the proper  place for each position in quatrant 2
+          LED(xx,7-yy, z, myred,mygreen,myblue);  // put z into the proper  place for each position in quatrant 4  
+        }
+      } 
+          delay(8);       // Increase or decrease to change speed of this  animation 
+          clearCube();    // clear the cube
+    }
+  }
+  clearCube();
+   delay(1000);
+}
+
+
+// This is the cyclone animation. 
+
+void Cyclone(){
+    for (int mycolors=0; mycolors<190; mycolors= mycolors+15){ //get a color  from color wheel
+      int color2= mycolors+95;  // get a color from the opposite side of color  wheel
+      if (color2>189){
+        color2=color2-189;
+      }
+      getColor(mycolors, 4);  // set up the top layer with these colors
+      cyclone[0][0]=myred;
+      cyclone[0][1]=mygreen;
+      cyclone[0][2]=myblue;
+      cyclone[1][0]=myred;
+      cyclone[1][1]=mygreen;
+      cyclone[1][2]=myblue;
+      getColor(color2, 4);
+      cyclone[10][0]=myred;
+      cyclone[10][1]=mygreen;
+      cyclone[10][2]=myblue;
+      cyclone[11][0]=myred;
+      cyclone[11][1]=mygreen;
+      cyclone[11][2]=myblue;
+      for (int count=0; count<duration; count++){ // send them through a full  rotation
+        cyclone1();
+      }
+    }
+    clearCube();
+     delay(1000);
+  }
+
+void cyclone1(){  // actually display in LEDs
+  LED (4,0,7,cyclone[0][0],cyclone[0][1],cyclone[0][2]);
+  LED (3,0,7,cyclone[1][0],cyclone[1][1],cyclone[1][2]);
+  LED (2,1,7,cyclone[2][0],cyclone[2][1],cyclone[2][2]);
+  LED (1,1,7,cyclone[3][0],cyclone[3][1],cyclone[3][2]);
+  LED (1,2,7,cyclone[4][0],cyclone[4][1],cyclone[4][2]);
+  LED (0,3,7,cyclone[5][0],cyclone[5][1],cyclone[5][2]);
+  LED (0,4,7,cyclone[6][0],cyclone[6][1],cyclone[6][2]);
+  LED (1,5,7,cyclone[7][0],cyclone[7][1],cyclone[7][2]);
+  LED (1,6,7,cyclone[8][0],cyclone[8][1],cyclone[8][2]);
+  LED (2,6,7,cyclone[9][0],cyclone[9][1],cyclone[9][2]);
+  LED (3,7,7,cyclone[10][0],cyclone[10][1],cyclone[10][2]);
+  LED (4,7,7,cyclone[11][0],cyclone[11][1],cyclone[11][2]);
+  LED (5,6,7,cyclone[12][0],cyclone[12][1],cyclone[12][2]);
+  LED (6,6,7,cyclone[13][0],cyclone[13][1],cyclone[13][2]);
+  LED (6,5,7,cyclone[14][0],cyclone[14][1],cyclone[14][2]);
+  LED (7,4,7,cyclone[15][0],cyclone[15][1],cyclone[15][2]);
+  LED (7,3,7,cyclone[16][0],cyclone[16][1],cyclone[16][2]);
+  LED (6,2,7,cyclone[17][0],cyclone[17][1],cyclone[17][2]);
+  LED (6,1,7,cyclone[18][0],cyclone[18][1],cyclone[18][2]);
+  LED (5,1,7,cyclone[19][0],cyclone[19][1],cyclone[19][2]);
+  
+  for (int x=0;x<8;x++){ // copy content of each layer to the layer below it.
+    for (int y=0;y<8;y++){
+      for (int z=1;z<8;z++){
+        for (int c=0;c<3;c++){
+          cube [x][y][z-1][c] = cube [x][y][z][c];
+        }
+      }
+    }
+  }
+ 
+  for (int counter=duration-1; counter>-1; counter--){ // rotate the content  in the cyclone matrix by one
+    cyclone[counter+1][0]=cyclone[counter][0];
+    cyclone[counter+1][1]=cyclone[counter][1];
+    cyclone[counter+1][2]=cyclone[counter][2];
+  }
+  cyclone[0][0]=cyclone[duration][0];
+  cyclone[0][1]=cyclone[duration][1];
+  cyclone[0][2]=cyclone[duration][2]; 
+
+  delay (55);  // wait 55 msec before moving to next position. 
+}
+
+void Rain(int times){
+  for (int count=0; count<times; count++){
+    lightOne();   // load 5 colored LEDs into the top layer
+    lightOne();
+    lightOne();
+    lightOne();
+    lightOne();
+    delay(100);  // wait 1/10 second
     for (int x=0;x<8;x++){
       for (int y=0;y<8;y++){
-        if (x+y==2*z) {
-          if (mycount<40) {
-            LED(z,x,y, myred, mygreen, myblue);
+        for (int z=1;z<8;z++){
+          for (int c=0;c<3;c++){
+            cube [x][y][z-1][c] = cube [x][y][z][c];  // shift everything in  the cube down one
           }
-          else  {
-            LED(z,x,7-y, myred, mygreen, myblue);
-          }
+        }
+        for (int c=0;c<3;c++){
+          cube [x][y][7][c] = 0;  // and clear the top layer
         } 
       }
     }
   }
+  clearCube();
+   delay(1000);
 }
 
-// MazeMice is derived from my previos Mouse animation.  There are three 
-// mice this time, and the "tails" are much shorter. Nothing fancy, but
-// a lot of repetitious code! 
-void mazemice(){
-  int dir1 = 1, dir2 = 1, dir3 =1;
-  int xx1=7,xx2=7,xx3=7, xx11,xx12, xx13, xx21,xx22, xx23,xx31,xx32, xx33;  
-  int yy1= 7,yy2= 7,yy3=7, yy11,yy12, yy13, yy21,yy22, yy23,yy31,yy32, yy33;  
-  int zz1=7,zz2=7,zz3=7, zz11,zz12,zz13, zz21,zz22,zz23,zz31,zz32, zz33;
-  int xyz1=1,xyz2=1,xyz3=1; 
-  for (int myloop; myloop<820; myloop= myloop+2){
-    LED(xx1,yy1,zz1,31,63,0);  
-    LED(xx2,yy2,zz2,0,63,63);
-    LED(xx3,yy3,zz3,31,0,63);
-    if (myloop>4){
-     LED(xx11,yy11,zz11,5,10,0);  
-     LED(xx21,yy21,zz21,0,10,10);
-     LED(xx31,yy31,zz31,5,0,10);
-     LED(xx12,yy12,zz12,2,4,0);  
-     LED(xx22,yy22,zz22,0,4,4);
-     LED(xx32,yy32,zz32,2,0,4);
-    }
-    delay(75);
-  //  LED(xx1,yy1,zz1,0,0,0);  
-  //  LED(xx2,yy2,zz2,0,0,0);
-  //  LED(xx3,yy3,zz3,0,0,0);
-  if (myloop>4){
-    LED(xx13,yy13,zz13,0,0,0);  
-    LED(xx23,yy23,zz23,0,0,0);
-    LED(xx33,yy33,zz33,0,0,0);
-   }
-    xx13=xx12;  yy13=yy12;  zz13=zz12;
-    xx12=xx11;  yy12=yy11;  zz12=zz11;
-    xx11=xx1;  yy11=yy1;  zz11=zz1;
-    xx23=xx22;  yy23=yy22;  zz23=zz22;
-    xx22=xx21;  yy22=yy21;  zz22=zz21;
-    xx21=xx2;  yy21=yy2;  zz21=zz2;
-    xx33=xx32;  yy33=yy32;  zz33=zz32;
-    xx32=xx31;  yy32=yy31;  zz32=zz31;
-    xx31=xx3;  yy31=yy3;  zz31=zz3;
-    // For Red, everything is 1
-    switch(xyz1){   
+
+void lightOne() {
+  int RED = 0;
+  int GREEN = 0;
+  int BLUE = 0;
+  if (random(2)){  // red is on or off
+    RED=63;
+  }
+  if (random(2)){  // green is on or off
+    GREEN =63;
+  }
+  if (random(2)){  // blue is on or off
+    BLUE=63;
+  }
+  LED (random(8), random(8), 7, RED,GREEN,BLUE); // light an LED in the top  layer with a random color
+}
+
+
+//This is the wild mouse animation
+
+void Mouse1(){
+  dir = 1;
+  byte currentColor[3] = {0,0,0};
+  xx=7;  
+  yy= 7;  
+  zz=7;
+  xyz=1; 
+  for (int myloop; myloop<760; myloop= myloop+2){
+    LED(xx,yy,zz,currentColor[0],currentColor[1],currentColor[2]);  //light up  the current position with current color 
+    xx1=xx; 
+    yy1=yy; 
+    zz1=zz; 
+    switch(xyz){   
     case 1: // moving across layers
-      if (dir1 == 1){ // if moving higher?
-        xx1++;
-        if (xx1>7){ // Did we hit an edge on the high end?
-          xx1=7;
-          xyz1=2; // if so, change direction
-          if (yy1<4){ // in new direction, move toward the middle
-            dir1 = 1;
+      if (dir == 1){ // if moving higher?
+        xx++;
+        if (xx>7){ // Did we hit an edge on the high end?
+          xx=7;
+          xyz=2; // if so, change direction
+          if (yy<4){ // in new direction, move toward the middle
+            dir = 1;
           }
           else {
-            dir1 =-1;
+            dir =-1;
           }
         }
       }
-      if (dir1 == -1){  // if moving lower?
-        xx1--;
-        if (xx1<0) { // Did we hit an edge on the low end?
-          xx1=0;
-          xyz1=3;   // if so, change direction
-          if (zz1<4){  // in new direction, move toward the middle
-            dir1 = 1;
+      if (dir == -1){  // if moving lower?
+        xx--;
+        if (xx<0) { // Did we hit an edge on the low end?
+          xx=0;
+          xyz=3;   // if so, change direction
+          if (zz<4){  // in new direction, move toward the middle
+            dir = 1;
           }
           else {
-            dir1 =-1;
+            dir =-1;
           }
         }
       }
 
       if (random(5) == 0){  // one in 5 times, change move dimension in the  middle of the cube
         if (random(2) == 0){  // which way to change dimension?
-          xyz1=2;  // move across panels 
+          xyz=2;  // move across panels 
         }
         else {
-          xyz1=3;  // move across columns
+          xyz=3;  // move across columns
         }
       }
       break;
 
     case 2: // moving across panels  (similar to above)
-      if (dir1 == 1){
-        yy1++;
+      if (dir == 1){
+        yy++;
 
-        if (yy1>7){
-          yy1=7; 
-          xyz1=3; 
-          if (zz1<4){
-            dir1 = 1;
+        if (yy>7){
+          yy=7; 
+          xyz=3; 
+          if (zz<4){
+            dir = 1;
           }
           else {
-            dir1 =-1;
+            dir =-1;
           }
         }
       }
-      if (dir1 == -1){
-        yy1--;
-        if (yy1<0) {
-          yy1=0;
-          xyz1=1; 
-          if (xx1<4){
-            dir1 = 1;
+      if (dir == -1){
+        yy--;
+        if (yy<0) {
+          yy=0;
+          xyz=1; 
+          if (xx<4){
+            dir = 1;
           }
           else {
-            dir1 =-1;
+            dir =-1;
           }
         }
       }
 
       if (random(5) == 0){
         if (random(2) == 0){
-          xyz1=3;
+          xyz=3;
         }
         else {
-          xyz1=1;
+          xyz=1;
         }
       } 
       break;
     case 3:  // moving across columns, similar to above
-      if (dir1 == 1){
-        zz1++;
-        if (zz1>7){
-          zz1=7; 
-          xyz1=1; 
-          if (xx1<4){
-            dir1 = 1;
+      if (dir == 1){
+        zz++;
+        if (zz>7){
+          zz=7; 
+          xyz=1; 
+          if (xx<4){
+            dir = 1;
           }
           else {
-            dir1 =-1;
+            dir =-1;
           }
         }
       }
-      if (dir1 == -1){
-        zz1--;
-        if (zz1<0) {
-          zz1=0;
-          xyz1=2; 
-          if (yy1<4){
-            dir1 = 1;
+      if (dir == -1){
+        zz--;
+        if (zz<0) {
+          zz=0;
+          xyz=2; 
+          if (yy<4){
+            dir = 1;
           }
           else {
-            dir1 =-1;
+            dir =-1;
           }
         }
       }
 
       if (random(5) == 0){
         if (random(2) == 0){
-          xyz1=1;
+          xyz=1;
         }
         else {
-          xyz1=2;
+          xyz=2;
         }
       }
       break;
     } 
-  // For Green, everything is 2  
-  switch(xyz2){   
-    case 1: // moving across layers
-      if (dir2 == 1){ // if moving higher?
-        xx2++;
-        if (xx2>7){ // Did we hit an edge on the high end?
-          xx2=7;
-          xyz2=2; // if so, change direction
-          if (yy2<4){ // in new direction, move toward the middle
-            dir2 = 1;
-          }
-          else {
-            dir2 =-1;
-          }
-        }
-      }
-      if (dir2 == -1){  // if moving lower?
-        xx2--;
-        if (xx2<0) { // Did we hit an edge on the low end?
-          xx2=0;
-          xyz2=3;   // if so, change direction
-          if (zz1<4){  // in new direction, move toward the middle
-            dir2 = 1;
-          }
-          else {
-            dir2 =-1;
-          }
-        }
-      }
 
-      if (random(5) == 0){  // one in 5 times, change move dimension in the  middle of the cube
-        if (random(2) == 0){  // which way to change dimension?
-          xyz2=2;  // move across panels 
-        }
-        else {
-          xyz2=3;  // move across columns
-        }
-      }
-      break;
+    history[historyCount][0]= xx1;  // move the current position into the  history so we can control the trail
+    history[historyCount][1]= yy1;
+    history[historyCount][2]= zz1;
+    history[historyCount][3]= currentColor[0];
+    history[historyCount][4]= currentColor[1];
+    history[historyCount][5]= currentColor[2];
 
-    case 2: // moving across panels  (similar to above)
-      if (dir2 == 1){
-        yy2++;
-
-        if (yy2>7){
-          yy2=7; 
-          xyz2=3; 
-          if (zz2<4){
-            dir2 = 1;
-          }
-          else {
-            dir2 =-1;
-          }
-        }
-      }
-      if (dir2 == -1){
-        yy2--;
-        if (yy2<0) {
-          yy2=0;
-          xyz2=1; 
-          if (xx2<4){
-            dir2 = 1;
-          }
-          else {
-            dir2 =-1;
-          }
-        }
-      }
-
-      if (random(5) == 0){
-        if (random(2) == 0){
-          xyz2=3;
-        }
-        else {
-          xyz2=1;
-        }
-      } 
-      break;
-    case 3:  // moving across columns, similar to above
-      if (dir2 == 1){
-        zz2++;
-        if (zz2>7){
-          zz2=7; 
-          xyz2=1; 
-          if (xx2<4){
-            dir2 = 1;
-          }
-          else {
-            dir1 =-1;
-          }
-        }
-      }
-      if (dir2 == -1){
-        zz2--;
-        if (zz2<0) {
-          zz2=0;
-          xyz2=2; 
-          if (yy2<4){
-            dir2 = 1;
-          }
-          else {
-            dir2 =-1;
-          }
-        }
-      }
-
-      if (random(5) == 0){
-        if (random(2) == 0){
-          xyz2=1;
-        }
-        else {
-          xyz2=2;
-        }
-      }
-      break;
+    tempCount2 = historyCount+1;  // move ahead in the history by one, which  is last position in the trail
+    if (tempCount2==24){
+      tempCount2=0;
     }
-   // For Blue everything is 3
-  switch(xyz3){   
-    case 1: // moving across layers
-      if (dir3 == 1){ // if moving higher?
-        xx3++;
-        if (xx3>7){ // Did we hit an edge on the high end?
-          xx3=7;
-          xyz3=2; // if so, change direction
-          if (yy3<4){ // in new direction, move toward the middle
-            dir3 = 1;
-          }
-          else {
-            dir3 =-1;
-          }
-        }
-      }
-      if (dir3 == -1){  // if moving lower?
-        xx3--;
-        if (xx3<0) { // Did we hit an edge on the low end?
-          xx3=0;
-          xyz3=3;   // if so, change direction
-          if (zz3<4){  // in new direction, move toward the middle
-            dir3 = 1;
-          }
-          else {
-            dir3 =-1;
-          }
-        }
-      }
+    history[tempCount2][3]= 0;    // and set in to all zeros.
+    history[tempCount2][4]= 0;
+    history[tempCount2][5]= 0;
 
-      if (random(5) == 0){  // one in 5 times, change move dimension in the  middle of the cube
-        if (random(2) == 0){  // which way to change dimension?
-          xyz3=2;  // move across panels 
-        }
-        else {
-          xyz3=3;  // move across columns
-        }
-      }
-      break;
 
-    case 2: // moving across panels  (similar to above)
-      if (dir3 == 1){
-        yy3++;
-
-        if (yy3>7){
-          yy3=7; 
-          xyz3=3; 
-          if (zz3<4){
-            dir3 = 1;
-          }
-          else {
-            dir3 =-1;
-          }
-        }
-      }
-      if (dir3 == -1){
-        yy3--;
-        if (yy3<0) {
-          yy3=0;
-          xyz3=1; 
-          if (xx3<4){
-            dir3 = 1;
-          }
-          else {
-            dir3 =-1;
-          }
-        }
-      }
-
-      if (random(5) == 0){
-        if (random(2) == 0){
-          xyz3=3;
-        }
-        else {
-          xyz3=1;
-        }
-      } 
-      break;
-    case 3:  // moving across columns, similar to above
-      if (dir3 == 1){
-        zz3++;
-        if (zz3>7){
-          zz3=7; 
-          xyz3=1; 
-          if (xx3<4){
-            dir3 = 1;
-          }
-          else {
-            dir3 =-1;
-          }
-        }
-      }
-      if (dir3 == -1){
-        zz3--;
-        if (zz3<0) {
-          zz3=0;
-          xyz3=2; 
-          if (yy3<4){
-            dir3 = 1;
-          }
-          else {
-            dir3 =-1;
-          }
-        }
-      }
-
-      if (random(5) == 0){
-        if (random(2) == 0){
-          xyz3=1;
-        }
-        else {
-          xyz3=2;
-        }
-      }
-      break;
+    for (int mycount=0; mycount<24; mycount++){  // update the cube with new  trail data
+      xx1=history[mycount][0];
+      yy1=history[mycount][1];
+      zz1=history[mycount][2];
+      LED(xx1,yy1,zz1,history[mycount][3],history[mycount][4],history [mycount][5]);
     }
- 
+
+    historyCount++;
+    if (historyCount>23){ // keep the history counter in bounds
+      historyCount = 0; 
+    }
+    if (tempCount==4){ // update the every 4th time through
+      getColor(mycolor, 4);
+      currentColor[0] = myred;
+      currentColor[1] = mygreen;
+      currentColor[2] = myblue;
+      mycolor++;
+      if (mycolor>189){ // keep the color in bounds
+        mycolor = 0;
+      }
+      tempCount = 0;
+    }
+    tempCount++;
+    delay (30);  // delay to control speed
+  }
+
+  for (int mycount=0; mycount<24; mycount++){  // Clear the trail
+    xx1=history[mycount][0];
+    yy1=history[mycount][1];
+    zz1=history[mycount][2];
+    LED(xx1,yy1,zz1,0,0,0);
   }
   clearCube();  // Clear the cube
+   delay(1000);
+}
+
+
+// This is a new Fireworks animation
+// This version is a single color, which must be specified
+// Also must specify the XY coordinates where it will appear
+void Fireworks() {
+  fireWork(3,4, Blue);
+  fireWork2(3,5);
+  fireWork(7,2, White);
+  fireWork(4,4, Red);
+  fireWork2(5,4);
+  fireWork(3,3, Green);
+  fireWork(2,5, White);
   delay(1000);
 }
-
-/* Atom Smasher is a simple animation where two "particles" moving in the Atom table positions
-   eventual collide in an explosion. 
- */
-void atomSmasher(){
-  mycolor=0;
-  for (int j=0; j<5; j++){
-    for(int k=0; k<2; k++){
-      for (int i=0; i<20; i++) {
-        getColor(mycolor+80,4);
-        LED(atomTable[19-i][0],atomTable[19-i][1],0,myred, mygreen, myblue);
-        delay(30);
-        LED(atomTable[19-i][0],atomTable[19-i][1],0,0,0,0);
-      }
-    }
-    for (int z=15; z>8; z--) {
-      for (int i=0; i<20; i++) {
-        getColor(mycolor,4);
-        LED(atomTable[i][0],atomTable[i][1],z/2,myred, mygreen, myblue);
-       
-        getColor(mycolor+80,4);
-        LED(atomTable[19-i][0],atomTable[19-i][1],8-z/2,myred, mygreen, myblue);
-        delay(30);
-        if (i==9 && z==9){
-          explode();
-          break;
-        }
-        LED(atomTable[i][0],atomTable[i][1],z/2,0,0,0);
-        LED(atomTable[19-i][0],atomTable[19-i][1],8-z/2,0,0,0);
-      }
-    }
-    mycolor=mycolor+20;
-    if (mycolor>189) {mycolor=0;}
-    delay(500);
-  }
-  clearCube();
-  delay(1000);
-}
-
-void explode(){  
-  for (count=0; count<9; count++){  //expand
-    show_sphere3();
-  }
-  clearCube();
-  getColor(White,1);
-  for (int p=0; p<20; p++){
-    LED(random(3)+3,random(3)+3,random(3)+3,myred, mygreen, myblue);
-  }
-  for (int p=0; p<7; p++){
-  delay(200);
-  zdown (1);
-  }
-}
-
-void show_sphere3(){ // draw the sphere and change its color
-  getColor(White,4);
+void fireWork(int x,int y, int mycolor){
+  int mydelay = 80;
   float polar;
-  for (int layer=0; layer<8; layer++){  // scan thru each layer
-    for (byte column=0; column<8; column++){  // scan thru every column
-      for (byte panel=0; panel<8; panel++){  // scan thru every panel
-        x= float(layer); // convert coordinates to floating point to compute distance from center of cube
-        y=float(panel); 
-        z= float(column); 
-        polar = sqrt((x-4)*(x-4)+(y-6)*(y-6)+(z-6)*(z-6)); // Calculate the distance
-        if (polar<count && column<8 && panel<8 && layer >-1 && layer<8){ // if an LED is inside the radius specified by count, turn it on. 
-          LED(column, panel, layer, myred, mygreen, myblue);
+  getColor(mycolor,4);
+  for (int layer=0; layer<6; layer++) { // firework goes up here
+    LED(x,y, layer, 15, 31, 31);
+    delay(mydelay);
+    if (layer==5){
+      delay(mydelay);  // pauses slightly at the top
+    }
+    LED(x,y, layer, 0, 0, 0);
+  }
+  
+
+  for (int layer=0; layer<8; layer++) { // starts to explode
+    for (int xx=0; xx<8; xx++){
+      for (int yy=0; yy<8; yy++){
+        polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
+        if (polar <1){
+          LED(xx, yy, layer, myred, mygreen, myblue);
+        }
+        else {
+          LED(xx, yy, layer,0,0,0);
+        }
+      }
+    }
+  }
+  delay(mydelay);
+  for (int layer=0; layer<8; layer++) { // continues to explode
+    for (int xx=0; xx<8; xx++){
+      for (int yy=0; yy<8; yy++){
+        polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
+        if (polar <2){
+          LED(xx, yy, layer, myred, mygreen, myblue);
+        }
+        else {
+          LED(xx, yy, layer,0,0,0);
+        }
+      }
+    }
+  }
+  delay(mydelay);
+  for (int layer=0; layer<8; layer++) { //continues to explode
+    for (int xx=0; xx<8; xx++){
+      for (int yy=0; yy<8; yy++){
+        polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
+        if (polar <3){
+          LED(xx, yy, layer, myred, mygreen, myblue);
+        }
+        else {
+          LED(xx, yy, layer,0,0,0);
+        }
+      }
+    }
+  }
+ delay(mydelay*3);  //pauses extra time at max expansion
+  for (int layer=0; layer<8; layer++) {  // then starts to fade
+    for (int xx=0; xx<8; xx++){
+      for (int yy=0; yy<8; yy++){
+        polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
+        if (polar == 2){
+          LED(xx, yy, layer, myred, mygreen, myblue);
+        }
+        else {
+          LED(xx, yy, layer,0,0,0);
+        }
+      }
+    }
+  }
+  delay(mydelay); 
+  for (count=0; count<8; count++){  // now what is left move down slowly 
+    shiftDown();  // shiftDown also fades the remains as they fall.
+    delay(mydelay*2);
+  }
+  delay(random(4)*1000);  // pause a random amount of time before next  firework. 
+}
+
+
+// This is same routine as above color of each element is set at random.  
+void fireWork2(int x,int y){
+  int mydelay = 80;
+  
+  float polar;
+  for (int layer=0; layer<6; layer++) {
+    LED(x,y, layer, 15, 31, 31);  // on the way up, it's always white
+    delay(mydelay);
+    if (layer==5){
+      delay(mydelay);
+    }
+    LED(x,y, layer, 0, 0, 0);
+  }
+  
+
+  for (int layer=0; layer<8; layer++) {
+    for (int xx=0; xx<8; xx++){
+      for (int yy=0; yy<8; yy++){
+        polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
+        if (polar <1){
+          if (random(2)>0) {myred=63;}  // here is where we select colors at  random. 
+          else {myred=0;}
+          if (random(2)>0) {mygreen=63;}
+          else {mygreen=0;}
+          if (random(2)>0) {myblue=63;}
+          else {myblue=0;}
+          LED(xx, yy, layer, myred, mygreen, myblue);
+        }
+        else {
+          LED(xx, yy, layer,0,0,0);
+        }
+      }
+    }
+  }
+  delay(mydelay);
+  for (int layer=0; layer<8; layer++) {
+    for (int xx=0; xx<8; xx++){
+      for (int yy=0; yy<8; yy++){
+        polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
+        if (polar <2){
+          if (random(2)>0) {myred=63;}
+          else {myred=0;}
+          if (random(2)>0) {mygreen=63;}
+          else {mygreen=0;}
+          if (random(2)>0) {myblue=63;}
+          else {myblue=0;}
+          LED(xx, yy, layer, myred, mygreen, myblue);
+        }
+        else {
+          LED(xx, yy, layer,0,0,0);
+        }
+      }
+    }
+  }
+  delay(mydelay);
+  for (int layer=0; layer<8; layer++) {
+    for (int xx=0; xx<8; xx++){
+      for (int yy=0; yy<8; yy++){
+        polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
+        if (polar <3){
+          if (random(2)>0) {myred=63;}
+          else {myred=0;}
+          if (random(2)>0) {mygreen=63;}
+          else {mygreen=0;}
+          if (random(2)>0) {myblue=63;}
+          else {myblue=0;}
+          LED(xx, yy, layer, myred, mygreen, myblue);
+        }
+        else {
+          LED(xx, yy, layer,0,0,0);
+        }
+      }
+    }
+  }
+ delay(mydelay*3);
+  for (int layer=0; layer<8; layer++) {
+    for (int xx=0; xx<8; xx++){
+      for (int yy=0; yy<8; yy++){
+        polar = sqrt((xx-x)*(xx-x)+(yy-y)*(yy-y)+(layer-5)*(layer-5));
+        if (polar == 2){
+          if (random(2)>0) {myred=63;}
+          else {myred=0;}
+          if (random(2)>0) {mygreen=63;}
+          else {mygreen=0;}
+          if (random(2)>0) {myblue=63;}
+          else {myblue=0;}
+          LED(xx, yy, layer, myred, mygreen, myblue);
+        }
+        else {
+          LED(xx, yy, layer,0,0,0);
+        }
+      }
+    }
+  }
+  delay(mydelay); 
+  for (count=0; count<8; count++){
+    shiftDown();
+    delay(mydelay*2);
+  }
+  delay(random(4)*1000);
+}
+
+
+
+void shiftDown(){
+  for (int x=0;x<8;x++){ // copy content of each layer to the layer below it.
+    for (int y=0;y<8;y++){
+      for (int z=1;z<8;z++){
+        for (int c=0;c<3;c++){
+          cube [x][y][z-1][c] = (cube [x][y][z][c]) >> 1;  // the divide by 2  causes it 
+          cube [x][y][z][c] = 0;                           // to fade on the way  down. 
         }
       }
     }
   }
 }
 
+
+// This makes a donut revolve in the middle of the cube.
+void Donut(int mycount) {
+   colorCount=0;
+  for (int reps=0; reps<mycount; reps++){
+    rotation = 10 * .0174532; // convert angle to radians
+    getColor(colorCount,4);  // pick a color.  It will gradually change as  colorCount increases.
+    colorCount = colorCount+1;
+    if (colorCount>188){
+      colorCount=0;
+    }
+    for (int layer=0;  layer<8; layer++){ // build the donut on the  buffer_cube array.
+      for  (int panel=0; panel<8; panel++){
+        float mydistance = distance[layer][panel];
+        if (mydistance<4){  // make a circle 2 columns wide
+          buffer_LED(3, panel, layer, myred,mygreen,myblue);
+          buffer_LED(4, panel, layer,myred,mygreen,myblue); 
+        }
+        if (mydistance<2){  // make the donut hole
+          buffer_LED(3, panel, layer,0,0,0);
+          buffer_LED(4, panel, layer,0,0,0); 
+        }
+      }
+    }
+    for (int count=0; count<5; count++) {  // now rotate it. 
+      rotateAll(myangle);  // the actual rotation of the animation
+      myangle = myangle + rotation; // increment the angle
+      if (myangle>6.28318) { // and make sure it doesn't overflow
+        myangle=myangle-6.28318;  //subtract 2 pi radians
+      }
+    }
+  }
+  clearBufferCube();
+  clearCube();
+  delay(1000);
+}
+
+
+// this anamation sort of looks like a tornado.  is gets faster as it goes,  eventually
+// picking up yellew debris in its center, which turns red as it gets faster. 
+void Tornado(){
+  rotation = 12 * .0174532; // convert angle to radians - this is slow speed
+  buffer_LED(1,1,7,0,0,63);  // this sets up the tornato
+  buffer_LED(0,4,6,0,0,63);
+  buffer_LED(2,5,5,0,0,63);
+  buffer_LED(3,6,4,0,0,63);
+  buffer_LED(5,5,3,0,0,63);
+  buffer_LED(5,4,2,0,0,63);
+  buffer_LED(4,4,1,0,0,63);
+  buffer_LED(4,3,0,0,0,63);
+  buffer_LED(6,6,7,0,63,0);
+  buffer_LED(7,4,6,0,63,0);
+  buffer_LED(5,2,5,0,63,0);
+  buffer_LED(4,2,4,0,63,0);
+  buffer_LED(2,2,3,0,63,0);
+  buffer_LED(2,4,2,0,63,0);
+  buffer_LED(3,3,1,0,63,0);
+  buffer_LED(3,4,0,0,63,0);
+  for (int count=0; count<400; count++){
+    if (count>100) { // this speeds up the rotation
+      rotation = 23 * .0174532;
+    }
+    if (count>200) { // this speeds up the rotation again
+      rotation = 30 * .0174532;
+      buffer_LED(5,2,7,31,63,0);  //this adds the yellow debris
+      buffer_LED(4,2,6,31,63,0);
+      buffer_LED(2,2,5,31,63,0);
+      buffer_LED(3,3,4,31,63,0);
+      buffer_LED(4,4,3,31,63,0);
+    }
+    if (count>300) { // this speeds up the rotation again
+      rotation = 37 * .0174532; // this adds the red debris
+      buffer_LED(5,3,7,31,0,0);
+      buffer_LED(4,3,6,31,0,0);
+      buffer_LED(3,2,5,31,0,0);
+      buffer_LED(4,4,4,31,0,0);
+      buffer_LED(3,3,3,31,0,0);
+    }
+    rotateAll(myangle);  // the actual rotation of the animation
+    myangle = myangle + rotation; // increment the angle
+    if (myangle>6.28318) { // and make sure it doesn't overflow
+      myangle=myangle-6.28318;
+    }
+  }
+  clearBufferCube();
+  clearCube();
+  delay(1000);
+}
+
+// The animation creates some interesting stuff to rotate around in the cube
+void Rotor(int reps, int myspeed) {
+  rotation = myspeed * .0174532; // convert angle to radians
+  for (int mycount=0; mycount<reps; mycount++){ // create the first pattern
+  for (byte layer=0; layer<8; layer++){
+    buffer_LED(7,7-layer,layer, 63,63,0);
+    buffer_LED(6,7-layer,layer, 63,0,63);
+    buffer_LED(1,layer,layer, 0,63,0);
+    buffer_LED(0,layer,layer, 0,0,63);
+  }
+  for (int count=0; count<90; count++){ // rotate it
+    rotateAll(myangle);  // the actual rotation of the animation
+    myangle = myangle + rotation; // increment the angle
+    if (myangle>6.28318) { // and make sure it doesn't overflow
+      myangle=0;
+    }
+  }
+  clearBufferCube();
+  for (byte layer=0; layer<8; layer++){  // create the second pattern
+    buffer_LED(6,7-layer,layer, 63,63,0);
+    buffer_LED(5,7-layer,layer, 63,0,63);
+    buffer_LED(2,layer,layer, 0,63,0);
+    buffer_LED(1,layer,layer, 0,0,63);
+  }
+  for (int count=0; count<90; count++){  // rotate it
+    rotateAll(myangle);  // the actual rotation of the animation
+    myangle = myangle + rotation; // increment the angle
+    if (myangle>6.28318) { // and make sure it doesn't overflow
+      myangle=0;
+    }
+  }
+  clearBufferCube();
+  for (byte layer=0; layer<8; layer++){  // create the third pattern
+    buffer_LED(5,7-layer,layer, 63,63,0);
+    buffer_LED(4,7-layer,layer, 63,0,63);
+    buffer_LED(3,layer,layer, 0,63,0);
+    buffer_LED(2,layer,layer, 0,0,63);
+  }
+  for (int count=0; count<90; count++){ // rotate it
+    rotateAll(myangle);  // the actual rotation of the animation
+    myangle = myangle + rotation; // increment the angle
+    if (myangle>6.28318) { // and make sure it doesn't overflow
+      myangle=0;
+    }
+  }
+  rotation = -rotation;
+  for (int count=0; count<90; count++){  // now rotate the third pattern  backward
+    rotateAll(myangle);  // the actual rotation of the animation
+    myangle = myangle + rotation; // increment the angle
+    if (myangle<=0) {  // don't let angle overflow
+      myangle=6.28318;
+    }
+  }
+  clearBufferCube(); // reload the 2nd pattern
+  for (byte layer=0; layer<8; layer++){
+    buffer_LED(6,7-layer,layer, 63,63,0);
+    buffer_LED(5,7-layer,layer, 63,0,63);
+    buffer_LED(2,layer,layer, 0,63,0);
+    buffer_LED(1,layer,layer, 0,0,63);
+  }
+  for (int count=0; count<90; count++){ // rotate it backward
+    rotateAll(myangle);  // the actual rotation of the animation
+    myangle = myangle + rotation; // increment the angle
+    if (myangle<=0) {  // don't let angle overflow
+      myangle=6.28318;
+    }
+  }
+  clearBufferCube();
+   for (byte layer=0; layer<8; layer++){  // reload the first pattern
+    buffer_LED(7,7-layer,layer, 63,63,0);
+    buffer_LED(6,7-layer,layer, 63,0,63);
+    buffer_LED(1,layer,layer, 0,63,0);
+    buffer_LED(0,layer,layer, 0,0,63);
+  }
+  for (int count=0; count<90; count++){ // rotate it backward
+    rotateAll(myangle);  // the actual rotation of the animation
+    myangle = myangle + rotation; // increment the angle
+    if (myangle<=0) {  // don't let angle overflow
+      myangle=6.28318;
+    }
+  }
+  for (byte layer=0; layer<8; layer++){  // now add a reversed version of the  first pattern
+    buffer_LED(7,layer,layer, 63,63,0);  // we didn't clear the buffer so both  patterns are there together
+    buffer_LED(6,layer,layer, 63,0,63);
+    buffer_LED(1,7-layer,layer, 0,63,0);
+    buffer_LED(0,7-layer,layer, 0,0,63);
+  }
+  for (int count=0; count<90; count++){  // not rotate it forward
+    rotateAll(myangle);  // the actual rotation of the animation
+    myangle = myangle + rotation; // increment the angle
+    if (myangle<=0) {  // don't let angle overflow
+      myangle=6.28318;
+    }
+  }
+  rotation = -rotation;
+  for (int count=0; count<90; count++){  // and rotate it backwards
+    rotateAll(myangle);  // the actual rotation of the animation
+    myangle = myangle + rotation; // increment the angle
+    if (myangle>6.28318) { // and make sure it doesn't overflow
+      myangle=0;
+    }
+  }
+  }
+  clearBufferCube();
+  clearCube();
+   delay(1000);
+}
+
+
+// This animation is similar to the sinewave animation, but instead of running  the sine 
+// from the middle outward, it displays across the diagonal of the cube. While  it uses
+// the cosine, it could just as easily be done with sine. 
+void Cosine(int myNumber){  // myNumber is number of iterations of this  animation
+  for (count=0; count<myNumber; count++){  
+    for (int i=0; i<40; i++){   //it takes 40 steps to complete one full cycle
+      getColor(i*4, 4); // get a rainbow color.  We need to go through 160  colors over the course of one full cycle.  
+      for (byte xx=0; xx<8; xx++){ 
+        for (byte yy=0; yy<8; yy++){
+          z=((byte)(4+cos((xx/2.23)+(yy/2.23)+(float)i/6.28)*4)); // the  actual z calculation
+          if (z>7) { // this is necessary because a one spot the cos is  actually one
+            z=7;     // and tries to set z at 8.
+          }
+          LED(xx,yy, z, myred,mygreen,myblue); 
+        }
+      } 
+      delay(20);       // Increase or decrease to change speed of this  animation 
+      clearCube();    // clear the cube
+    }
+  }
+   delay(1000);
+}
+
+
+
+// this animation turns random LEDs on while rotating them around in the cube
+// after a while we change the color and then change it again. 
+
+void RandomRotation(int myspeed) {
+  colorCount= 0; 
+  rotation = myspeed * .0174532; // convert angle to radians
+  getColor(Blue, 4); // start with blue
+  for (int reps=0; reps<80; reps++){
+    colorCount++;
+    buffer_LED(1+random(6),1+random(6),random(8) ,myred,mygreen,myblue);  //  this is the LED we light
+    // we don't light the outside  corners of the cube because they will  disappear as they are rotated
+    buffer_LED(random(8),random(8),random(8) ,0,0,0); // we turn off 5 LEDs at  random for every one we
+    buffer_LED(random(8),random(8),random(8) ,0,0,0);  // turn on, so that we  never have more than 20
+    buffer_LED(random(8),random(8),random(8) ,0,0,0);  // of the LEDs lit at  any time
+    buffer_LED(random(8),random(8),random(8) ,0,0,0);
+    buffer_LED(random(8),random(8),random(8),0,0,0);
+    for (int count=0; count<25; count++){   // now rotate the whole thing
+      rotateAll(myangle);  // the actual rotation of the animation
+      myangle = myangle + rotation; // increment the angle
+      if (myangle>6.28318) { // and make sure it doesn't overflow
+        myangle=myangle-6.28318;
+      }
+    }
+    if (colorCount > 20){  // after a while change color
+      getColor(Violet, 4); 
+    }
+    if (colorCount > 40){  // after some more time, change color again.
+      getColor(Aqua, 4); 
+    }
+  }
+  clearBufferCube();
+  clearCube();
+   delay(1000);
+}
+
+// In this demo we are rotating a simple sprite around itself.  There is one  restriction that must
+// be observed.  The sprite must have equal dimensions in the plane in which  its rotating, i.e. if we are 
+// going to use rotateX on a sprite, that sprites Y and Z dimensions must be  equal.  See Sprite1 as an
+// example. 
+void Eyes() { 
+  int mydelay = 200;
+  sprite Sprite1(4,4,4);  // X and Y dimensions must be equal if we are going  to rotate around Z axis.   
+  Sprite1.place = {0,0,3};
+  Sprite1.motion = {1,2, -1};
+  Sprite1.description = {  // just a simple red green green line across 3  layers
+		    {  // top layer
+			{Black,  Black, Black, Black}, // 1st column,  4  panels 
+			{Black,  Red, Red, Black}, // 2nd column,  4 panels
+			{Black,  Red, Red, Black}, // 3rd column,  4 panels
+                        {Black,  Black, Black, Black}, // 4th column,  4  panels
+		    },
+		    {  // middle layer
+			{Black,  Red, Red, Black}, // 1st column,  4 panels 
+			{Red,  Red, Red, Red}, // 2nd column,  4 panels
+			{Red,  Red, Red, Red}, // 3rd column,  4 panels
+                        {Black,  Red, Red, Black}, // 4th column,  4 panels
+		    },
+                    {  // 2nd middle layer
+			{Black,  Red, Red, Black}, // 1st column,  4 panels 
+			{Red,  Red, Red, Red}, // 2nd column,  4 panels
+			{Red,  Red, Red, Red}, // 3rd column,  4 panels
+                        {Black,  Red, Red, Black}, // 4th column,  4 panels
+		    },
+	            {  // bottom layer
+			{Black,  Black, Black, Black}, // 1st column,  4  panels 
+			{Black,  Red, Red, Black}, // 2nd column,  4 panels
+			{Black,  Red, Red, Black}, // 3rd column,  4 panels
+                        {Black,  Black, Black, Black}, // 4th column,  4  panels
+		    },
+		 };
+  Sprite1.description[1][1][0] = Blue;
+  Sprite1.description[1][2][0] = Blue;
+
+    for (int count=0; count<100; count++){
+      Sprite1.rollZ(0);
+      if (count%4 == 0){
+        Sprite1.rotateZ(1);
+      }
+    delay(mydelay);
+  }
+  Sprite1.clearIt();
+  delay(1000);
+}
+
+
+// In this animation, we create a bunch of single LED sprites, then introduce  them one at a time
+// bouncing around the inside of the cube.  
+
+void Single_Swirl() {
+  sprite LED1(1,1,1);
+  LED1.colorIt(Yellow);
+  LED1.place = {5,4,3};
+  LED1.motion = {1,-2,1};
+  
+  sprite LED2(1,1,1);
+  LED2.colorIt(Green);
+  LED2.place = {3,4,5};
+  LED2.motion = {1,1,-2};
+  
+  sprite LED3(1,1,1);
+  LED3.colorIt(Blue);
+  LED3.place = {2,6,3};
+  LED3.motion = {1,-1,-2};
+  
+  sprite LED4(1,1,1);
+  LED4.colorIt(Violet);
+  LED4.place = {5,1,2};
+  LED4.motion = {2,1,-1};
+  
+  sprite LED5(1,1,1);
+  LED5.colorIt(Orange);
+  LED5.place = {1,2,3};
+  LED5.motion = {1,1,2};
+  
+  for (int count=0; count<225; count++) {  //now bounce all there sprites  around in the cube
+    LED1.bounceIt();
+    if (count>30) {
+    LED2.bounceIt();}
+    if (count>60) {
+    LED3.bounceIt();}
+    if (count>90) {
+    LED4.bounceIt();}
+    if (count>120) {
+    LED5.bounceIt();}
+    delay(125); // delay 125msec between each movement. 
+  }
+  LED1.clearIt();
+  LED2.clearIt();
+  LED3.clearIt();
+  LED4.clearIt();
+  LED5.clearIt();
+   delay(1000);
+}
+
+
+/* This animation simulates a bouncing ball.  The timing for lateral movements  is constant, but the movement up and down is timed to resemble how the 
+ball would bounce under the influence of gravity. This animation requires that  we duplicate the .move and .bounce actions of the sprite class modifying them
+to account for gravity.  For example, .bounce automatically checks for the  edge of the cube and reverses direction, but in this case, we have to do it  manually. 
+*/
+void Basketball_Dribble(){
+  sprite mySprite(4,4,4);  // Our ball is 4 x 4 x 4.  
+  mySprite.place = {  // set up its initial location
+    1,2,4  };
+  mySprite.motion = {  // set up its initial motion
+    -1,1, -1  };
+  mySprite.description = {  // define the shape and color of a red ball. 
+    {  // top layer
+      {
+        Black,  Black, Black, Black      }
+      , // 1st column,  4 panels 
+      {
+        Black, 10,10, Black      }
+      , // 2nd column,  4 panels
+      {
+        Black,  10,10, Black      }
+      , // 3rd column,  4 panels
+      {
+        Black,  Black, Black, Black      }
+      , // 4th column,  4 panels
+    }
+    ,
+    {  // middle layer
+      {
+        Black,  10,10, Black      }
+      , // 1st column,  4 panels 
+      {
+        10,10, 10,10      }
+      , // 2nd column,  4 panels
+      {
+        10,10, 10,10      }
+      , // 3rd column,  4 panels
+      {
+        Black, 10,10, Black      }
+      , // 4th column,  4 panels
+    }
+    ,
+    {  // 2nd middle layer
+      {
+        Black, 10,10, Black      }
+      , // 1st column,  4 panels 
+      {
+       10,10, 10,10      }
+      , // 2nd column,  4 panels
+      {
+        10,10, 10,10      }
+      , // 3rd column,  4 panels
+      {
+        Black,  10,10, Black      }
+      , // 4th column,  4 panels
+    }
+    ,
+    {  // bottom layer
+      {
+        Black,  Black, Black, Black      }
+      , // 1st column,  4 panels 
+      {
+        Black,  10,10, Black      }
+      , // 2nd column,  4 panels
+      {
+        Black,  10,10, Black      }
+      , // 3rd column,  4 panels
+      {
+        Black,  Black, Black, Black      }
+      , // 4th column,  4 panels
+    }
+    ,
+  };
+
+  for (int count=0; count<1600; count++) {  //  bounce the ball about 20 times
+    mySprite.clearIt(); // clear the sprite from its current location
+    if (count%15==0) {  // move horizonally every 20th step
+      mySprite.place[0]=mySprite.place[0]+mySprite.motion[0];
+      mySprite.place[1]=mySprite.place[1]+mySprite.motion[1];
+    }
+    if (mySprite.place[2]==4 || (mySprite.place[2]==3 && mySprite.motion[2] <0)){  // near the high end of motion . . .
+      if (count%17==0) {  // move vertically every 17 steps
+        mySprite.place[2]=mySprite.place[2]+mySprite.motion[2];
+      }
+    }
+    if ((mySprite.place[2]==3 && mySprite.motion[2]>0) || (mySprite.place[2] ==2 && mySprite.motion[2]<0)){  // a little lower . . .
+      if (count%10==0) {  // move vertically every 10 steps 
+        mySprite.place[2]=mySprite.place[2]+mySprite.motion[2];
+      }
+    }
+    if ((mySprite.place[2]==2 && mySprite.motion[2]>0) || (mySprite.place[2] ==1 && mySprite.motion[2]<0)){  // a little lower
+      if (count%7==0) {  // move vertially every 7 steps
+        mySprite.place[2]=mySprite.place[2]+mySprite.motion[2];
+      }
+    }
+    if ((mySprite.place[2]==1 && mySprite.motion[2]>0) || (mySprite.place[2] <1)){ // near the bottom of motion
+      if (count%5==0) {  // move vertically every 5 steps
+        mySprite.place[2]=mySprite.place[2]+mySprite.motion[2];
+      }
+    }
+    mySprite.setIt();  // set the sprite in its new location 
+    if (mySprite.place[0]<1 && mySprite.motion[0]<0){ // now do all the  boundary checking for edges of the cube
+      mySprite.motion[0]=-mySprite.motion[0];    // and change direction when  an edge is detected 
+    }
+    if (mySprite.place[1]<1 && mySprite.motion[1]<0){
+      mySprite.motion[1]=-mySprite.motion[1];
+    }
+    if (mySprite.place[2]<1 && mySprite.motion[2]<0){
+      mySprite.motion[2]=-mySprite.motion[2];
+    }
+    if (mySprite.place[0]>7-mySprite.myX && mySprite.motion[0]>0){
+      mySprite.motion[0]=-mySprite.motion[0];
+    }
+    if (mySprite.place[1]>7-mySprite.myY && mySprite.motion[1]>0){
+      mySprite.motion[1]=-mySprite.motion[1];
+    }
+    if (mySprite.place[2]>7-mySprite.myZ && mySprite.motion[2]>0){
+      mySprite.motion[2]=-mySprite.motion[2];
+    }
+    delay(5);  // timing of each step is 10 msec. 
+  }
+  clearCube();
+   delay(1000);
+  }
+  
+  
+/* This is the Conway Game of Life in 3D.  It's a simulation of life called a cellular automation.  
+ Each LED in the cube represents a potential life.  A newborn life is represented by a violet LED.  
+ A life lasting more than a single generation is represented by a blue LED. A recently deceased life
+ is represented by a dull red LED.  
+ 
+ The simulation starts with some random births near the center of the cube.  The simulation 
+ than proceeds with up to a maximum of 150 generations. Each new generation is based on these rules:
+ 1. A dead cell (LED) with exactly 4 living neighbors is born into the next generation. 
+ 2. A live cell with exactly 4 living neighbors continues to life to the next generation. 
+ 3. A cell with less than 4 or more than 4 neighbors dies in the next generation. 
+ 
+ This version is slightly different than the one I published separately.  Since we are only 
+ showing 3 generations here, I increased the number of starting live cells to insure a
+ sustainable colony.  */
+
+void GameOfLife(){ 
+  for (int simruns=0; simruns<5; simruns++){
+    int myspeed = 10; // This is where you set the speed. It is basically the number of generations per second. 
+    for (byte layer=2; layer<8; layer++){  // This is where we set up a random pattern of living cells
+      for (byte column=2; column<6; column++){  
+        for (byte panel=2; panel<6; panel++){  
+          if (random(2)==0){
+            cube[column][panel][layer][2]= 63;
+            cube[column][panel][layer][0]= 33;
+          }
+        }
+      }
+    }
+    delay(3000/myspeed);  // showing the initial birth pattern here.  
+    for (int counter=0; counter<150; counter++){ // this is the generation counter
+      clearBufferCube();  //  BufferCube is where we will temporarily store result for the next generation. 
+      int kill=0; // kill is where we count the number of living cells.  When 0, we end the simulation.
+      // This next part is where we find the number of live neighbors for each cell
+      for (byte layer=0; layer<8; layer++){  // scan thru each layer
+        for (byte column=0; column<8; column++){  // scan thru every column
+          for (byte panel=0; panel<8; panel++){  // scan thru every panel
+            int count=0;  // This is the count of neighbors.
+            for (int i=-1; i<2; i++){  // 
+              for (int j=-1; j<2; j++){  // 
+                for (int k=-1; k<2; k++){  // 
+                  if (column+j<8 && column+j>-1 && panel+k<8 && panel+k>-1 && layer+i<8 && layer+i>-1 ) {
+                    if (cube[layer+i][column+j][panel+k][2]>0) {
+                      count++;  // increment count for each neighbor found. 
+                    }
+                  }
+                }
+              }
+            }
+            if (cube[layer][column][panel][2]>0) {
+              count--;  // don't count yourself as a neighbor
+            }
+            // Then here we light the LEDs based on new birth, continuing to live, recently dead or dead.
+            if (count==4){  // if the number of neighbors is 4
+              // and we are within the boundaries of the cube
+              if (column<8 && column>-1 && panel<8 && panel>-1 && layer<8 && layer>-1 ) {
+                buffer_cube[layer][column][panel][2]=63;  // make it alive
+                if (cube[layer][column][panel][2]==0){  // if its newly born
+                  buffer_cube[layer][column][panel][0]=33; //make it violet
+                }
+                kill++;  // increment living cell counter
+              }
+            }
+            else {  // if not 4 neighbors, make it dead
+              buffer_cube[layer][column][panel][2]=0;
+              buffer_cube[layer][column][panel][0]=0;
+              if (cube[layer][column][panel][2]>0){  // if it was alive
+                buffer_cube[layer][column][panel][0]=3; // make it dull red. 
+              }
+            }
+          }
+        }
+      }
+      // Now we transfer the next generation result to the cube.
+      clearCube(); // clear the cube and transfer the the content of the BufferCube
+      // to the cube. 
+      for (byte layer=0; layer<8; layer++){  
+        for (byte column=0; column<8; column++){ 
+          for (byte panel=0; panel<8; panel++){  
+            cube[column][panel][layer][2]= buffer_cube[column][panel][layer][2];
+            cube[column][panel][layer][0]= buffer_cube[column][panel][layer][0];
+          }
+        }
+      }
+      if (kill==0 && xx==0) {  // if all remaining cells are dead, pause
+        delay(10000/myspeed);
+      }
+      if (kill>0) {  // if there are living cells, wait the desired time
+        delay(1000/myspeed);  // between generations.    
+        xx=0; // clear a flag that says everyone is dead
+      }
+      else {
+        xx=1;
+      }  // set the flag if everyone is dead
+    }  // end of generation loop
+    if (xx==0) {  // if we got through all 150 generations with live cells
+      clearCube();  // clear the cube
+      delay(10000/myspeed);  // short pause before starting over. 
+    }
+  }
+  delay (1000);
+}
 

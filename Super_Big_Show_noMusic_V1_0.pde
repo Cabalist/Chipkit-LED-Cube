@@ -2,7 +2,7 @@
  Downloads of this and upcoming versions, along with detailed instructions, are available at: http://d2-webdesign.com/cube  
  Anyone is free to use this template to create and publish their own applications / sketches, but PLEASE USE THE 2 LINES ABOVE in your work.
  
- This is for the Chipkit UNO32, and assumes you are using a SuperTech-IT 8x8x8 RGB Board.  It's similar to Nick Schulze's Chipkit software,
+ This is for the Chipkit UNO32 or uC32, and assumes you are using a SuperTech-IT 8x8x8 RGB Board.  It's similar to Nick Schulze's Chipkit software,
  but is somewhat simpler, and easier to work with, when generating your own application.  The pinouts for this implementation are the same as 
  Nick's published pinouts, where the red data line is pin 7 and the blue data line is pin 9. (This is different than Nick's actual software, 
  where the red and blue are actually reversed from his pinout diagram.)
@@ -51,13 +51,12 @@ const uint8_t LAYER[8] = {
 
 #define scrollRate 800  // this is the time in msec. to scroll from one character to the next. 
 // you can modify this to make text scroll faster or slower. 
-
 #define cubeStructure 0  // if your cube is built on SuperTech-IT's board, or if you followed Nick's instructions exactly, 
 // leave this as 0.   But if you accidentally built your cube as a mirror image of these, which several of us have done, you 
 // will need to change this to 1 to get your text scrolling correctly.
 
 //These next 6 items support SuperTech-IT's music module
-#define MSGEQ7 0x01   // define if music module exists (1) or not (0)
+#define MSGEQ7 0x00   // define if music module exists (1) or not (0)
 int virtualGain = 127; // define initial gain status until it is read from A5 - used in readmsgeq7 and spectrum8.
 int runMode = 0; // runMode 0 = animations. 1=cycle through music modes. 2 or higher indicates which nusic mode to run and stay in.
 int modes = 11; // The number of total music modes there are. Don't forget to add 1 for the sequence mode - so if there are 3 modes of music, this has to be 4
