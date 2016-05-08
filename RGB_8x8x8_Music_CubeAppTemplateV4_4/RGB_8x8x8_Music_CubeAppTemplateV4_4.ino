@@ -144,8 +144,9 @@ void setup() {
     // This portion of setup is for the sample application running in the Main loop. It may be deleted when you create
     // your own application, and replaced with your own setup instructions.
     dir = 1;
-    currentColor = {
-            0, 0, 0};
+    currentColor[0] = 0;
+    currentColor[1] = 0;
+    currentColor[2] = 0;
     xx = 7;
     yy = 7;
     zz = 7;
