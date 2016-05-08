@@ -1,3 +1,22 @@
+/* * 8X8X8 RGB QUBE SOFTWARE - Code to control the SuperTech-IT 8x8x8 RGB LED Cube
+ * Copyright (C) 2014, 2015, 2016 Doug Domke, Norman Skinner
+ *
+ * This file is part of 8X8X8 RGB QUBE SOFTWARE.
+ *
+ * 8X8X8 RGB QUBE SOFTWARE is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * 8X8X8 RGB QUBE SOFTWARE is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with 8X8X8 RGB QUBE SOFTWARE.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /* This tab contains a color table which has 8 colors of the rainbow plus black and white in 5 different intensities.  
    This table is set up to work with the 6 bit BAM used by our refresh interrupt routine.  
    So data is the Red, Green, and Blue intensities from 0 to 63 for each color and intensity.
