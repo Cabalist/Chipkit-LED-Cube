@@ -28,27 +28,27 @@ THE BIG SHOW
 
 The Big Show is a collection of all the animations from all 7 versions of my templates. It's built on the Version 7 platform and contains scrolling text plus 30 different animations. The whole show takes about 14 minutes before repeating. If you are just looking for something to really show off what your cube can do, this is the one from you! Thanks to David Yee, The Big Show now includes SuperTech-IT's music module. For more information on The Big Show, see See The Big Show Instructions.
 
-VERSION 7
+[VERSION 7](https://github.com/Cabalist/Chipkit-LED-Cube/tree/Version7)
 
 Version 7 is a rather small iteration from Version 6. We've added some new features to the Sprite object class we introduced in Version 6. But mostly, Version 7 is the addition of a bunch of new animations. For more information on Version 7, see Version 7 Instructions.
 
-VERSION 6
+[VERSION 6](https://github.com/Cabalist/Chipkit-LED-Cube/tree/Version6)
 
 Version 6 is all about moving stuff around in the cube. But more importantly, it introduces a new way to program the cube. It's a significant breakthough in my efforts to provide programming tools to cube builders. And because it's so easy to use, I've created a bunch of new animations with it that demonstate its use.
 
 Version 6 takes advantage of object based programming. It gives you the tools to make it all easy. You build objects called sprites by defining their size, shape, and color, then give them a location and place them in the cube. You then have a number of actions you can call to move your sprites around like a single step move, or bounce them off the sides of the cube, or rotate them around the cube, or rotate them around themselves. You can have as many sprites as you want, and they can all move around simultaneously and independently of each other. For more information on Version 6, see Version 6 Instructions.
 
-VERSION 5
+[VERSION 5](https://github.com/Cabalist/Chipkit-LED-Cube/tree/Version5)
 
 This version of the software is all about rotating stuff in the cube. This version does not contain all the software and animations from previous versions. It does, however, contain all the subroutines from previous versions, including the ones that support music. It also has two new animations - one called Cosine and a new fireworks animation - fireWorks.
 
 In this version, we look at various ways to rotate stuff, and we introduce the tools to rotate the entire content of the cube by any amount and at any speed. I've also included demos of everything in the main loop, including two examples of making a moving animation revolve while its running. For more information on Version 5, see Version 5 Instructions.
 
-VERSION 4
+[VERSION 4](https://github.com/Cabalist/Chipkit-LED-Cube/tree/Version4)
 
 This version incorporates all the features of Versions 1, 2, and 3, plus it adds the ability to use music to control your cube. It requires some additional circuitry, both to analyize the incoming sound and to switch between the different modes of operation. It includes a number of special effects that make your cube respond to the incoming music source. Both the hardware the sofware to support music come from SuperTech-IT. For more information on Version 4, see Version 4 Instructions.
 
-VERSION 3
+[VERSION 3](https://github.com/Cabalist/Chipkit-LED-Cube/tree/Version3)
 
 This version incorporates all the features of Versions 1 and 2, plus it adds various text handling capabilities, such as the ability to scroll text around the outside faces of the cube. In the main loop, we have various demos of text scrolling. We also call 5 animations (each of which is in its own tab) - the two that were already available with version 2, a new animation called Rain, another new one called Cyclone, and another one called Sine_wave.
 
@@ -64,7 +64,7 @@ We also introduce the idea of right-handed and left-handed cubes in this version
 
 For more information on Version 3, see Version 3 Instructions.
 
-VERSION 2
+[VERSION 2](https://github.com/Cabalist/Chipkit-LED-Cube/tree/Version2)
 
 The objective of this version is still to make the programmng easy, but we've added the ability to continuously vary the color. In fact, with 6 bit BAM, you can generate 262,144 (64^3) different color combinations. However, for the simple rainbow color wheel we've built in, 192 colors are generated in 4 different intensities (5 including 0 or off)
 
@@ -72,7 +72,7 @@ This new version is not as easy to use as Version 1, mainly because each LED in 
 
 The sample application in this case is just a demo of the color capabilities. It runs the Wild Mouse routine while changing the color continuously. It also sets up the standard named colors that are available in both version 1 and 2, and displays them in the 5 different intensities on one face of the cube.
 
-VERSION 1
+[VERSION 1](https://github.com/Cabalist/Chipkit-LED-Cube/tree/Version1)
 
 Its objective is to make programming a cube easy. You don’t need to get involved in how bit angle modulation works or how the data gets loaded into the cube. These are handled for you by the color table and timer interrupts routine.
 A single matrix called “cube” controls the content of the cube. You just tell it what color and intensity you want where, and it happens.
