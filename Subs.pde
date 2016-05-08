@@ -27,8 +27,7 @@
 */
 uint32_t refreshCube(uint32_t currentTime) {
     byte mycolor, red, green, blue;
-    for (byte count = 0;
-         count < 6; count++) {  // BAM counter; each increment doubles the time the LED is on, starting at 5 microsecs.
+    for (byte count = 0; count < 6; count++) {  // BAM counter; each increment doubles the time the LED is on, starting at 5 microsecs.
         digitalWrite(Latch, LOW);  //make sure outputs are latched
         LATDCLR = CLK | SDIR | SDIG | SDIB;
         for (byte layer = 0; layer < 8; layer++) {  // scan thru each layer
