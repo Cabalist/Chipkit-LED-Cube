@@ -77,7 +77,7 @@ uint32_t refreshCube(uint32_t currentTime) {
 void LED(int x, int y, int z, int R, int G, int B) {
     if (R > 63) { R = 63; }
     if (G > 63) { G = 63; }
-    if (G > 63) { G = 63; }
+    if (B > 63) { B = 63; }
     cube[x][y][z][0] = R;
     cube[x][y][z][1] = G;
     cube[x][y][z][2] = B;
