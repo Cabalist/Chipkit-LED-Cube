@@ -30,25 +30,25 @@
  */
 // The definitions and variables below are part of the template.  DO NOT MODIFY
 // the following definitions are for the direct port toggling used in the cube refresh interrupt routine. 
-#define OE 0x0001
+#define OE   0x0001
 #define SDIR 0x0200  // red data is pin 7
 #define SDIG 0x0400  // green data is pin 8
 #define SDIB 0x0008  // blue data is pin 9
-#define CLK 0x0004
-#define LE 0x00002
+#define CLK  0x0004
+#define LE  0x00002
 const uint8_t LAYER[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 
 // These are standard colors which can be called by name when using the getColor subroutine.
-#define Black	191
-#define Red	      0
-#define Orange	 21
-#define Yellow	 40
-#define Green	 63
-#define Aqua	 85
-#define Blue	127
-#define Violet	148
-#define Purple	169
-#define White	190
+#define Black    191
+#define Red        0
+#define Orange    21
+#define Yellow    40
+#define Green     63
+#define Aqua      85
+#define Blue     127
+#define Violet   148
+#define Purple   169
+#define White    190
 
 
 // the following are for referencing the pins by chip-kit pin number. 
