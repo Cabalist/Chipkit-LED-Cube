@@ -32,8 +32,7 @@
  */
 uint32_t refreshCube(uint32_t currentTime) {
     byte red, green, blue;
-    for (byte count = 0;
-         count < 6; count++) {  // BAM counter; each increment doubles the time the LED is on, starting at 5 microsecs.
+    for (byte count = 0; count < 6; count++) {  // BAM counter; each increment doubles the time the LED is on, starting at 5 microsecs.
         digitalWrite(Latch, LOW);  //make sure outputs are latched
         LATDCLR = CLK | SDIR | SDIG | SDIB;
         for (byte layer = 0; layer < 8; layer++) {  // scan thru each layer
@@ -41,7 +40,6 @@ uint32_t refreshCube(uint32_t currentTime) {
                 for (byte panel = 0; panel < 8; panel++) {  // scan thru every panel
                     red = cube[column][panel][layer][0]; // get its red component
                     if ((red & 1 << count) > 0) {  // BAM it and shift it out
-
                         LATDSET |= SDIR;
                     }
                     green = cube[column][panel][layer][1];  // get its green component
@@ -61,8 +59,7 @@ uint32_t refreshCube(uint32_t currentTime) {
             _nop();
             LATDCLR = LE;
             LATECLR = LAYER[layer]; // turn on layer
-            delayMicroseconds((1 << count) *
-                              10);  //here count sets time the layer is on - starting with 10 microsecs and ending at 32*10 or 320 microsecs.
+            delayMicroseconds((1 << count) * 10);  //here count sets time the layer is on - starting with 10 microsecs and ending at 32*10 or 320 microsecs.
             LATESET = LAYER[layer]; //turn off layer
         }
     }
@@ -75,9 +72,15 @@ uint32_t refreshCube(uint32_t currentTime) {
 */
 
 void LED(int x, int y, int z, int R, int G, int B) {
-    if (R > 63) { R = 63; }
-    if (G > 63) { G = 63; }
-    if (B > 63) { B = 63; }
+    if (R > 63) {
+        R = 63;
+    }
+    if (G > 63) {
+        G = 63;
+    }
+    if (B > 63) {
+        B = 63;
+    }
     cube[x][y][z][0] = R;
     cube[x][y][z][1] = G;
     cube[x][y][z][2] = B;
