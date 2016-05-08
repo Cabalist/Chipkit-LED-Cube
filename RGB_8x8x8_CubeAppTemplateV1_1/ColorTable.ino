@@ -37,7 +37,7 @@ byte colors[50][3] = {
         {0,  0,  0},
         {0,  0,  0},
         {0,  0,  0},
-        {0,  0,  0}, // Black; These next 10 entries are for intensity 1.  BAM components total 5 or 6:
+        {0,  0,  0}, // Black; These next 10 entries are for intensity 1.  BAM components total 5 or 6
         {5,  0,  0}, // Red
         {4,  1,  0}, // Orange
         {3,  2,  0}, // Yellow
@@ -47,7 +47,7 @@ byte colors[50][3] = {
         {2,  0,  4}, // Violet
         {3,  0,  2}, // Purple
         {2,  2,  2}, // White
-        {0,  0,  0}, // These next 10 are intensity 2.  BAM components total 15:
+        {0,  0,  0}, // These next 10 are intensity 2.  BAM components total 15
         {15, 0,  0},
         {11, 4,  0},
         {8,  7,  0},
@@ -67,7 +67,7 @@ byte colors[50][3] = {
         {10, 0,  20},
         {20, 0,  10},
         {10, 10, 10},
-        {0,  0,  0}, /* These next 10 are for intensity 4.  BAM components total 60:*/
+        {0,  0,  0}, // These next 10 are for intensity 4.  BAM components total 60
         {60, 0,  0},
         {44, 16, 0},
         {32, 28, 0},
