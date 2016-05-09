@@ -68,7 +68,7 @@ const uint8_t LAYER[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 #define Fish ">"
 
 #define scrollRate 800  // this is the time in msec. to scroll from one character to the next. 
-// you can modify this to make text scroll faster or slower. 
+// you can modify this to make text scroll faster or slower.
 #define cubeStructure 0  // if your cube is built on SuperTech-IT's board, or if you followed Nick's instructions exactly, 
 // leave this as 0.   But if you accidentally built your cube as a mirror image of these, which several of us have done, you 
 // will need to change this to 1 to get your text scrolling correctly.
