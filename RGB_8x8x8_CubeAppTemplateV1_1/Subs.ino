@@ -37,7 +37,6 @@ uint32_t refreshCube(uint32_t currentTime) {
                     mycolor = cube[layer][panel][column];  //look up color for this position in cube
                     red = colors[mycolor][0]; // get its red component
                     if ((red & 1 << count) > 0) {  // BAM it and shift it out
-
                         LATDSET |= SDIR;
                     }
                     green = colors[mycolor][1];  // get its green component
@@ -57,8 +56,7 @@ uint32_t refreshCube(uint32_t currentTime) {
             _nop();
             LATDCLR = LE;
             LATECLR = LAYER[layer]; // turn on layer
-            delayMicroseconds((1 << count) *
-                              10);  //here count sets time the layer is on - starting with 10 microseconds and ending at 32*10 or 320 msecs.
+            delayMicroseconds((1 << count) * 10);  //here count sets time the layer is on - starting with 10 microseconds and ending at 32*10 or 320 msecs.
             LATESET = LAYER[layer]; //turn off layer
         }
     }

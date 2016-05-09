@@ -169,8 +169,7 @@ void move(int myspeed) { // This subroutine is where we actually move our "mouse
     history[historyCount][3] = currentColor;
 
     mycount2++;
-    if (mycount2 ==
-        4) {  // every forth movement. take a piece of the trail and diminish its brightness by 1 intensity level
+    if (mycount2 == 4) {  // every forth movement. take a piece of the trail and diminish its brightness by 1 intensity level
         for (int mycount = 0; mycount < 24; mycount++) {
             if (history[mycount][3] > 10) {
                 history[mycount][3] = history[mycount][3] - 10;
