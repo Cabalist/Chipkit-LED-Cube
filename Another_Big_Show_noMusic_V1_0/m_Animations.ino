@@ -17,7 +17,7 @@
  * along with 8X8X8 RGB QUBE SOFTWARE.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*  This is where are animation code is sorted and the subroutines
+/*  This is where are animation code is stored and the subroutines
 which support them (subroutines that are not generic and only
 support a single animation. */
 
@@ -1067,18 +1067,23 @@ void bouncer1() {
     mySprite1.place[0] = 1;
     mySprite1.place[1] = 2;
     mySprite1.place[2] = 3;
+
     mySprite2.place[0] = 0;
     mySprite2.place[1] = 4;
     mySprite2.place[2] = 4;
+
     mySprite3.place[0] = 4;
     mySprite3.place[1] = 4;
     mySprite3.place[2] = 0;
+
     mySprite1.motion[0] = 1;
     mySprite1.motion[1] = 2;
     mySprite1.motion[2] = 1;
+
     mySprite2.motion[0] = 1;
     mySprite2.motion[1] = -1;
     mySprite2.motion[2] = -2;
+
     mySprite3.motion[0] = -2;
     mySprite3.motion[1] = -1;
     mySprite3.motion[2] = -1;
@@ -1401,8 +1406,7 @@ void paddles() {
             {Black, Black, Black, Black, Black, Black, Black, Black,},
     };
     // This is the table that tells Y how to move for each X as we move though 45 degrees.
-    int const table[32] = {
-            0, 1, 2, 3, 4, 5, 6, 7, 1, 1, 2, 3, 4, 5, 6, 6, 2, 2, 3, 3, 4, 4, 5, 5, 3, 3, 3, 3, 4, 4, 4, 4};
+    int const table[32] = {0, 1, 2, 3, 4, 5, 6, 7, 1, 1, 2, 3, 4, 5, 6, 6, 2, 2, 3, 3, 4, 4, 5, 5, 3, 3, 3, 3, 4, 4, 4, 4};
     for (int j = 0; j < 35; j++) {
         if (j > 5) { mydelay = 45; }
         if (j > 10) { mydelay = 55; }
