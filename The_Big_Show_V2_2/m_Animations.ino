@@ -106,7 +106,9 @@ void CubeInCube() {
 void displayCube(int side, int x, int y, int z, int color) {
     sprite mySprite(side, side, side);
     mySprite.outline(color);
-    mySprite.place = {x, y, z};
+    mySprite.place[0] = x;
+    mySprite.place[1] = y;
+    mySprite.place[2] = z;
     mySprite.setIt();
     delay(50);
     mySprite.clearIt();
@@ -115,8 +117,13 @@ void displayCube(int side, int x, int y, int z, int color) {
 
 void bounceCube(int side, int x, int y, int z, int color) {
     sprite mySprite(side, side, side);
-    mySprite.place = {x, y, z};
-    mySprite.motion = {1, 2, -1}; // gives my sprite an initial direction of motion
+    mySprite.place[0] = x;
+    mySprite.place[1] = y;
+    mySprite.place[2] = z;
+    mySprite.motion[0] = 1;  // gives my sprite an initial direction of motion
+    mySprite.motion[1] = 2;  // gives my sprite an initial direction of motion
+    mySprite.motion[2] = -1; // gives my sprite an initial direction of motion
+
     for (count = 0; count < 66; count++) { // loop around 100 times
         color = color + 3;
         if (color > 189) { color = 0; }
@@ -139,7 +146,9 @@ void RollingBall() {
     int color;
     sprite mySprite(6, 6, 6);
     mySprite.sphere(color);
-    mySprite.place = {-1, 1, 1};
+    mySprite.place[0] = -1;
+    mySprite.place[1] = 1;
+    mySprite.place[2] = 1;
     for (int x = 0; x < 95; x++) {
         color = color + 2;
         if (color > 189) { color = 0; }
@@ -359,44 +368,165 @@ And thanks to David Yee for some minor improvements which are now included here.
 */
 sprite heli(6, 6, 4);  // Our sprite is 6 x 6 x 4.
 void Helicopter() {
-    heli.place = {  // set up its initial location
-            2, 2, 0};
-    heli.motion = {  // set up its initial motion
-            1, -1, 1};
-    heli.description = {  // define the shape and color of the helicopter.
-            {  // top layer
-                    {White, Black, Black, Black, Black, Black}, // 1st column,  6 panels
-                    {Black, White, Black, Black, Black, Black}, // 2nd column,  6 panels
-                    {Black, Black, White, Black, Black, Black}, // 3rd column,  6 panels
-                    {Black, Black, Black, White, Black, Black}, // 4th column,  6 panels
-                    {Black, Black, Black, Black, White, Black}, // 5th column,  6 panels
-                    {Black, Black, Black, Black, Black, White}, // 6th column,  6 panels
-            },
-            {  // 1st middle layer
-                    {Black, Black, Black, Black, Black, Black}, // 1st column,  6panels
-                    {Black, Black, Black, Black, Black, Black}, // 2nd column,  6 panels
-                    {Black, Blue,  Blue,  Blue,  Blue,  Blue}, // 3rd column,  6 panels
-                    {Black, Blue,  Blue,  Blue,  Blue,  Blue}, // 4th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 5th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 6th column,  6 panels
-            },
-            {  // 2nd middle layer
-                    {Black, Black, Black, Black, Black, Black}, // 1st column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 2nd column,  6 panels
-                    {Black, Blue,  Blue,  Black, Black, Black}, //// 3rd column,  6 panels
-                    {Black, Blue,  Blue,  Black, Black, Black}, // 4th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 5th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black},// 6th column,  6 panels
-            },
-            {  // bottom layer
-                    {Black, Black, Black, Black, Black, Black}, // 1st column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 2nd column,  6 panels
-                    {Blue,  Black, Blue,  Black, Black, Black}, // 3rd column,  6 panels
-                    {Blue,  Black, Blue,  Black, Black, Black}, // 4th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 5th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 6th column,  6 panels
-            },
-    };
+    heli.place[0] = 2; // set up its initial location
+    heli.place[1] = 2; // set up its initial location
+    heli.place[2] = 0; // set up its initial location
+
+    heli.motion[0] = 1;  // set up its initial motion
+    heli.motion[1] = -1; // set up its initial motion
+    heli.motion[2] = 1;  // set up its initial motion
+
+    // define the shape and color of the helicopter.
+    // top layer
+    heli.description[0][0][0] = White;
+    heli.description[0][0][1] = Black;
+    heli.description[0][0][2] = Black;
+    heli.description[0][0][3] = Black;
+    heli.description[0][0][4] = Black;
+    heli.description[0][0][5] = Black;
+    heli.description[0][1][0] = Black;
+    heli.description[0][1][1] = White;
+    heli.description[0][1][2] = Black;
+    heli.description[0][1][3] = Black;
+    heli.description[0][1][4] = Black;
+    heli.description[0][1][5] = Black;
+    heli.description[0][2][0] = Black;
+    heli.description[0][2][1] = Black;
+    heli.description[0][2][2] = White;
+    heli.description[0][2][3] = Black;
+    heli.description[0][2][4] = Black;
+    heli.description[0][2][5] = Black;
+    heli.description[0][3][0] = Black;
+    heli.description[0][3][1] = Black;
+    heli.description[0][3][2] = Black;
+    heli.description[0][3][3] = White;
+    heli.description[0][3][4] = Black;
+    heli.description[0][3][5] = Black;
+    heli.description[0][4][0] = Black;
+    heli.description[0][4][1] = Black;
+    heli.description[0][4][2] = Black;
+    heli.description[0][4][3] = Black;
+    heli.description[0][4][4] = White;
+    heli.description[0][4][5] = Black;
+    heli.description[0][5][0] = Black;
+    heli.description[0][5][1] = Black;
+    heli.description[0][5][2] = Black;
+    heli.description[0][5][3] = Black;
+    heli.description[0][5][4] = Black;
+    heli.description[0][5][5] = White;
+    // 1st middle layer
+    heli.description[1][0][0] = Black;
+    heli.description[1][0][1] = Black;
+    heli.description[1][0][2] = Black;
+    heli.description[1][0][3] = Black;
+    heli.description[1][0][4] = Black;
+    heli.description[1][0][5] = Black;
+    heli.description[1][1][0] = Black;
+    heli.description[1][1][1] = Black;
+    heli.description[1][1][2] = Black;
+    heli.description[1][1][3] = Black;
+    heli.description[1][1][4] = Black;
+    heli.description[1][1][5] = Black;
+    heli.description[1][2][0] = Black;
+    heli.description[1][2][1] = Blue;
+    heli.description[1][2][2] = Blue;
+    heli.description[1][2][3] = Blue;
+    heli.description[1][2][4] = Blue;
+    heli.description[1][2][5] = Blue;
+    heli.description[1][3][0] = Black;
+    heli.description[1][3][1] = Blue;
+    heli.description[1][3][2] = Blue;
+    heli.description[1][3][3] = Blue;
+    heli.description[1][3][4] = Blue;
+    heli.description[1][3][5] = Blue;
+    heli.description[1][4][0] = Black;
+    heli.description[1][4][1] = Black;
+    heli.description[1][4][2] = Black;
+    heli.description[1][4][3] = Black;
+    heli.description[1][4][4] = Black;
+    heli.description[1][4][5] = Black;
+    heli.description[1][5][0] = Black;
+    heli.description[1][5][1] = Black;
+    heli.description[1][5][2] = Black;
+    heli.description[1][5][3] = Black;
+    heli.description[1][5][4] = Black;
+    heli.description[1][5][5] = Black;
+    // 2nd middle layer
+    heli.description[2][0][0] = Black;
+    heli.description[2][0][1] = Black;
+    heli.description[2][0][2] = Black;
+    heli.description[2][0][3] = Black;
+    heli.description[2][0][4] = Black;
+    heli.description[2][0][5] = Black;
+    heli.description[2][1][0] = Black;
+    heli.description[2][1][1] = Black;
+    heli.description[2][1][2] = Black;
+    heli.description[2][1][3] = Black;
+    heli.description[2][1][4] = Black;
+    heli.description[2][1][5] = Black;
+    heli.description[2][2][0] = Black;
+    heli.description[2][2][1] = Blue;
+    heli.description[2][2][2] = Blue;
+    heli.description[2][2][3] = Black;
+    heli.description[2][2][4] = Black;
+    heli.description[2][2][5] = Black;
+    heli.description[2][3][0] = Black;
+    heli.description[2][3][1] = Blue;
+    heli.description[2][3][2] = Blue;
+    heli.description[2][3][3] = Black;
+    heli.description[2][3][4] = Black;
+    heli.description[2][3][5] = Black;
+    heli.description[2][4][0] = Black;
+    heli.description[2][4][1] = Black;
+    heli.description[2][4][2] = Black;
+    heli.description[2][4][3] = Black;
+    heli.description[2][4][4] = Black;
+    heli.description[2][4][5] = Black;
+    heli.description[2][5][0] = Black;
+    heli.description[2][5][1] = Black;
+    heli.description[2][5][2] = Black;
+    heli.description[2][5][3] = Black;
+    heli.description[2][5][4] = Black;
+    heli.description[2][5][5] = Black;
+    // bottom layer
+    heli.description[3][0][0] = Black;
+    heli.description[3][0][1] = Black;
+    heli.description[3][0][2] = Black;
+    heli.description[3][0][3] = Black;
+    heli.description[3][0][4] = Black;
+    heli.description[3][0][5] = Black;
+    heli.description[3][1][0] = Black;
+    heli.description[3][1][1] = Black;
+    heli.description[3][1][2] = Black;
+    heli.description[3][1][3] = Black;
+    heli.description[3][1][4] = Black;
+    heli.description[3][1][5] = Black;
+    heli.description[3][2][0] = Blue;
+    heli.description[3][2][1] = Black;
+    heli.description[3][2][2] = Blue;
+    heli.description[3][2][3] = Black;
+    heli.description[3][2][4] = Black;
+    heli.description[3][2][5] = Black;
+    heli.description[3][3][0] = Blue;
+    heli.description[3][3][1] = Black;
+    heli.description[3][3][2] = Blue;
+    heli.description[3][3][3] = Black;
+    heli.description[3][3][4] = Black;
+    heli.description[3][3][5] = Black;
+    heli.description[3][4][0] = Black;
+    heli.description[3][4][1] = Black;
+    heli.description[3][4][2] = Black;
+    heli.description[3][4][3] = Black;
+    heli.description[3][4][4] = Black;
+    heli.description[3][4][5] = Black;
+    heli.description[3][5][0] = Black;
+    heli.description[3][5][1] = Black;
+    heli.description[3][5][2] = Black;
+    heli.description[3][5][3] = Black;
+    heli.description[3][5][4] = Black;
+    heli.description[3][5][5] = Black;
+
+
     heli.setIt();  // display helicopter
     delay(1000);
     for (int count = 0; count < 6; count++) {  // make the tail light blink
@@ -652,39 +782,71 @@ alter it if you want.
 
 void TheOrnament() {
     sprite mySprite(3, 3, 6);
-    mySprite.description = {  // define the shape and color.
-            {  // top layer
-                    {Black, Black,  Black}, // 1st column,  3 panels
-                    {Black,  Red,    Black}, // 2nd column,  3 panels
-                    {Black, Black,  Black}, // 3rd column,  3 panels
-            },
-            {  // 2nd layer
-                    {Black, Orange, Black}, // 1st column,  3 panels
-                    {Orange, Black,  Orange}, // 2nd column,  3 panels
-                    {Black, Orange, Black}, // 3rd column,  3 panels
-            },
-            {  // 3rd layer
-                    {Green, Green,  Green}, // 1st column,  3 panels
-                    {Green,  Green,  Green}, // 2nd column, 3 panels
-                    {Green, Green,  Green}, // 3rd column,  3 panels
-            },
-            {  // 4th layer
-                    {Blue,  Blue,   Blue}, // 1st column,  3 panels
-                    {Blue,   Blue,   Blue}, // 2nd column,  3 panels
-                    {Blue,  Blue,   Blue}, // 3rd column,  3 panels
-            },
-            {  // 5th layer
-                    {Black, Purple, Black}, // 1st column,  3 panels
-                    {Purple, Black,  Purple}, // 2nd column,  3 panels
-                    {Black, Purple, Black}, // 3rd column,  3 panels
-            },
-            {  // 6th layer
-                    {Black, Black,  Black}, // 1st column,  3 panels
-                    {Black,  Violet, Black}, // 2nd column,  3 panels
-                    {Black, Black,  Black}, // 3rd column,  3 panels
-            },
-    };
-    mySprite.place = {3, 3, 1};
+    // define the shape and color.
+    // top layer
+    mySprite.description[0][0][0] = Black;
+    mySprite.description[0][0][1] = Black;
+    mySprite.description[0][0][2] = Black;
+    mySprite.description[0][1][0] = Black;
+    mySprite.description[0][1][1] = Red;
+    mySprite.description[0][1][2] = Black;
+    mySprite.description[0][2][0] = Black;
+    mySprite.description[0][2][1] = Black;
+    mySprite.description[0][2][2] = Black;
+    // 2nd layer
+    mySprite.description[1][0][0] = Black;
+    mySprite.description[1][0][1] = Orange;
+    mySprite.description[1][0][2] = Black;
+    mySprite.description[1][1][0] = Orange;
+    mySprite.description[1][1][1] = Black;
+    mySprite.description[1][1][2] = Orange;
+    mySprite.description[1][2][0] = Black;
+    mySprite.description[1][2][1] = Orange;
+    mySprite.description[1][2][2] = Black;
+    // 3rd layer
+    mySprite.description[2][0][0] = Green;
+    mySprite.description[2][0][1] = Green;
+    mySprite.description[2][0][2] = Green;
+    mySprite.description[2][1][0] = Green;
+    mySprite.description[2][1][1] = Green;
+    mySprite.description[2][1][2] = Green;
+    mySprite.description[2][2][0] = Green;
+    mySprite.description[2][2][1] = Green;
+    mySprite.description[2][2][2] = Green;
+    // 4th layer
+    mySprite.description[3][0][0] = Blue;
+    mySprite.description[3][0][1] = Blue;
+    mySprite.description[3][0][2] = Blue;
+    mySprite.description[3][1][0] = Blue;
+    mySprite.description[3][1][1] = Blue;
+    mySprite.description[3][1][2] = Blue;
+    mySprite.description[3][2][0] = Blue;
+    mySprite.description[3][2][1] = Blue;
+    mySprite.description[3][2][2] = Blue;
+    // 5th layer
+    mySprite.description[4][0][0] = Black;
+    mySprite.description[4][0][1] = Purple;
+    mySprite.description[4][0][2] = Black;
+    mySprite.description[4][1][0] = Purple;
+    mySprite.description[4][1][1] = Black;
+    mySprite.description[4][1][2] = Purple;
+    mySprite.description[4][2][0] = Black;
+    mySprite.description[4][2][1] = Purple;
+    mySprite.description[4][2][2] = Black;
+    // bottom layer
+    mySprite.description[5][0][0] = Black;
+    mySprite.description[5][0][1] = Black;
+    mySprite.description[5][0][2] = Black;
+    mySprite.description[5][1][0] = Black;
+    mySprite.description[5][1][1] = Violet;
+    mySprite.description[5][1][2] = Black;
+    mySprite.description[5][2][0] = Black;
+    mySprite.description[5][2][1] = Black;
+    mySprite.description[5][2][2] = Black;
+
+    mySprite.place[0] = 3;
+    mySprite.place[1] = 3;
+    mySprite.place[2] = 1;
     for (int j = 0; j < 7; j++) {
         mySprite.ChgIntensity(1);
         mySprite.setIt();
@@ -722,8 +884,12 @@ void TheOrnament() {
         delay(100);
     }
     clearCube();
-    mySprite.place = {3, 3, 1};
-    mySprite.motion = {0, 0, 1};
+    mySprite.place[0] = 3;
+    mySprite.place[1] = 3;
+    mySprite.place[2] = 1;
+    mySprite.motion[0] = 0;
+    mySprite.motion[1] = 0;
+    mySprite.motion[2] = 1;
     for (int j = 0; j < 28; j++) {
         mySprite.bounceIt();
         delay(200);
@@ -735,14 +901,20 @@ void TheOrnament() {
     }
     clearCube();
     mySprite.ChgIntensity(4);
-    mySprite.place = {3, 3, 1};
-    mySprite.motion = {0, 0, 1};
+    mySprite.place[0] = 3;
+    mySprite.place[1] = 3;
+    mySprite.place[2] = 1;
+    mySprite.motion[0] = 0;
+    mySprite.motion[1] = 0;
+    mySprite.motion[2] = 1;
     for (int j = 0; j < 27; j++) {
         mySprite.bounceIt();
         delay(200);
     }
     mySprite.clearIt();
-    mySprite.place = {3, 3, 1};
+    mySprite.place[0] = 3;
+    mySprite.place[1] = 3;
+    mySprite.place[2] = 1;
     mySprite.ChgIntensity(4);
     mySprite.setIt();
     delay(500);
@@ -904,33 +1076,57 @@ void Chaos() {
 void Multi_Swirl() {
     sprite LED1(2, 2, 2);  //create 6 sprites
     LED1.colorIt(Yellow);
-    LED1.place = {5, 4, 3};
-    LED1.motion = {1, -2, 1};
+    LED1.place[0] = 5;
+    LED1.place[1] = 4;
+    LED1.place[2] = 3;
+    LED1.motion[0] = 1;
+    LED1.motion[1] = -2;
+    LED1.motion[2] = 1;
 
     sprite LED2(2, 2, 2);
     LED2.colorIt(Green);
-    LED2.place = {3, 4, 5};
-    LED2.motion = {2, 1, -2};
+    LED2.place[0] = 3;
+    LED2.place[1] = 4;
+    LED2.place[2] = 5;
+    LED2.motion[0] = 2;
+    LED2.motion[1] = 1;
+    LED2.motion[2] = -2;
 
     sprite LED3(2, 2, 2);
     LED3.colorIt(Blue);
-    LED3.place = {2, 6, 3};
-    LED3.motion = {1, -1, -1};
+    LED3.place[0] = 2;
+    LED3.place[1] = 6;
+    LED3.place[2] = 3;
+    LED3.motion[0] = 1;
+    LED3.motion[1] = -1;
+    LED3.motion[2] = -1;
 
     sprite LED4(2, 2, 2);
     LED4.colorIt(Violet);
-    LED4.place = {5, 1, 2};
-    LED4.motion = {2, 1, -1};
+    LED4.place[0] = 5;
+    LED4.place[1] = 1;
+    LED4.place[2] = 2;
+    LED4.motion[0] = 2;
+    LED4.motion[1] = 1;
+    LED4.motion[2] = -1;
 
     sprite LED5(2, 2, 2);
     LED5.colorIt(Orange);
-    LED5.place = {1, 2, 3};
-    LED5.motion = {1, 1, 2};
+    LED5.place[0] = 1;
+    LED5.place[1] = 2;
+    LED5.place[2] = 3;
+    LED5.motion[0] = 1;
+    LED5.motion[1] = 1;
+    LED5.motion[2] = 2;
 
     sprite LED6(2, 2, 2);
     LED6.colorIt(Red);
-    LED6.place = {5, 1, 2};
-    LED6.motion = {2, 1, -1};
+    LED6.place[0] = 5;
+    LED6.place[1] = 1;
+    LED6.place[2] = 2;
+    LED6.motion[0] = 2;
+    LED6.motion[1] = 1;
+    LED6.motion[2] = -1;
 
     for (int count = 0; count < 150; count++) {  //now bounce all these sprites  around in the cube
         LED1.bounceIt();
@@ -956,62 +1152,113 @@ void Multi_Swirl() {
 void Flip_and_Roll() {
     int mydelay = 250;
     sprite Sprite1(3, 3, 3);  // X and Y dimensions must be equal if we are going  to rotate around Z axis.
-    Sprite1.place = {1, 1, 1};
-    Sprite1.description = {  // just a simple red green green line across 3  layers
-            {  // top layer
-                    {Red,   Red,   Red},  // 1st column,  3 panels
-                    {Red,   Red,   Red},  // 2nd column,  3 panels
-                    {Red,   Red,   Red}   // 3rd column,  3 panels
-            },
-            {  // middle layer
-                    {Black, Black, Black},
-                    {Black, Black, Black},
-                    {Black, Black, Black}
-            },
-            {  // bottom layer
-                    {Black, Black, Black},
-                    {Black, Black, Black},
-                    {Black, Black, Black}
-            },
-    };
+    Sprite1.place[0] = 1;
+    Sprite1.place[1] = 1;
+    Sprite1.place[2] = 1;
+    // just a simple red green green line across 3  layers
+    // top layer
+    Sprite1.description[0][0][0] = Red;
+    Sprite1.description[0][0][1] = Red;
+    Sprite1.description[0][0][2] = Red;
+    Sprite1.description[0][1][0] = Red;
+    Sprite1.description[0][1][1] = Red;
+    Sprite1.description[0][1][2] = Red;
+    Sprite1.description[0][2][0] = Red;
+    Sprite1.description[0][2][1] = Red;
+    Sprite1.description[0][2][2] = Red;
+    // middle layer
+    Sprite1.description[1][0][0] = Black;
+    Sprite1.description[1][0][1] = Black;
+    Sprite1.description[1][0][2] = Black;
+    Sprite1.description[1][1][0] = Black;
+    Sprite1.description[1][1][1] = Black;
+    Sprite1.description[1][1][2] = Black;
+    Sprite1.description[1][2][0] = Black;
+    Sprite1.description[1][2][1] = Black;
+    Sprite1.description[1][2][2] = Black;
+    // bottom layer
+    Sprite1.description[2][0][0] = Black;
+    Sprite1.description[2][0][1] = Black;
+    Sprite1.description[2][0][2] = Black;
+    Sprite1.description[2][1][0] = Black;
+    Sprite1.description[2][1][1] = Black;
+    Sprite1.description[2][1][2] = Black;
+    Sprite1.description[2][2][0] = Black;
+    Sprite1.description[2][2][1] = Black;
+    Sprite1.description[2][2][2] = Black;
+
     sprite Sprite2(3, 3, 3);  // X and Y dimensions must be equal if we are going  to rotate around X axis.
-    Sprite2.place = {4, 4, 5};
-    Sprite2.description = {  // just a simple red green green line across 3  layers
-            {  // top layer
-                    {Green, Black, Black},
-                    {Green, Black, Black},
-                    {Green, Black, Black}
-            },
-            {  // middle layer
-                    {Green, Black, Black},
-                    {Green, Black, Black},
-                    {Green, Black, Black}
-            },
-            {  // bottom layer
-                    {Green, Black, Black},
-                    {Green, Black, Black},
-                    {Green, Black, Black}
-            },
-    };
+    Sprite2.place[0] = 4;
+    Sprite2.place[1] = 4;
+    Sprite2.place[2] = 5;
+    // just a simple red green green line across 3  layers
+    // top layer
+    Sprite2.description[0][0][0] = Green;
+    Sprite2.description[0][0][1] = Black;
+    Sprite2.description[0][0][2] = Black;
+    Sprite2.description[0][1][0] = Green;
+    Sprite2.description[0][1][1] = Black;
+    Sprite2.description[0][1][2] = Black;
+    Sprite2.description[0][2][0] = Green;
+    Sprite2.description[0][2][1] = Black;
+    Sprite2.description[0][2][2] = Black;
+    // middle layer
+    Sprite2.description[1][0][0] = Green;
+    Sprite2.description[1][0][1] = Black;
+    Sprite2.description[1][0][2] = Black;
+    Sprite2.description[1][1][0] = Green;
+    Sprite2.description[1][1][1] = Black;
+    Sprite2.description[1][1][2] = Black;
+    Sprite2.description[1][2][0] = Green;
+    Sprite2.description[1][2][1] = Black;
+    Sprite2.description[1][2][2] = Black;
+    // bottom layer
+    Sprite2.description[2][0][0] = Green;
+    Sprite2.description[2][0][1] = Black;
+    Sprite2.description[2][0][2] = Black;
+    Sprite2.description[2][1][0] = Green;
+    Sprite2.description[2][1][1] = Black;
+    Sprite2.description[2][1][2] = Black;
+    Sprite2.description[2][2][0] = Green;
+    Sprite2.description[2][2][1] = Black;
+    Sprite2.description[2][2][2] = Black;
+
     sprite Sprite3(3, 3, 3);  // X and Y dimensions must be equal if we are going  to rotate around X axis.
-    Sprite3.place = {1, 4, 3};
-    Sprite3.description = {  // just a simple red green green line across 3  layers
-            {  // top layer
-                    {Blue, Black, Black},
-                    {Blue, Black, Black},
-                    {Blue, Black, Black}
-            },
-            {  // middle layer
-                    {Blue, Black, Black},
-                    {Blue, Black, Black},
-                    {Blue, Black, Black}
-            },
-            {  // bottom layer
-                    {Blue, Black, Black},
-                    {Blue, Black, Black},
-                    {Blue, Black, Black}
-            },
-    };
+    Sprite3.place[0] = 1;
+    Sprite3.place[1] = 4;
+    Sprite3.place[2] = 3;
+    // just a simple red green green line across 3 layers
+    // top layer
+    Sprite3.description[0][0][0] = Blue;
+    Sprite3.description[0][0][1] = Black;
+    Sprite3.description[0][0][2] = Black;
+    Sprite3.description[0][1][0] = Blue;
+    Sprite3.description[0][1][1] = Black;
+    Sprite3.description[0][1][2] = Black;
+    Sprite3.description[0][2][0] = Blue;
+    Sprite3.description[0][2][1] = Black;
+    Sprite3.description[0][2][2] = Black;
+    // middle layer
+    Sprite3.description[1][0][0] = Blue;
+    Sprite3.description[1][0][1] = Black;
+    Sprite3.description[1][0][2] = Black;
+    Sprite3.description[1][1][0] = Blue;
+    Sprite3.description[1][1][1] = Black;
+    Sprite3.description[1][1][2] = Black;
+    Sprite3.description[1][2][0] = Blue;
+    Sprite3.description[1][2][1] = Black;
+    Sprite3.description[1][2][2] = Black;
+    // bottom layer
+    Sprite3.description[2][0][0] = Blue;
+    Sprite3.description[2][0][1] = Black;
+    Sprite3.description[2][0][2] = Black;
+    Sprite3.description[2][1][0] = Blue;
+    Sprite3.description[2][1][1] = Black;
+    Sprite3.description[2][1][2] = Black;
+    Sprite3.description[2][2][0] = Blue;
+    Sprite3.description[2][2][1] = Black;
+    Sprite3.description[2][2][2] = Black;
+
 
     for (int count = 0; count < 15; count++) {
         Sprite1.rotateX(0);
@@ -1054,21 +1301,34 @@ void Flip_and_Roll() {
 void FlyingBoxes() {
     sprite mySprite(3, 3, 3); // this creates a sprite called mySprite with  dimensions 2x2x2 LEDs.
     mySprite.colorIt(Green);
-    mySprite.place = {3, 5, 3}; // locate it in the lower, back corner of the cube
+    mySprite.place[0] = 3; // locate it in the lower, back corner of the cube
+    mySprite.place[1] = 5; // locate it in the lower, back corner of the cube
+    mySprite.place[2] = 3; // locate it in the lower, back corner of the cube
     mySprite.setIt(); // actually puts it in the cube, turning on the LEDs.
-    mySprite.motion = {2, 1, 1}; // gives my sprite an initial direction of motion
+    mySprite.motion[0] = 2; // gives my sprite an initial direction of motion
+    mySprite.motion[1] = 1; // gives my sprite an initial direction of motion
+    mySprite.motion[2] = 1; // gives my sprite an initial direction of motion
+
 
     sprite mySprite2(3, 3, 3); // this creates a sprite called mySprite with  dimensions 2x2x2 LEDs.
     mySprite2.colorIt(Red);
-    mySprite2.place = {0, 3, 2}; // locate it in the lower, back corner of the  cube
+    mySprite2.place[0] = 0; // locate it in the lower, back corner of the cube
+    mySprite2.place[1] = 3; // locate it in the lower, back corner of the cube
+    mySprite2.place[2] = 2; // locate it in the lower, back corner of the cube
     mySprite2.setIt(); // actually puts it in the cube, turning on the LEDs.
-    mySprite2.motion = {2, 1, 1}; // gives my sprite an initial direction of  motion
+    mySprite2.motion[0] = 2; // gives my sprite an initial direction of motion
+    mySprite2.motion[1] = 1; // gives my sprite an initial direction of motion
+    mySprite2.motion[2] = 1; // gives my sprite an initial direction of motion
 
     sprite mySprite3(3, 3, 3); // this creates a sprite called mySprite with  dimensions 2x2x2 LEDs.
     mySprite3.colorIt(Blue);
-    mySprite3.place = {4, 2, 4}; // locate it in the lower, back corner of the  cube
+    mySprite3.place[0] = 4; // locate it in the lower, back corner of the cube
+    mySprite3.place[1] = 2; // locate it in the lower, back corner of the cube
+    mySprite3.place[2] = 4; // locate it in the lower, back corner of the cube
     mySprite3.setIt(); // actually puts it in the cube, turning on the LEDs.
-    mySprite3.motion = {2, 1, 1}; // gives my sprite an initial direction of  motion
+    mySprite3.motion[0] = 2; // gives my sprite an initial direction of motion
+    mySprite3.motion[1] = 1; // gives my sprite an initial direction of motion
+    mySprite3.motion[2] = 1; // gives my sprite an initial direction of motion
 
     for (count = 0; count < 250; count++) { // loop around 100 times
         mySprite.rollX(1);
@@ -1912,34 +2172,82 @@ void RandomRotation(int myspeed) {
 void Eyes() {
     int mydelay = 200;
     sprite Sprite1(4, 4, 4);  // X and Y dimensions must be equal if we are going  to rotate around Z axis.
-    Sprite1.place = {0, 0, 3};
-    Sprite1.motion = {1, 2, -1};
-    Sprite1.description = {  // just a simple red green green line across 3  layers
-            {  // top layer
-                    {Black, Black, Black, Black}, // 1st column,  4  panels
-                    {Black, Red, Red, Black}, // 2nd column,  4 panels
-                    {Black, Red, Red, Black}, // 3rd column,  4 panels
-                    {Black, Black, Black, Black}, // 4th column,  4  panels
-            },
-            {  // middle layer
-                    {Black, Red,   Red,   Black}, // 1st column,  4 panels
-                    {Red,   Red, Red, Red}, // 2nd column,  4 panels
-                    {Red,   Red, Red, Red}, // 3rd column,  4 panels
-                    {Black, Red,   Red,   Black}, // 4th column,  4 panels
-            },
-            {  // 2nd middle layer
-                    {Black, Red,   Red,   Black}, // 1st column,  4 panels
-                    {Red,   Red, Red, Red}, // 2nd column,  4 panels
-                    {Red,   Red, Red, Red}, // 3rd column,  4 panels
-                    {Black, Red,   Red,   Black}, // 4th column,  4 panels
-            },
-            {  // bottom layer
-                    {Black, Black, Black, Black}, // 1st column,  4  panels
-                    {Black, Red, Red, Black}, // 2nd column,  4 panels
-                    {Black, Red, Red, Black}, // 3rd column,  4 panels
-                    {Black, Black, Black, Black}, // 4th column,  4  panels
-            },
-    };
+    Sprite1.place[0] = 0;
+    Sprite1.place[1] = 0;
+    Sprite1.place[2] = 3;
+    Sprite1.motion[0] = 1;
+    Sprite1.motion[1] = 2;
+    Sprite1.motion[2] = -1;
+    // just a simple red green green line across 3  layers
+    // top layer
+    Sprite1.description[0][0][0] = Black;
+    Sprite1.description[0][0][1] = Black;
+    Sprite1.description[0][0][2] = Black;
+    Sprite1.description[0][0][3] = Black;
+    Sprite1.description[0][1][0] = Black;
+    Sprite1.description[0][1][1] = Red;
+    Sprite1.description[0][1][2] = Red;
+    Sprite1.description[0][1][3] = Black;
+    Sprite1.description[0][2][0] = Black;
+    Sprite1.description[0][2][1] = Red;
+    Sprite1.description[0][2][2] = Red;
+    Sprite1.description[0][2][3] = Black;
+    Sprite1.description[0][3][0] = Black;
+    Sprite1.description[0][3][1] = Black;
+    Sprite1.description[0][3][2] = Black;
+    Sprite1.description[0][3][3] = Black;
+    // 1st middle layer
+    Sprite1.description[1][0][0] = Black;
+    Sprite1.description[1][0][1] = Red;
+    Sprite1.description[1][0][2] = Red;
+    Sprite1.description[1][0][3] = Black;
+    Sprite1.description[1][1][0] = Red;
+    Sprite1.description[1][1][1] = Red;
+    Sprite1.description[1][1][2] = Red;
+    Sprite1.description[1][1][3] = Red;
+    Sprite1.description[1][2][0] = Red;
+    Sprite1.description[1][2][1] = Red;
+    Sprite1.description[1][2][2] = Red;
+    Sprite1.description[1][2][3] = Red;
+    Sprite1.description[1][3][0] = Black;
+    Sprite1.description[1][3][1] = Red;
+    Sprite1.description[1][3][2] = Red;
+    Sprite1.description[1][3][3] = Black;
+    // 2nd middle layer
+    Sprite1.description[2][0][0] = Black;
+    Sprite1.description[2][0][1] = Red;
+    Sprite1.description[2][0][2] = Red;
+    Sprite1.description[2][0][3] = Black;
+    Sprite1.description[2][1][0] = Red;
+    Sprite1.description[2][1][1] = Red;
+    Sprite1.description[2][1][2] = Red;
+    Sprite1.description[2][1][3] = Red;
+    Sprite1.description[2][2][0] = Red;
+    Sprite1.description[2][2][1] = Red;
+    Sprite1.description[2][2][2] = Red;
+    Sprite1.description[2][2][3] = Red;
+    Sprite1.description[2][3][0] = Black;
+    Sprite1.description[2][3][1] = Red;
+    Sprite1.description[2][3][2] = Red;
+    Sprite1.description[2][3][3] = Black;
+    // bottom layer
+    Sprite1.description[3][0][0] = Black;
+    Sprite1.description[3][0][1] = Black;
+    Sprite1.description[3][0][2] = Black;
+    Sprite1.description[3][0][3] = Black;
+    Sprite1.description[3][1][0] = Black;
+    Sprite1.description[3][1][1] = Red;
+    Sprite1.description[3][1][2] = Red;
+    Sprite1.description[3][1][3] = Black;
+    Sprite1.description[3][2][0] = Black;
+    Sprite1.description[3][2][1] = Red;
+    Sprite1.description[3][2][2] = Red;
+    Sprite1.description[3][2][3] = Black;
+    Sprite1.description[3][3][0] = Black;
+    Sprite1.description[3][3][1] = Black;
+    Sprite1.description[3][3][2] = Black;
+    Sprite1.description[3][3][3] = Black;
+
     Sprite1.description[1][1][0] = Blue;
     Sprite1.description[1][2][0] = Blue;
 
@@ -1960,28 +2268,48 @@ void Eyes() {
 void Single_Swirl() {
     sprite LED1(1, 1, 1);
     LED1.colorIt(Yellow);
-    LED1.place = {5, 4, 3};
-    LED1.motion = {1, -2, 1};
+    LED1.place[0] = 5;
+    LED1.place[1] = 4;
+    LED1.place[2] = 3;
+    LED1.motion[0] = 1;
+    LED1.motion[1] = -2;
+    LED1.motion[2] = 1;
 
     sprite LED2(1, 1, 1);
     LED2.colorIt(Green);
-    LED2.place = {3, 4, 5};
-    LED2.motion = {1, 1, -2};
+    LED2.place[0] = 3;
+    LED2.place[1] = 4;
+    LED2.place[2] = 5;
+    LED2.motion[0] = 1;
+    LED2.motion[1] = 1;
+    LED2.motion[2] = -2;
 
     sprite LED3(1, 1, 1);
     LED3.colorIt(Blue);
-    LED3.place = {2, 6, 3};
-    LED3.motion = {1, -1, -2};
+    LED3.place[0] = 2;
+    LED3.place[1] = 6;
+    LED3.place[2] = 3;
+    LED3.motion[0] = 1;
+    LED3.motion[1] = -1;
+    LED3.motion[2] = -2;
 
     sprite LED4(1, 1, 1);
     LED4.colorIt(Violet);
-    LED4.place = {5, 1, 2};
-    LED4.motion = {2, 1, -1};
+    LED4.place[0] = 5;
+    LED4.place[1] = 1;
+    LED4.place[2] = 2;
+    LED4.motion[0] = 2;
+    LED4.motion[1] = 1;
+    LED4.motion[2] = -1;
 
     sprite LED5(1, 1, 1);
     LED5.colorIt(Orange);
-    LED5.place = {1, 2, 3};
-    LED5.motion = {1, 1, 2};
+    LED5.place[0] = 1;
+    LED5.place[1] = 2;
+    LED5.place[2] = 3;
+    LED5.motion[0] = 1;
+    LED5.motion[1] = 1;
+    LED5.motion[2] = 2;
 
     for (int count = 0; count < 225; count++) {  //now bounce all there sprites  around in the cube
         LED1.bounceIt();
@@ -2013,36 +2341,83 @@ to account for gravity.  For example, .bounce automatically checks for the  edge
 */
 void Basketball_Dribble() {
     sprite mySprite(4, 4, 4);  // Our ball is 4 x 4 x 4.
-    mySprite.place = {  // set up its initial location
-            1, 2, 4};
-    mySprite.motion = {  // set up its initial motion
-            -1, 1, -1};
-    mySprite.description = {  // define the shape and color of a red ball.
-            {  // top layer
-                    {Black, Black, Black, Black}, // 1st column,  4 panels
-                    {Black, 10, 10, Black}, // 2nd column,  4 panels
-                    {Black, 10, 10, Black}, // 3rd column,  4 panels
-                    {Black, Black, Black, Black}, // 4th column,  4 panels
-            },
-            {  // middle layer
-                    {Black, 10,    10,    Black}, // 1st column,  4 panels
-                    {10,    10, 10, 10}, // 2nd column,  4 panels
-                    {10,    10, 10, 10}, // 3rd column,  4 panels
-                    {Black, 10,    10,    Black}, // 4th column,  4 panels
-            },
-            {  // 2nd middle layer
-                    {Black, 10,    10,    Black}, // 1st column,  4 panels
-                    {10,    10, 10, 10}, // 2nd column,  4 panels
-                    {10,    10, 10, 10}, // 3rd column,  4 panels
-                    {Black, 10,    10,    Black}, // 4th column,  4 panels
-            },
-            {  // bottom layer
-                    {Black, Black, Black, Black}, // 1st column,  4 panels
-                    {Black, 10, 10, Black}, // 2nd column,  4 panels
-                    {Black, 10, 10, Black}, // 3rd column,  4 panels
-                    {Black, Black, Black, Black}, // 4th column,  4 panels
-            },
-    };
+    mySprite.place[0] = 1; // set up its initial location
+    mySprite.place[1] = 2; // set up its initial location
+    mySprite.place[2] = 4; // set up its initial location
+    mySprite.motion[0] = -1; // set up its initial motion
+    mySprite.motion[1] = 1;  // set up its initial motion
+    mySprite.motion[2] = -1; // set up its initial motion
+
+    // define the shape and color of a red ball.
+    // top layer
+    mySprite.description[0][0][0] = Black;
+    mySprite.description[0][0][1] = Black;
+    mySprite.description[0][0][2] = Black;
+    mySprite.description[0][0][3] = Black;
+    mySprite.description[0][1][0] = Black;
+    mySprite.description[0][1][1] = 10;
+    mySprite.description[0][1][2] = 10;
+    mySprite.description[0][1][3] = Black;
+    mySprite.description[0][2][0] = Black;
+    mySprite.description[0][2][1] = 10;
+    mySprite.description[0][2][2] = 10;
+    mySprite.description[0][2][3] = Black;
+    mySprite.description[0][3][0] = Black;
+    mySprite.description[0][3][1] = Black;
+    mySprite.description[0][3][2] = Black;
+    mySprite.description[0][3][3] = Black;
+    // 1st middle layer
+    mySprite.description[1][0][0] = Black;
+    mySprite.description[1][0][1] = 10;
+    mySprite.description[1][0][2] = 10;
+    mySprite.description[1][0][3] = Black;
+    mySprite.description[1][1][0] = 10;
+    mySprite.description[1][1][1] = 10;
+    mySprite.description[1][1][2] = 10;
+    mySprite.description[1][1][3] = 10;
+    mySprite.description[1][2][0] = 10;
+    mySprite.description[1][2][1] = 10;
+    mySprite.description[1][2][2] = 10;
+    mySprite.description[1][2][3] = 10;
+    mySprite.description[1][3][0] = Black;
+    mySprite.description[1][3][1] = 10;
+    mySprite.description[1][3][2] = 10;
+    mySprite.description[1][3][3] = Black;
+    // 2nd middle layer
+    mySprite.description[2][0][0] = Black;
+    mySprite.description[2][0][1] = 10;
+    mySprite.description[2][0][2] = 10;
+    mySprite.description[2][0][3] = Black;
+    mySprite.description[2][1][0] = 10;
+    mySprite.description[2][1][1] = 10;
+    mySprite.description[2][1][2] = 10;
+    mySprite.description[2][1][3] = 10;
+    mySprite.description[2][2][0] = 10;
+    mySprite.description[2][2][1] = 10;
+    mySprite.description[2][2][2] = 10;
+    mySprite.description[2][2][3] = 10;
+    mySprite.description[2][3][0] = Black;
+    mySprite.description[2][3][1] = 10;
+    mySprite.description[2][3][2] = 10;
+    mySprite.description[2][3][3] = Black;
+    // bottom layer
+    mySprite.description[3][0][0] = Black;
+    mySprite.description[3][0][1] = Black;
+    mySprite.description[3][0][2] = Black;
+    mySprite.description[3][0][3] = Black;
+    mySprite.description[3][1][0] = Black;
+    mySprite.description[3][1][1] = 10;
+    mySprite.description[3][1][2] = 10;
+    mySprite.description[3][1][3] = Black;
+    mySprite.description[3][2][0] = Black;
+    mySprite.description[3][2][1] = 10;
+    mySprite.description[3][2][2] = 10;
+    mySprite.description[3][2][3] = Black;
+    mySprite.description[3][3][0] = Black;
+    mySprite.description[3][3][1] = Black;
+    mySprite.description[3][3][2] = Black;
+    mySprite.description[3][3][3] = Black;
+
 
     for (int count = 0; count < 1600; count++) {  //  bounce the ball about 20 times
         mySprite.clearIt(); // clear the sprite from its current location
