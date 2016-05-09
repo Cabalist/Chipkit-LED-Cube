@@ -114,7 +114,9 @@ void CubeInCube() {
 void displayCube(int side, int x, int y, int z, int color) {
     sprite mySprite(side, side, side);
     mySprite.outline(color);
-    mySprite.place = {x, y, z};
+    mySprite.place [0] = x;
+    mySprite.place [1] = y;
+    mySprite.place [2] = z;
     mySprite.setIt();
     delay(50);
     mySprite.clearIt();
@@ -122,8 +124,14 @@ void displayCube(int side, int x, int y, int z, int color) {
 
 void bounceCube(int side, int x, int y, int z, int color) {
     sprite mySprite(side, side, side);
-    mySprite.place = {x, y, z};
-    mySprite.motion = {1, 2, -1}; // gives my sprite an initial direction of motion
+    mySprite.place [0] = x;
+    mySprite.place [1] = y;
+    mySprite.place [2] = z;
+
+    mySprite.motion [0] = 1;  // gives my sprite an initial direction of motion
+    mySprite.motion [1] = 2;  // gives my sprite an initial direction of motion
+    mySprite.motion [2] = -1; // gives my sprite an initial direction of motion
+
     for (count = 0; count < 66; count++) { // loop around 100 times
         color = color + 3;
         if (color > 189) { color = 0; }

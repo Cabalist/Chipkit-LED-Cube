@@ -25,39 +25,73 @@ alter it if you want.
 
 void TheOrnament() {
     sprite mySprite(3, 3, 6);
-    mySprite.description = {  // define the shape and color.
-            {  // top layer
-                    {Black, Black,  Black}, // 1st column,  3 panels
-                    {Black,  Red,    Black}, // 2nd column,  3 panels
-                    {Black, Black,  Black}, // 3rd column,  3 panels
-            },
-            {  // 2nd layer
-                    {Black, Orange, Black}, // 1st column,  3 panels
-                    {Orange, Black,  Orange}, // 2nd column,  3 panels
-                    {Black, Orange, Black}, // 3rd column,  3 panels
-            },
-            {  // 3rd layer
-                    {Green, Green,  Green}, // 1st column,  3 panels
-                    {Green,  Green,  Green}, // 2nd column, 3 panels
-                    {Green, Green,  Green}, // 3rd column,  3 panels
-            },
-            {  // 4th layer
-                    {Blue,  Blue,   Blue}, // 1st column,  3 panels
-                    {Blue,   Blue,   Blue}, // 2nd column,  3 panels
-                    {Blue,  Blue,   Blue}, // 3rd column,  3 panels
-            },
-            {  // 5th layer
-                    {Black, Purple, Black}, // 1st column,  3 panels
-                    {Purple, Black,  Purple}, // 2nd column,  3 panels
-                    {Black, Purple, Black}, // 3rd column,  3 panels
-            },
-            {  // 6th layer
-                    {Black, Black,  Black}, // 1st column,  3 panels
-                    {Black,  Violet, Black}, // 2nd column,  3 panels
-                    {Black, Black,  Black}, // 3rd column,  3 panels
-            },
-    };
-    mySprite.place = {3, 3, 1};
+
+    // define the shape and color.
+    // top layer
+    mySprite.description[0][0][0] = Black; // 1st column,  3 panels
+    mySprite.description[0][0][1] = Black;
+    mySprite.description[0][0][2] = Black;
+    mySprite.description[0][1][0] = Black; // 2nd column, 3 panels
+    mySprite.description[0][1][1] = Red;
+    mySprite.description[0][1][2] = Black;
+    mySprite.description[0][2][0] = Black; // 3rd column,  3 panels
+    mySprite.description[0][2][1] = Black;
+    mySprite.description[0][2][2] = Black;
+    // 2nd layer
+    mySprite.description[1][0][0] = Black; // 1st column,  3 panels
+    mySprite.description[1][0][1] = Orange;
+    mySprite.description[1][0][2] = Black;
+    mySprite.description[1][1][0] = Orange; // 2nd column, 3 panels
+    mySprite.description[1][1][1] = Black;
+    mySprite.description[1][1][2] = Orange;
+    mySprite.description[1][2][0] = Black; // 3rd column,  3 panels
+    mySprite.description[1][2][1] = Orange;
+    mySprite.description[1][2][2] = Black;
+    // 3rd layer
+    mySprite.description[2][0][0] = Green; // 1st column,  3 panels
+    mySprite.description[2][0][1] = Green;
+    mySprite.description[2][0][2] = Green;
+    mySprite.description[2][1][0] = Green; // 2nd column, 3 panels
+    mySprite.description[2][1][1] = Green;
+    mySprite.description[2][1][2] = Green;
+    mySprite.description[2][2][0] = Green; // 3rd column,  3 panels
+    mySprite.description[2][2][1] = Green;
+    mySprite.description[2][2][2] = Green;
+    // 4th layer
+    mySprite.description[3][0][0] = Blue; // 1st column,  3 panels
+    mySprite.description[3][0][1] = Blue;
+    mySprite.description[3][0][2] = Blue;
+    mySprite.description[3][1][0] = Blue; // 2nd column, 3 panels
+    mySprite.description[3][1][1] = Blue;
+    mySprite.description[3][1][2] = Blue;
+    mySprite.description[3][2][0] = Blue; // 3rd column,  3 panels
+    mySprite.description[3][2][1] = Blue;
+    mySprite.description[3][2][2] = Blue;
+    // 5th layer
+    mySprite.description[4][0][0] = Black; // 1st column,  3 panels
+    mySprite.description[4][0][1] = Purple;
+    mySprite.description[4][0][2] = Black;
+    mySprite.description[4][1][0] = Purple; // 2nd column, 3 panels
+    mySprite.description[4][1][1] = Black;
+    mySprite.description[4][1][2] = Purple;
+    mySprite.description[4][2][0] = Black; // 3rd column,  3 panels
+    mySprite.description[4][2][1] = Purple;
+    mySprite.description[4][2][2] = Black;
+    // 6th layer
+    mySprite.description[5][0][0] = Black; // 1st column,  3 panels
+    mySprite.description[5][0][1] = Black;
+    mySprite.description[5][0][2] = Black;
+    mySprite.description[5][1][0] = Black; // 2nd column, 3 panels
+    mySprite.description[5][1][1] = Violet;
+    mySprite.description[5][1][2] = Black;
+    mySprite.description[5][2][0] = Black; // 3rd column,  3 panels
+    mySprite.description[5][2][1] = Black;
+    mySprite.description[5][2][2] = Black;
+
+    mySprite.place[0] = 3;
+    mySprite.place[1] = 3;
+    mySprite.place[2] = 1;
+
     for (int j = 0; j < 7; j++) {
         mySprite.ChgIntensity(1);
         mySprite.setIt();
@@ -95,8 +129,12 @@ void TheOrnament() {
         delay(100);
     }
     clearCube();
-    mySprite.place = {3, 3, 1};
-    mySprite.motion = {0, 0, 1};
+    mySprite.place [0] = 3;
+    mySprite.place [1] = 3;
+    mySprite.place [2] = 1;
+    mySprite.motion [0] = 0;
+    mySprite.motion [1] = 0;
+    mySprite.motion [2] = 1;
     for (int j = 0; j < 28; j++) {
         mySprite.bounceIt();
         delay(200);
@@ -108,14 +146,22 @@ void TheOrnament() {
     }
     clearCube();
     mySprite.ChgIntensity(4);
-    mySprite.place = {3, 3, 1};
-    mySprite.motion = {0, 0, 1};
+    mySprite.place [0] = 3;
+    mySprite.place [1] = 3;
+    mySprite.place [2] = 1;
+
+    mySprite.motion [0] = 0;
+    mySprite.motion [1] = 0;
+    mySprite.motion [2] = 1;
+
     for (int j = 0; j < 27; j++) {
         mySprite.bounceIt();
         delay(200);
     }
     mySprite.clearIt();
-    mySprite.place = {3, 3, 1};
+    mySprite.place [0] = 3;
+    mySprite.place [1] = 3;
+    mySprite.place [2] = 1;
     mySprite.ChgIntensity(4);
     mySprite.setIt();
     delay(500);
