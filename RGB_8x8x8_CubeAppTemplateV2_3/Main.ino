@@ -25,8 +25,7 @@
 
 void loop() {
     for (int myloop; myloop < 760; myloop++) {
-        LED(xx, yy, zz, currentColor[0], currentColor[1],
-            currentColor[2]);  //light up the current position with current color
+        LED(xx, yy, zz, currentColor[0], currentColor[1], currentColor[2]);  //light up the current position with current color
         xx1 = xx;
         yy1 = yy;
         zz1 = zz;
