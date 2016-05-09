@@ -29,36 +29,90 @@ sprite mySprite(4, 4, 4);  // Our sprite is 4 x 4 x 4.
 int rot, blinkMe;
 
 void helicopter() {
-    mySprite.place = {  // set up its initial location
-            2, 2, 0};
-    mySprite.motion = {  // set up its initial motion
-            1, -1, 1};
-    mySprite.description = {  // define the shape and color of the helicopter.
-            {  // top layer
-                    {White, Black, Black, Black}, // 1st column,  4 panels
-                    {Black, White, Black, Black}, // 2nd column,  4 panels
-                    {Black, Black, White, Black}, // 3rd column,  4 panels
-                    {Black, Black, Black, White}, // 4th column,  4 panels
-            },
-            {  // middle layer
-                    {Black, Black, Black, Black}, // 1st column,  4 panels
-                    {Black, Blue,  Blue,  Black}, // 2nd column,  4 panels
-                    {Black, Blue,  Blue,  Black}, // 3rd column,  4 panels
-                    {Black, Black, Black, Black}, // 4th column,  4 panels
-            },
-            {  // 2nd middle layer
-                    {Black, Black, Black, Black}, // 1st column,  4 panels
-                    {Black, Blue,  Blue,  Black}, // 2nd column,  4 panels
-                    {Black, Blue,  Blue,  Black}, // 3rd column,  4 panels
-                    {Black, Black, Black, Black}, // 4th column,  4 panels
-            },
-            {  // bottom layer
-                    {Black, Black, Black, Black}, // 1st column,  4 panels
-                    {Blue,  Black, Blue,  Black}, // 2nd column,  4 panels
-                    {Blue,  Black, Blue,  Black}, // 3rd column,  4 panels
-                    {Black, Black, Black, Black}, // 4th column,  4 panels
-            },
-    };
+    mySprite.place[0] = 2; // set up its initial location
+    mySprite.place[1] = 2; // set up its initial location
+    mySprite.place[2] = 0; // set up its initial location
+
+    mySprite.motion[0] = 1;  // set up its initial motion
+    mySprite.motion[1] = -1; // set up its initial motion
+    mySprite.motion[2] = 1;  // set up its initial motion
+
+    // define the shape and color of the helicopter.
+    // top layer
+    // 1st column,  4 panels
+    mySprite.description[0][0][0] = White;
+    mySprite.description[0][0][1] = Black;
+    mySprite.description[0][0][2] = Black;
+    mySprite.description[0][0][3] = Black;
+    // 2nd column,  4 panels
+    mySprite.description[0][1][0] = Black;
+    mySprite.description[0][1][1] = White;
+    mySprite.description[0][1][2] = Black;
+    mySprite.description[0][1][3] = Black;
+    // 3rd column,  4 panels
+    mySprite.description[0][2][0] = Black;
+    mySprite.description[0][2][1] = Black;
+    mySprite.description[0][2][2] = White;
+    mySprite.description[0][2][3] = Black;
+    // 4th column,  4 panels
+    mySprite.description[0][3][0] = Black;
+    mySprite.description[0][3][1] = Black;
+    mySprite.description[0][3][2] = Black;
+    mySprite.description[0][3][3] = White;
+
+    // 1st middle layer
+    mySprite.description[1][0][0] = Black;
+    mySprite.description[1][0][1] = Black;
+    mySprite.description[1][0][2] = Black;
+    mySprite.description[1][0][3] = Black;
+    mySprite.description[1][1][0] = Black;
+    mySprite.description[1][1][1] = Blue;
+    mySprite.description[1][1][2] = Blue;
+    mySprite.description[1][1][3] = Black;
+    mySprite.description[1][2][0] = Black;
+    mySprite.description[1][2][1] = Blue;
+    mySprite.description[1][2][2] = Blue;
+    mySprite.description[1][2][3] = Black;
+    mySprite.description[1][3][0] = Black;
+    mySprite.description[1][3][1] = Black;
+    mySprite.description[1][3][2] = Black;
+    mySprite.description[1][3][3] = Black;
+    // 2nd middle layer
+    mySprite.description[2][0][0] = Black;
+    mySprite.description[2][0][1] = Black;
+    mySprite.description[2][0][2] = Black;
+    mySprite.description[2][0][3] = Black;
+    mySprite.description[2][1][0] = Black;
+    mySprite.description[2][1][1] = Blue;
+    mySprite.description[2][1][2] = Blue;
+    mySprite.description[2][1][3] = Black;
+    mySprite.description[2][2][0] = Black;
+    mySprite.description[2][2][1] = Blue;
+    mySprite.description[2][2][2] = Blue;
+    mySprite.description[2][2][3] = Black;
+    mySprite.description[2][3][0] = Black;
+    mySprite.description[2][3][1] = Black;
+    mySprite.description[2][3][2] = Black;
+    mySprite.description[2][3][3] = Black;
+    // bottom layer
+    mySprite.description[3][0][0] = Black;
+    mySprite.description[3][0][1] = Black;
+    mySprite.description[3][0][2] = Black;
+    mySprite.description[3][0][3] = Black;
+    mySprite.description[3][1][0] = Blue;
+    mySprite.description[3][1][1] = Black;
+    mySprite.description[3][1][2] = Blue;
+    mySprite.description[3][1][3] = Black;
+    mySprite.description[3][2][0] = Blue;
+    mySprite.description[3][2][1] = Black;
+    mySprite.description[3][2][2] = Blue;
+    mySprite.description[3][2][3] = Black;
+    mySprite.description[3][3][0] = Black;
+    mySprite.description[3][3][1] = Black;
+    mySprite.description[3][3][2] = Black;
+    mySprite.description[3][3][3] = Black;
+
+
     mySprite.setIt();  // display helicopter
     delay(3000);
     for (int count = 0; count < 10; count++) {  // make the tail light blink

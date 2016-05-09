@@ -23,62 +23,115 @@
 void flip_and_roll() {
     int mydelay = 250;
     sprite Sprite1(3, 3, 3);  // X and Y dimensions must be equal if we are going to rotate around Z axis.
-    Sprite1.place = {1, 1, 1};
-    Sprite1.description = {  // just a simple red green green line across 3 layers
-            {  // top layer
-                    {Red,   Red,   Red},  // 1st column,  3 panels
-                    {Red,   Red,   Red},  // 2nd column,  3 panels
-                    {Red,   Red,   Red}   // 3rd column,  3 panels
-            },
-            {  // middle layer
-                    {Black, Black, Black},
-                    {Black, Black, Black},
-                    {Black, Black, Black}
-            },
-            {  // bottom layer
-                    {Black, Black, Black},
-                    {Black, Black, Black},
-                    {Black, Black, Black}
-            },
-    };
+    Sprite1.place[0] = 1;
+    Sprite1.place[1] = 1;
+    Sprite1.place[2] = 1;
+
+    // top layer
+    Sprite1.description[0][0][0] = Red; // 1st column,  3 panels
+    Sprite1.description[0][0][1] = Red;
+    Sprite1.description[0][0][2] = Red;
+    Sprite1.description[0][1][0] = Red; // 2nd column,  3 panels
+    Sprite1.description[0][1][1] = Red;
+    Sprite1.description[0][1][2] = Red;
+    Sprite1.description[0][2][0] = Red; // 3rd column,  3 panels
+    Sprite1.description[0][2][1] = Red;
+    Sprite1.description[0][2][2] = Red;
+    // middle layer
+    Sprite1.description[1][0][0] = Black;
+    Sprite1.description[1][0][1] = Black;
+    Sprite1.description[1][0][2] = Black;
+    Sprite1.description[1][1][0] = Black;
+    Sprite1.description[1][1][1] = Black;
+    Sprite1.description[1][1][2] = Black;
+    Sprite1.description[1][2][0] = Black;
+    Sprite1.description[1][2][1] = Black;
+    Sprite1.description[1][2][2] = Black;
+    // bottom layer
+    Sprite1.description[2][0][0] = Black;
+    Sprite1.description[2][0][1] = Black;
+    Sprite1.description[2][0][2] = Black;
+    Sprite1.description[2][1][0] = Black;
+    Sprite1.description[2][1][1] = Black;
+    Sprite1.description[2][1][2] = Black;
+    Sprite1.description[2][2][0] = Black;
+    Sprite1.description[2][2][1] = Black;
+    Sprite1.description[2][2][2] = Black;
+
     sprite Sprite2(3, 3, 3);  // X and Y dimensions must be equal if we are going to rotate around X axis.
-    Sprite2.place = {4, 4, 5};
-    Sprite2.description = {  // just a simple red green green line across 3 layers
-            {  // top layer
-                    {Green, Black, Black},
-                    {Green, Black, Black},
-                    {Green, Black, Black}
-            },
-            {  // middle layer
-                    {Green, Black, Black},
-                    {Green, Black, Black},
-                    {Green, Black, Black}
-            },
-            {  // bottom layer
-                    {Green, Black, Black},
-                    {Green, Black, Black},
-                    {Green, Black, Black}
-            },
-    };
+    Sprite2.place[0] = 4;
+    Sprite2.place[1] = 4;
+    Sprite2.place[2] = 5;
+
+    // just a simple red green green line across 3 layers
+    // top layer
+    Sprite2.description[0][0][0] = Green;
+    Sprite2.description[0][0][1] = Black;
+    Sprite2.description[0][0][2] = Black;
+    Sprite2.description[0][1][0] = Green;
+    Sprite2.description[0][1][1] = Black;
+    Sprite2.description[0][1][2] = Black;
+    Sprite2.description[0][2][0] = Green;
+    Sprite2.description[0][2][1] = Black;
+    Sprite2.description[0][2][2] = Black;
+    // middle layer
+    Sprite2.description[1][0][0] = Green;
+    Sprite2.description[1][0][1] = Black;
+    Sprite2.description[1][0][2] = Black;
+    Sprite2.description[1][1][0] = Green;
+    Sprite2.description[1][1][1] = Black;
+    Sprite2.description[1][1][2] = Black;
+    Sprite2.description[1][2][0] = Green;
+    Sprite2.description[1][2][1] = Black;
+    Sprite2.description[1][2][2] = Black;
+    // bottom layer
+    Sprite2.description[2][0][0] = Green;
+    Sprite2.description[2][0][1] = Black;
+    Sprite2.description[2][0][2] = Black;
+    Sprite2.description[2][1][0] = Green;
+    Sprite2.description[2][1][1] = Black;
+    Sprite2.description[2][1][2] = Black;
+    Sprite2.description[2][2][0] = Green;
+    Sprite2.description[2][2][1] = Black;
+    Sprite2.description[2][2][2] = Black;
+
     sprite Sprite3(3, 3, 3);  // X and Y dimensions must be equal if we are going to rotate around X axis.
-    Sprite3.place = {1, 4, 3};
-    Sprite3.description = {  // just a simple red green green line across 3 layers
-            {  // top layer
-                    {Blue, Black, Black},
-                    {Blue, Black, Black},
-                    {Blue, Black, Black}
-            },
-            {  // middle layer
-                    {Blue, Black, Black},
-                    {Blue, Black, Black},
-                    {Blue, Black, Black}
-            },
-            {  // bottom layer
-                    {Blue, Black, Black},
-                    {Blue, Black, Black},
-                    {Blue, Black, Black}
-            },
-    };
+    Sprite3.place[0] = 1;
+    Sprite3.place[1] = 4;
+    Sprite3.place[2] = 3;
+
+    // just a simple red green green line across 3 layers
+    // top layer
+    Sprite3.description[0][0][0] = Blue;
+    Sprite3.description[0][0][1] = Black;
+    Sprite3.description[0][0][2] = Black;
+    Sprite3.description[0][1][0] = Blue;
+    Sprite3.description[0][1][1] = Black;
+    Sprite3.description[0][1][2] = Black;
+    Sprite3.description[0][2][0] = Blue;
+    Sprite3.description[0][2][1] = Black;
+    Sprite3.description[0][2][2] = Black;
+    // middle layer
+    Sprite3.description[1][0][0] = Blue;
+    Sprite3.description[1][0][1] = Black;
+    Sprite3.description[1][0][2] = Black;
+    Sprite3.description[1][1][0] = Blue;
+    Sprite3.description[1][1][1] = Black;
+    Sprite3.description[1][1][2] = Black;
+    Sprite3.description[1][2][0] = Blue;
+    Sprite3.description[1][2][1] = Black;
+    Sprite3.description[1][2][2] = Black;
+    // bottom layer
+    Sprite3.description[2][0][0] = Blue;
+    Sprite3.description[2][0][1] = Black;
+    Sprite3.description[2][0][2] = Black;
+    Sprite3.description[2][1][0] = Blue;
+    Sprite3.description[2][1][1] = Black;
+    Sprite3.description[2][1][2] = Black;
+    Sprite3.description[2][2][0] = Blue;
+    Sprite3.description[2][2][1] = Black;
+    Sprite3.description[2][2][2] = Black;
+
 
     for (int count = 0; count < 15; count++) {
         Sprite1.rotateX(0);

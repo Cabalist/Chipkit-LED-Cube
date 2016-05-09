@@ -25,52 +25,118 @@ void simple_demos() {
 
     mySprite.colorIt(Green); // makes my new sprite green.
 
-    Sprite1.description = {  // this is the description of our Sprite 1
-            {  // top layer
-                    {Black, Black, Black},  // 1st column,  3 panels
-                    {Black, Red,   Black},  // 2nd column,  3 panels
-                    {Black, Black, Black}   // 3rd column,  3 panels
-            },
-            {  // middle layer
-                    {Black, Green, Black},
-                    {Green, Green, Green},
-                    {Black, Green, Black}
-            },
-            {  // bottom layer
-                    {Black, Black, Black},
-                    {Black, Red,   Black},
-                    {Black, Black, Black}
-            },
-    };
-    Sprite2.description = {  // this is the description of our Sprite 2
-            {  // top layer
-                    {Black, Blue,  Black},  // 1st column,  3 panels
-                    {Blue,  Blue, Blue},  // 2nd column,  3 panels
-                    {Black, Blue,  Black}   // 3rd column,  3 panels
-            },
-            {  // middle layer
-                    {Blue,  Black, Blue},
-                    {Black, Blue, Black},
-                    {Blue,  Black, Blue}
-            },
-            {  // bottom layer
-                    {Black, Blue,  Black},
-                    {Blue,  Blue, Blue},
-                    {Black, Blue,  Black}
-            },
-    };
+    // this is the description of our Sprite 1
+    // top layer
+    // 1st column,  3 panels
+    Sprite1.description[0][0][0] = Black;
+    Sprite1.description[0][0][1] = Black;
+    Sprite1.description[0][0][2] = Black;
+    // 2nd column,  3 panels
+    Sprite1.description[0][1][0] = Black;
+    Sprite1.description[0][1][1] = Red;
+    Sprite1.description[0][1][2] = Black;
+    // 3rd column,  3 panels
+    Sprite1.description[0][2][0] = Black;
+    Sprite1.description[0][2][1] = Black;
+    Sprite1.description[0][2][2] = Black;
 
-    mySprite.place = {1, 2, 1}; // locate it in the lower, back corner of the cube
-    Sprite1.place = {5, 2, 5};  // Here we specify the initial location of Sprite 1
-    Sprite1.motion = {-1, 1, -1}; // Here we specify motion of Sprite 1
+    // middle layer
+    // 1st column,  3 panels
+    Sprite1.description[1][0][0] = Black;
+    Sprite1.description[1][0][1] = Green;
+    Sprite1.description[1][0][2] = Black;
+    // 2nd column,  3 panels
+    Sprite1.description[1][1][0] = Green;
+    Sprite1.description[1][1][1] = Green;
+    Sprite1.description[1][1][2] = Green;
+    // 3rd column,  3 panels
+    Sprite1.description[1][2][0] = Black;
+    Sprite1.description[1][2][1] = Green;
+    Sprite1.description[1][2][2] = Black;
 
-    Sprite2.place = {0, 1, 0};  // Here we specify the initial location of Sprite 2
-    Sprite2.motion = {1, 2, -1};   // Here we specify motion of Sprite 2
+    // bottom layer
+    // 1st column,  3 panels
+    Sprite1.description[2][0][0] = Black;
+    Sprite1.description[2][0][1] = Black;
+    Sprite1.description[2][0][2] = Black;
+    // 2nd column,  3 panels
+    Sprite1.description[2][1][0] = Black;
+    Sprite1.description[2][1][1] = Red;
+    Sprite1.description[2][1][2] = Black;
+    // 3rd column,  3 panels
+    Sprite1.description[2][2][0] = Black;
+    Sprite1.description[2][2][1] = Black;
+    Sprite1.description[2][2][2] = Black;
+
+
+
+    // top layer
+    // 1st column,  3 panels
+    Sprite2.description[0][0][0] = Black;
+    Sprite2.description[0][0][1] = Blue;
+    Sprite2.description[0][0][2] = Black;
+    // 2nd column,  3 panels
+    Sprite2.description[0][1][0] = Blue;
+    Sprite2.description[0][1][1] = Blue;
+    Sprite2.description[0][1][2] = Blue;
+    // 3rd column,  3 panels
+    Sprite2.description[0][2][0] = Black;
+    Sprite2.description[0][2][1] = Blue;
+    Sprite2.description[0][2][2] = Black;
+
+    // middle layer
+    // 1st column,  3 panels
+    Sprite2.description[1][0][0] = Blue;
+    Sprite2.description[1][0][1] = Black;
+    Sprite2.description[1][0][2] = Blue;
+    // 2nd column,  3 panels
+    Sprite2.description[1][1][0] = Black;
+    Sprite2.description[1][1][1] = Blue;
+    Sprite2.description[1][1][2] = Black;
+    // 3rd column,  3 panels
+    Sprite2.description[1][2][0] = Blue;
+    Sprite2.description[1][2][1] = Black;
+    Sprite2.description[1][2][2] = Blue;
+
+    // bottom layer
+    // 1st column,  3 panels
+    Sprite2.description[2][0][0] = Black;
+    Sprite2.description[2][0][1] = Blue;
+    Sprite2.description[2][0][2] = Black;
+    // 2nd column,  3 panels
+    Sprite2.description[2][1][0] = Blue;
+    Sprite2.description[2][1][1] = Blue;
+    Sprite2.description[2][1][2] = Blue;
+    // 3rd column,  3 panels
+    Sprite2.description[2][2][0] = Black;
+    Sprite2.description[2][2][1] = Blue;
+    Sprite2.description[2][2][2] = Black;
+
+    mySprite.place[0] = 1; // locate it in the lower, back corner of the cube
+    mySprite.place[1] = 2; // locate it in the lower, back corner of the cube
+    mySprite.place[2] = 1; // locate it in the lower, back corner of the cube
+
+    Sprite1.place[0] = 5; // Here we specify the initial location of Sprite 1
+    Sprite1.place[1] = 2; // Here we specify the initial location of Sprite 1
+    Sprite1.place[2] = 5; // Here we specify the initial location of Sprite 1
+    Sprite1.motion[0] = -1; // Here we specify motion of Sprite 1
+    Sprite1.motion[1] = 1;  // Here we specify motion of Sprite 1
+    Sprite1.motion[2] = -1; // Here we specify motion of Sprite 1
+
+    Sprite2.place[0] = 0; // Here we specify the initial location of Sprite 2
+    Sprite2.place[1] = 1; // Here we specify the initial location of Sprite 2
+    Sprite2.place[2] = 0; // Here we specify the initial location of Sprite 2
+
+    Sprite2.motion[0] = 1;  // Here we specify motion of Sprite 2
+    Sprite2.motion[1] = 2;  // Here we specify motion of Sprite 2
+    Sprite2.motion[2] = -1; // Here we specify motion of Sprite 2
 
     mySprite.setIt(); // actually puts it in the cube, turning on the LEDs.
     delay(2000);
 
-    mySprite.motion = {2, 1, 1}; // gives my sprite an initial direction of motion
+    mySprite.motion[0] = 2; // gives my sprite an initial direction of motion
+    mySprite.motion[1] = 1; // gives my sprite an initial direction of motion
+    mySprite.motion[2] = 1; // gives my sprite an initial direction of motion
     for (count = 0; count < 100; count++) { // loop around 100 times
         mySprite.bounceIt(); // move the sprite one increment. Reverse direction if cube's edge is detected.
         delay(100); // wait 1/10th second before next move.
@@ -85,7 +151,9 @@ void simple_demos() {
     delay(500);
     Sprite1.moveIt();
     delay(2000);
-    Sprite1.motion = {1, -1, 1};   // reverse direction
+    Sprite1.motion[0] = 1;   // reverse direction
+    Sprite1.motion[1] = -1;  // reverse direction
+    Sprite1.motion[2] = 1;   // reverse direction
     Sprite1.moveIt();
     delay(500);
     Sprite1.moveIt();

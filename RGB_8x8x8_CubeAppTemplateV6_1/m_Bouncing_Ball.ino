@@ -23,36 +23,83 @@ to account for gravity.  For example, .bounce automatically checks for the edge 
 */
 void bouncing_ball() {
     sprite mySprite(4, 4, 4);  // Our ball is 4 x 4 x 4.
-    mySprite.place = {  // set up its initial location
-            1, 2, 4};
-    mySprite.motion = {  // set up its initial motion
-            -1, 1, -1};
-    mySprite.description = {  // define the shape and color of a red ball.
-            {  // top layer
-                    {Black, Black, Black, Black}, // 1st column,  4 panels
-                    {Black, Red, Red, Black}, // 2nd column,  4 panels
-                    {Black, Red, Red, Black}, // 3rd column,  4 panels
-                    {Black, Black, Black, Black}, // 4th column,  4 panels
-            },
-            {  // middle layer
-                    {Black, Red,   Red,   Black}, // 1st column,  4 panels
-                    {Red,   Red, Red, Red}, // 2nd column,  4 panels
-                    {Red,   Red, Red, Red}, // 3rd column,  4 panels
-                    {Black, Red,   Red,   Black}, // 4th column,  4 panels
-            },
-            {  // 2nd middle layer
-                    {Black, Red,   Red,   Black}, // 1st column,  4 panels
-                    {Red,   Red, Red, Red}, // 2nd column,  4 panels
-                    {Red,   Red, Red, Red}, // 3rd column,  4 panels
-                    {Black, Red,   Red,   Black}, // 4th column,  4 panels
-            },
-            {  // bottom layer
-                    {Black, Black, Black, Black}, // 1st column,  4 panels
-                    {Black, Red, Red, Black}, // 2nd column,  4 panels
-                    {Black, Red, Red, Black}, // 3rd column,  4 panels
-                    {Black, Black, Black, Black}, // 4th column,  4 panels
-            },
-    };
+    mySprite.place[0] = 1; // set up its initial location
+    mySprite.place[1] = 2; // set up its initial location
+    mySprite.place[2] = 4; // set up its initial location
+
+    mySprite.motion[0] = -1;// set up its initial motion
+    mySprite.motion[1] = 1;// set up its initial motion
+    mySprite.motion[2] = -1;// set up its initial motion
+
+    // define the shape and color of a red ball.
+    // top layer
+    mySprite.description[0][0][0] = Black;
+    mySprite.description[0][0][1] = Black;
+    mySprite.description[0][0][2] = Black;
+    mySprite.description[0][0][3] = Black;
+    mySprite.description[0][1][0] = Black;
+    mySprite.description[0][1][1] = Red;
+    mySprite.description[0][1][2] = Red;
+    mySprite.description[0][1][3] = Black;
+    mySprite.description[0][2][0] = Black;
+    mySprite.description[0][2][1] = Red;
+    mySprite.description[0][2][2] = Red;
+    mySprite.description[0][2][3] = Black;
+    mySprite.description[0][3][0] = Black;
+    mySprite.description[0][3][1] = Black;
+    mySprite.description[0][3][2] = Black;
+    mySprite.description[0][3][3] = Black;
+    // middle layer
+    mySprite.description[1][0][0] = Black;
+    mySprite.description[1][0][1] = Red;
+    mySprite.description[1][0][2] = Red;
+    mySprite.description[1][0][3] = Black;
+    mySprite.description[1][1][0] = Red;
+    mySprite.description[1][1][1] = Red;
+    mySprite.description[1][1][2] = Red;
+    mySprite.description[1][1][3] = Red;
+    mySprite.description[1][2][0] = Red;
+    mySprite.description[1][2][1] = Red;
+    mySprite.description[1][2][2] = Red;
+    mySprite.description[1][2][3] = Red;
+    mySprite.description[1][3][0] = Black;
+    mySprite.description[1][3][1] = Red;
+    mySprite.description[1][3][2] = Red;
+    mySprite.description[1][3][3] = Black;
+    // 2nd middle layer
+    mySprite.description[2][0][0] = Black;
+    mySprite.description[2][0][1] = Red;
+    mySprite.description[2][0][2] = Red;
+    mySprite.description[2][0][3] = Black;
+    mySprite.description[2][1][0] = Red;
+    mySprite.description[2][1][1] = Red;
+    mySprite.description[2][1][2] = Red;
+    mySprite.description[2][1][3] = Red;
+    mySprite.description[2][2][0] = Red;
+    mySprite.description[2][2][1] = Red;
+    mySprite.description[2][2][2] = Red;
+    mySprite.description[2][2][3] = Red;
+    mySprite.description[2][3][0] = Black;
+    mySprite.description[2][3][1] = Red;
+    mySprite.description[2][3][2] = Red;
+    mySprite.description[2][3][3] = Black;
+    // bottom layer
+    mySprite.description[3][0][0] = Black;
+    mySprite.description[3][0][1] = Black;
+    mySprite.description[3][0][2] = Black;
+    mySprite.description[3][0][3] = Black;
+    mySprite.description[3][1][0] = Black;
+    mySprite.description[3][1][1] = Red;
+    mySprite.description[3][1][2] = Red;
+    mySprite.description[3][1][3] = Black;
+    mySprite.description[3][2][0] = Black;
+    mySprite.description[3][2][1] = Red;
+    mySprite.description[3][2][2] = Red;
+    mySprite.description[3][2][3] = Black;
+    mySprite.description[3][3][0] = Black;
+    mySprite.description[3][3][1] = Black;
+    mySprite.description[3][3][2] = Black;
+    mySprite.description[3][3][3] = Black;
 
     for (int count = 0; count < 1100; count++) {  //  bounce the ball about 20 times
         mySprite.clearIt(); // clear the sprite from its current location
