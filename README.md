@@ -4,6 +4,69 @@ This repository is divided into branches.  Each branch is a version of the Doug 
 
 Doug Domke has done a wonderful job of explaining how his code works and dividing it into projects that build on each other's complexity.  If you are interested in learning how this code works I recommend starting with Version 1 and reading through it and then then moving to Version 2, etc.  This will demonstrate how this project was built over time.
 
+## Table of Animations
+
+Animation | V1 | V2 | V3 | V4 | V5 | V6 | V7 | The Big Show No Music | The Big Show Music | Another Big Show No Music | Another Big Show Music | The Super Big Show No Music | The Super Big Show Music
+-----------------: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :-------------------: | :----------------: | :-----------------------: | :--------------------: | :-------------------------: | :----------------------:
+        Wild Mouse | X  | X  | X  | X  |    |    |    |           X           |         X          |                           |                        |              X              |            X
+           Cyclone |    |    | X  | X  |    |    |    |           X           |         X          |                           |                        |              X              |            X
+         Fireworks |    |    | X  | X  | X  |    |    |           X           |         X          |                           |                        |              X              |            X
+              Rain |    |    | X  | X  |    |    |    |           X           |         X          |                           |                        |              X              |            X
+         Sine wave |    |    | X  | X  |    |    |    |           X           |         X          |                           |                        |              X              |            X
+            Sphere |    |    | X  | X  |    |    |    |           X           |         X          |                           |                        |              X              |            X
+             Music |    |    |    | X  | X  | X  | X  |                       |         X          |                           |           X            |                             |            X
+            Cosine |    |    |    |    | X  |    |    |           X           |         X          |                           |                        |              X              |            X
+             Donut |    |    |    |    | X  |    |    |           X           |         X          |                           |                        |              X              |            X
+   Random Rotation |    |    |    |    | X  |    |    |           X           |         X          |                           |                        |              X              |            X
+   Rotating Cosine |    |    |    |    | X  |    |    |                       |                    |                           |                        |                             |
+Rotating Fireworks |    |    |    |    | X  |    |    |                       |                    |                           |                        |                             |
+             Rotor |    |    |    |    | X  |    |    |           X           |         X          |                           |                        |              X              |            X
+   Simple Rotation |    |    |    |    | X  |    |    |                       |                    |                           |                        |                             |
+           Tornado |    |    |    |    | X  |    |    |           X           |         X          |                           |                        |              X              |            X
+     Bouncing Ball |    |    |    |    |    | X  |    |                       |                    |                           |                        |                             |
+              Eyes |    |    |    |    |    | X  |    |           X           |         X          |                           |                        |              X              |            X
+     Flip and Roll |    |    |    |    |    | X  |    |           X           |         X          |                           |                        |              X              |            X
+      Flying Boxes |    |    |    |    |    | X  |    |           X           |         X          |                           |                        |              X              |            X
+        Helicopter |    |    |    |    |    | X  |    |                       |                    |                           |                        |                             |
+       Multi Swirl |    |    |    |    |    | X  |    |           X           |         X          |                           |                        |              X              |            X
+       Demo Sprite |    |    |    |    |    | X  |    |                       |                    |                           |                        |                             |
+      Single Swirl |    |    |    |    |    | X  |    |           X           |         X          |                           |                        |              X              |            X
+      Cube in Cube |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+      Rolling Ball |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+      Diamond Wave |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+        Mysterious |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+       Random Fall |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+        Helicopter |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+    Glitter Ribbon |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+         Elevators |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+      The Ornament |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+              Hula |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+           Sparkle |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+             Chaos |    |    |    |    |    |    | X  |           X           |         X          |                           |                        |              X              |            X
+           Dribble |    |    |    |    |    |    |    |           X           |         X          |                           |                        |              X              |            X
+      Game of Life |    |    |    |    |    |    |    |           X           |         X          |                           |                        |              X              |            X
+            Grower |    |    |    |    |    |    |    |                       |                    |                           |                        |              X              |            X
+           Paddles |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+           Saddle2 |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+            Saddle |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+        Mini Cubes |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+              Atom |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+      Atom Smasher |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+              Dish |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+         Maze Mice |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+            Swings |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+         Neutrinos |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+            Colors |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+          What the |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+            Angled |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+          Angled 2 |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+           Bouncer |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+     Random Lights |    |    |    |    |    |    |    |                       |                    |             X             |           X            |              X              |            X
+       Fireworks 2 |    |    |    |    |    |    |    |                       |                    |                           |                        |              X              |            X
+
+
+
+
 
 
 The following is from Doug Domke's website:
