@@ -1,3 +1,11 @@
+Reformatted Code
+Added GPL License
+Fixed bug in LED and buffer_LED
+Fixed Array Assignment in code so that it would compile with latest Arduino IDE
+Converted all code from .pde -> .ino
+
+***
+
 Version Log
 
 Super_Big_Show_noMusic_V1_0 combines all the animations from The_Big_Show and Another_Big_Show in one large program that only runs on the uC32 ChipKit. No music support.
