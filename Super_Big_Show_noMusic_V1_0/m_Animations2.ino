@@ -1062,12 +1062,24 @@ void bouncer1() {
     sprite mySprite1(2, 2, 2);
     sprite mySprite2(2, 2, 2);
     sprite mySprite3(2, 2, 2);
-    mySprite1.place = {1, 2, 3};
-    mySprite2.place = {0, 4, 4};
-    mySprite3.place = {4, 4, 0};
-    mySprite1.motion = {1, 2, 1};
-    mySprite2.motion = {1, -1, -2};
-    mySprite3.motion = {-2, -1, -1};
+    mySprite1.place[0] = 1;
+    mySprite1.place[1] = 2;
+    mySprite1.place[2] = 3;
+    mySprite2.place[0] = 0;
+    mySprite2.place[1] = 4;
+    mySprite2.place[2] = 4;
+    mySprite3.place[0] = 4;
+    mySprite3.place[1] = 4;
+    mySprite3.place[2] = 0;
+    mySprite1.motion[0] = 1;
+    mySprite1.motion[1] = 2;
+    mySprite1.motion[2] = 1;
+    mySprite2.motion[0] = 1;
+    mySprite2.motion[1] = -1;
+    mySprite2.motion[2] = -2;
+    mySprite3.motion[0] = -2;
+    mySprite3.motion[1] = -1;
+    mySprite3.motion[2] = -1;
     for (int j = 0; j < 200; j++) {
         mycolor = mycolor + 5;
         if (mycolor > 100) { mycolor = 0; }
@@ -1092,16 +1104,28 @@ void bouncer1() {
 void bouncer2() {
     sprite mySprite1(2, 2, 2);
     mySprite1.colorIt(Red);
-    mySprite1.place = {0, 2, 3};
-    mySprite1.motion = {1, 0, 0};
+    mySprite1.place[0] = 0;
+    mySprite1.place[1] = 2;
+    mySprite1.place[2] = 3;
+    mySprite1.motion[0] = 1;
+    mySprite1.motion[1] = 0;
+    mySprite1.motion[2] = 0;
     sprite mySprite2(2, 2, 2);
     mySprite2.colorIt(Green);
-    mySprite2.place = {5, 2, 4};
-    mySprite2.motion = {0, 1, 0};
+    mySprite2.place[0] = 5;
+    mySprite2.place[1] = 2;
+    mySprite2.place[2] = 4;
+    mySprite2.motion[0] = 0;
+    mySprite2.motion[1] = 1;
+    mySprite2.motion[2] = 0;
     sprite mySprite3(2, 2, 2);
     mySprite3.colorIt(Blue);
-    mySprite3.place = {2, 4, 4};
-    mySprite3.motion = {0, 0, 1};
+    mySprite3.place[0] = 2;
+    mySprite3.place[1] = 4;
+    mySprite3.place[2] = 4;
+    mySprite3.motion[0] = 0;
+    mySprite3.motion[1] = 0;
+    mySprite3.motion[2] = 1;
     for (int j = 0; j < 210; j++) {
         mySprite1.bounceIt();
         delay(50 - j / 5);
@@ -1123,7 +1147,9 @@ void bouncer2() {
 void bouncer3() {
     sprite mySprite1(6, 6, 6);
     mySprite1.sphere(White);
-    mySprite1.place = {1, 1, 1};
+    mySprite1.place[0] = 1;
+    mySprite1.place[1] = 1;
+    mySprite1.place[2] = 1;
     mySprite1.setIt();
     delay(150);
     for (int j = 3; j > -1; j--) {
