@@ -1,7 +1,11 @@
 Reformatted Code
+
 Added GPL License
+
 Fixed bug in LED and buffer_LED
+
 Fixed Array Assignment in code so that it would compile with latest Arduino IDE
+
 Converted all code from .pde -> .ino
 
 ***
