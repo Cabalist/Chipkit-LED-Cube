@@ -21,8 +21,9 @@
 
 void Mouse1() {
     dir = 1;
-    currentColor = {
-            0, 0, 0};
+    currentColor[0] = 0;
+    currentColor[1] = 0;
+    currentColor[2] = 0;
     xx = 7;
     yy = 7;
     zz = 7;

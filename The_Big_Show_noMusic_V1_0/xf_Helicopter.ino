@@ -31,44 +31,164 @@ subroutine.
 */
 sprite heli(6, 6, 4);  // Our sprite is 6 x 6 x 4.
 void Helicopter() {
-    heli.place = {  // set up its initial location
-            2, 2, 0};
-    heli.motion = {  // set up its initial motion
-            1, -1, 1};
-    heli.description = {  // define the shape and color of the helicopter.
-            {  // top layer
-                    {White, Black, Black, Black, Black, Black}, // 1st column,  6 panels
-                    {Black, White, Black, Black, Black, Black}, // 2nd column,  6 panels
-                    {Black, Black, White, Black, Black, Black}, // 3rd column,  6 panels
-                    {Black, Black, Black, White, Black, Black}, // 4th column,  6 panels
-                    {Black, Black, Black, Black, White, Black}, // 5th column,  6 panels
-                    {Black, Black, Black, Black, Black, White}, // 6th column,  6 panels
-            },
-            {  // 1st middle layer
-                    {Black, Black, Black, Black, Black, Black}, // 1st column,  6panels
-                    {Black, Black, Black, Black, Black, Black}, // 2nd column,  6 panels
-                    {Black, Blue,  Blue,  Blue,  Blue,  Blue}, // 3rd column,  6 panels
-                    {Black, Blue,  Blue,  Blue,  Blue,  Blue}, // 4th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 5th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 6th column,  6 panels
-            },
-            {  // 2nd middle layer
-                    {Black, Black, Black, Black, Black, Black}, // 1st column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 2nd column,  6 panels
-                    {Black, Blue,  Blue,  Black, Black, Black}, //// 3rd column,  6 panels
-                    {Black, Blue,  Blue,  Black, Black, Black}, // 4th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 5th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black},// 6th column,  6 panels
-            },
-            {  // bottom layer
-                    {Black, Black, Black, Black, Black, Black}, // 1st column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 2nd column,  6 panels
-                    {Blue,  Black, Blue,  Black, Black, Black}, // 3rd column,  6 panels
-                    {Blue,  Black, Blue,  Black, Black, Black}, // 4th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 5th column,  6 panels
-                    {Black, Black, Black, Black, Black, Black}, // 6th column,  6 panels
-            },
-    };
+    heli.place[0] = 2; // set up its initial location
+    heli.place[1] = 2; // set up its initial location
+    heli.place[2] = 0; // set up its initial location
+
+    heli.motion[0] = 1;  // set up its initial motion
+    heli.motion[1] = -1; // set up its initial motion
+    heli.motion[2] = 1;  // set up its initial motion
+
+    // define the shape and color of the helicopter.
+    // top layer
+    heli.description[0][0][0] = White;
+    heli.description[0][0][1] = Black;
+    heli.description[0][0][2] = Black;
+    heli.description[0][0][3] = Black;
+    heli.description[0][0][4] = Black;
+    heli.description[0][0][5] = Black;
+    heli.description[0][1][0] = Black;
+    heli.description[0][1][1] = White;
+    heli.description[0][1][2] = Black;
+    heli.description[0][1][3] = Black;
+    heli.description[0][1][4] = Black;
+    heli.description[0][1][5] = Black;
+    heli.description[0][2][0] = Black;
+    heli.description[0][2][1] = Black;
+    heli.description[0][2][2] = White;
+    heli.description[0][2][3] = Black;
+    heli.description[0][2][4] = Black;
+    heli.description[0][2][5] = Black;
+    heli.description[0][3][0] = Black;
+    heli.description[0][3][1] = Black;
+    heli.description[0][3][2] = Black;
+    heli.description[0][3][3] = White;
+    heli.description[0][3][4] = Black;
+    heli.description[0][3][5] = Black;
+    heli.description[0][4][0] = Black;
+    heli.description[0][4][1] = Black;
+    heli.description[0][4][2] = Black;
+    heli.description[0][4][3] = Black;
+    heli.description[0][4][4] = White;
+    heli.description[0][4][5] = Black;
+    heli.description[0][5][0] = Black;
+    heli.description[0][5][1] = Black;
+    heli.description[0][5][2] = Black;
+    heli.description[0][5][3] = Black;
+    heli.description[0][5][4] = Black;
+    heli.description[0][5][5] = White;
+    // 1st middle layer
+    heli.description[1][0][0] = Black;
+    heli.description[1][0][1] = Black;
+    heli.description[1][0][2] = Black;
+    heli.description[1][0][3] = Black;
+    heli.description[1][0][4] = Black;
+    heli.description[1][0][5] = Black;
+    heli.description[1][1][0] = Black;
+    heli.description[1][1][1] = Black;
+    heli.description[1][1][2] = Black;
+    heli.description[1][1][3] = Black;
+    heli.description[1][1][4] = Black;
+    heli.description[1][1][5] = Black;
+    heli.description[1][2][0] = Black;
+    heli.description[1][2][1] = Blue;
+    heli.description[1][2][2] = Blue;
+    heli.description[1][2][3] = Blue;
+    heli.description[1][2][4] = Blue;
+    heli.description[1][2][5] = Blue;
+    heli.description[1][3][0] = Black;
+    heli.description[1][3][1] = Blue;
+    heli.description[1][3][2] = Blue;
+    heli.description[1][3][3] = Blue;
+    heli.description[1][3][4] = Blue;
+    heli.description[1][3][5] = Blue;
+    heli.description[1][4][0] = Black;
+    heli.description[1][4][1] = Black;
+    heli.description[1][4][2] = Black;
+    heli.description[1][4][3] = Black;
+    heli.description[1][4][4] = Black;
+    heli.description[1][4][5] = Black;
+    heli.description[1][5][0] = Black;
+    heli.description[1][5][1] = Black;
+    heli.description[1][5][2] = Black;
+    heli.description[1][5][3] = Black;
+    heli.description[1][5][4] = Black;
+    heli.description[1][5][5] = Black;
+    // 2nd middle layer
+    heli.description[2][0][0] = Black;
+    heli.description[2][0][1] = Black;
+    heli.description[2][0][2] = Black;
+    heli.description[2][0][3] = Black;
+    heli.description[2][0][4] = Black;
+    heli.description[2][0][5] = Black;
+    heli.description[2][1][0] = Black;
+    heli.description[2][1][1] = Black;
+    heli.description[2][1][2] = Black;
+    heli.description[2][1][3] = Black;
+    heli.description[2][1][4] = Black;
+    heli.description[2][1][5] = Black;
+    heli.description[2][2][0] = Black;
+    heli.description[2][2][1] = Blue;
+    heli.description[2][2][2] = Blue;
+    heli.description[2][2][3] = Black;
+    heli.description[2][2][4] = Black;
+    heli.description[2][2][5] = Black;
+    heli.description[2][3][0] = Black;
+    heli.description[2][3][1] = Blue;
+    heli.description[2][3][2] = Blue;
+    heli.description[2][3][3] = Black;
+    heli.description[2][3][4] = Black;
+    heli.description[2][3][5] = Black;
+    heli.description[2][4][0] = Black;
+    heli.description[2][4][1] = Black;
+    heli.description[2][4][2] = Black;
+    heli.description[2][4][3] = Black;
+    heli.description[2][4][4] = Black;
+    heli.description[2][4][5] = Black;
+    heli.description[2][5][0] = Black;
+    heli.description[2][5][1] = Black;
+    heli.description[2][5][2] = Black;
+    heli.description[2][5][3] = Black;
+    heli.description[2][5][4] = Black;
+    heli.description[2][5][5] = Black;
+    // bottom layer
+    heli.description[3][0][0] = Black;
+    heli.description[3][0][1] = Black;
+    heli.description[3][0][2] = Black;
+    heli.description[3][0][3] = Black;
+    heli.description[3][0][4] = Black;
+    heli.description[3][0][5] = Black;
+    heli.description[3][1][0] = Black;
+    heli.description[3][1][1] = Black;
+    heli.description[3][1][2] = Black;
+    heli.description[3][1][3] = Black;
+    heli.description[3][1][4] = Black;
+    heli.description[3][1][5] = Black;
+    heli.description[3][2][0] = Blue;
+    heli.description[3][2][1] = Black;
+    heli.description[3][2][2] = Blue;
+    heli.description[3][2][3] = Black;
+    heli.description[3][2][4] = Black;
+    heli.description[3][2][5] = Black;
+    heli.description[3][3][0] = Blue;
+    heli.description[3][3][1] = Black;
+    heli.description[3][3][2] = Blue;
+    heli.description[3][3][3] = Black;
+    heli.description[3][3][4] = Black;
+    heli.description[3][3][5] = Black;
+    heli.description[3][4][0] = Black;
+    heli.description[3][4][1] = Black;
+    heli.description[3][4][2] = Black;
+    heli.description[3][4][3] = Black;
+    heli.description[3][4][4] = Black;
+    heli.description[3][4][5] = Black;
+    heli.description[3][5][0] = Black;
+    heli.description[3][5][1] = Black;
+    heli.description[3][5][2] = Black;
+    heli.description[3][5][3] = Black;
+    heli.description[3][5][4] = Black;
+    heli.description[3][5][5] = Black;
+
     heli.setIt();  // display helicopter
     delay(3000);
     for (int count = 0; count < 10; count++) {  // make the tail light blink

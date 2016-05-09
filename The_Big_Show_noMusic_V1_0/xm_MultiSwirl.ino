@@ -23,33 +23,57 @@
 void Multi_Swirl() {
     sprite LED1(2, 2, 2);  //create 6 sprites
     LED1.colorIt(Yellow);
-    LED1.place = {5, 4, 3};
-    LED1.motion = {1, -2, 1};
+    LED1.place[0] = 5;
+    LED1.place[1] = 4;
+    LED1.place[2] = 3;
+    LED1.motion[0] = 1;
+    LED1.motion[1] = -2;
+    LED1.motion[2] = 1;
 
     sprite LED2(2, 2, 2);
     LED2.colorIt(Green);
-    LED2.place = {3, 4, 5};
-    LED2.motion = {2, 1, -2};
+    LED2.place[0] = 3;
+    LED2.place[1] = 4;
+    LED2.place[2] = 5;
+    LED2.motion[0] = 2;
+    LED2.motion[1] = 1;
+    LED2.motion[2] = -2;
 
     sprite LED3(2, 2, 2);
     LED3.colorIt(Blue);
-    LED3.place = {2, 6, 3};
-    LED3.motion = {1, -1, -1};
+    LED3.place[0] = 2;
+    LED3.place[1] = 6;
+    LED3.place[2] = 3;
+    LED3.motion[0] = 1;
+    LED3.motion[1] = -1;
+    LED3.motion[2] = -1;
 
     sprite LED4(2, 2, 2);
     LED4.colorIt(Violet);
-    LED4.place = {5, 1, 2};
-    LED4.motion = {2, 1, -1};
+    LED4.place[0] = 5;
+    LED4.place[1] = 1;
+    LED4.place[2] = 2;
+    LED4.motion[0] = 2;
+    LED4.motion[1] = 1;
+    LED4.motion[2] = -1;
 
     sprite LED5(2, 2, 2);
     LED5.colorIt(Orange);
-    LED5.place = {1, 2, 3};
-    LED5.motion = {1, 1, 2};
+    LED5.place[0] = 1;
+    LED5.place[1] = 2;
+    LED5.place[2] = 3;
+    LED5.motion[0] = 1;
+    LED5.motion[1] = 1;
+    LED5.motion[2] = 2;
 
     sprite LED6(2, 2, 2);
     LED6.colorIt(Red);
-    LED6.place = {5, 1, 2};
-    LED6.motion = {2, 1, -1};
+    LED6.place[0] = 5;
+    LED6.place[1] = 1;
+    LED6.place[2] = 2;
+    LED6.motion[0] = 2;
+    LED6.motion[1] = 1;
+    LED6.motion[2] = -1;
 
     for (int count = 0; count < 150; count++) {  //now bounce all these sprites around in the cube
         LED1.bounceIt();

@@ -27,7 +27,9 @@ void RollingBall() {
     int color;
     sprite mySprite(6, 6, 6);
     mySprite.sphere(color);
-    mySprite.place = {-1, 1, 1};
+    mySprite.place[0] = -1;
+    mySprite.place[1] = 1;
+    mySprite.place[2] = 1;
     for (int x = 0; x < 95; x++) {
         color = color + 2;
         if (color > 189) { color = 0; }

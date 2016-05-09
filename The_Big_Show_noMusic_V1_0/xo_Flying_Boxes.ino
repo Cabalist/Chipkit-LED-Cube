@@ -22,21 +22,33 @@
 void FlyingBoxes() {
     sprite mySprite(3, 3, 3); // this creates a sprite called mySprite with dimensions 2x2x2 LEDs.
     mySprite.colorIt(Green);
-    mySprite.place = {3, 5, 3}; // locate it in the lower, back corner of the cube
+    mySprite.place[0] = 3; // locate it in the lower, back corner of the cube
+    mySprite.place[1] = 5; // locate it in the lower, back corner of the cube
+    mySprite.place[2] = 3; // locate it in the lower, back corner of the cube
     mySprite.setIt(); // actually puts it in the cube, turning on the LEDs.
-    mySprite.motion = {2, 1, 1}; // gives my sprite an initial direction of motion
+    mySprite.motion[0] = 2; // gives my sprite an initial direction of motion
+    mySprite.motion[1] = 1; // gives my sprite an initial direction of motion
+    mySprite.motion[2] = 1; // gives my sprite an initial direction of motion
 
     sprite mySprite2(3, 3, 3); // this creates a sprite called mySprite with dimensions 2x2x2 LEDs.
     mySprite2.colorIt(Red);
-    mySprite2.place = {0, 3, 2}; // locate it in the lower, back corner of the cube
+    mySprite2.place[0] = 0; // locate it in the lower, back corner of the cube
+    mySprite2.place[1] = 3; // locate it in the lower, back corner of the cube
+    mySprite2.place[2] = 2; // locate it in the lower, back corner of the cube
     mySprite2.setIt(); // actually puts it in the cube, turning on the LEDs.
-    mySprite2.motion = {2, 1, 1}; // gives my sprite an initial direction of motion
+    mySprite2.motion[0] = 2; // gives my sprite an initial direction of motion
+    mySprite2.motion[1] = 1; // gives my sprite an initial direction of motion
+    mySprite2.motion[2] = 1; // gives my sprite an initial direction of motion
 
     sprite mySprite3(3, 3, 3); // this creates a sprite called mySprite with dimensions 2x2x2 LEDs.
     mySprite3.colorIt(Blue);
-    mySprite3.place = {4, 2, 4}; // locate it in the lower, back corner of the cube
+    mySprite3.place[0] = 4; // locate it in the lower, back corner of the cube
+    mySprite3.place[1] = 2; // locate it in the lower, back corner of the cube
+    mySprite3.place[2] = 4; // locate it in the lower, back corner of the cube
     mySprite3.setIt(); // actually puts it in the cube, turning on the LEDs.
-    mySprite3.motion = {2, 1, 1}; // gives my sprite an initial direction of motion
+    mySprite3.motion[0] = 2; // gives my sprite an initial direction of motion
+    mySprite3.motion[1] = 1; // gives my sprite an initial direction of motion
+    mySprite3.motion[2] = 1; // gives my sprite an initial direction of motion
 
     for (count = 0; count < 250; count++) { // loop around 100 times
         mySprite.rollX(1);
